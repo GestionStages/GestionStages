@@ -10,9 +10,17 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 class AdminController extends Controller
 {
     /**
-     * @Route("/admin", name="afficherAdmin")
+     * @Route("/admin", name="showAdminHome")
      */
-    public function showUnapprovedList()
+    public function showHome()
+    {
+        return $this->render('admin/home.html.twig');
+    }
+
+    /**
+     * @Route("/admin/list", name="showAdminListAll")
+     */
+    public function showListAll()
     {
         $repository = $this->getDoctrine()->getRepository(Propositions::class);
 
@@ -22,7 +30,7 @@ class AdminController extends Controller
 
         $propositions = $query->getResult();
 
-        return $this->render('admin/adminList.html.twig',['propositions' => $propositions]);
+        return $this->render('admin/list.html.twig',['propositions' => $propositions]);
     }
 
     /**
@@ -42,7 +50,7 @@ class AdminController extends Controller
 
         $em->flush();
 
-        return $this->redirectToRoute('afficherAdmin');
+        return $this->redirectToRoute('showAdminListAll');
     }
 
     /**
@@ -62,7 +70,7 @@ class AdminController extends Controller
 
         $em->flush();
 
-        return $this->redirectToRoute('afficherAdmin');
+        return $this->redirectToRoute('showAdminListAll');
     }
 
     /**
@@ -82,6 +90,6 @@ class AdminController extends Controller
 
         $em->flush();
 
-        return $this->redirectToRoute('afficherAdmin');
+        return $this->redirectToRoute('showAdminListAll');
     }
 }
