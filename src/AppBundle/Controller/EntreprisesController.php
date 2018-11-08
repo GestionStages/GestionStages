@@ -20,7 +20,7 @@ class EntreprisesController extends Controller
 
     /**
      *
-     * @Route("/entreprises/add", name="addEntreprise")
+     * @Route("admin/entreprises/add", name="addEntreprise")
      *
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
@@ -53,14 +53,14 @@ class EntreprisesController extends Controller
         $formView = $form->createView();
 
         // on retourne la vue
-        return $this->render('entreprises/entrepriseAdd.html.twig',array('form'=>$formView));
+        return $this->render('admin/entreprises/entrepriseAdd.html.twig',array('form'=>$formView));
     }
 
     /**
      * @param Request $request
      * @param Entreprises $entreprise
      * @return Response
-     * @Route("/entreprises/edit/{id}", name="editEntreprise")
+     * @Route("admin/entreprises/edit/{id}", name="editEntreprise")
      */
     public function edit(Request $request, Entreprises $entreprise){
         $form = $this->createForm(EntreprisesType::class, $entreprise);
@@ -88,13 +88,13 @@ class EntreprisesController extends Controller
         $formView = $form->createView();
 
         //on rend la vue
-        return $this->render('entreprises/entrepriseAdd.html.twig', array('form'=>$formView));
+        return $this->render('admin/entreprises/entrepriseAdd.html.twig', array('form'=>$formView));
     }
 
     /**
      * @param Entreprises $entreprise
      * @return Response
-     * @Route("/entreprises/blacklist/{id}", name="blackListEntreprise")
+     * @Route("admin/entreprises/blacklist/{id}", name="blackListEntreprise")
      *
      */
 
@@ -111,7 +111,7 @@ class EntreprisesController extends Controller
     /**
      * @param Entreprises $entreprise
      * @return Response
-     * @Route("/entreprises/noblacklist/{id}", name="noBlackListEntreprise")
+     * @Route("admin/entreprises/noblacklist/{id}", name="noBlackListEntreprise")
      *
      */
 
@@ -127,7 +127,7 @@ class EntreprisesController extends Controller
 
     /**
      *
-     * @Route("/entreprises/show", name="showEntreprises")
+     * @Route("/admin/entreprises/show", name="showEntreprises")
      *
      * @return Response
      *
@@ -143,12 +143,12 @@ class EntreprisesController extends Controller
 
         $entreprises = $query->getResult();
 
-        return $this->render('entreprises/entreprisesShow.html.twig',['entreprises' => $entreprises]);
+        return $this->render('admin/entreprises/entreprisesShow.html.twig',['entreprises' => $entreprises]);
     }
 
     /**
      *
-     * @Route("/entreprises/showBlackList", name="showEntreprisesBlackList")
+     * @Route("admin/entreprises/showBlackList", name="showEntreprisesBlackList")
      *
      * @return Response
      *
@@ -164,7 +164,7 @@ class EntreprisesController extends Controller
 
         $entreprises = $query->getResult();
 
-        return $this->render('entreprises/entreprisesShowBlackList.html.twig',['entreprises' => $entreprises]);
+        return $this->render('admin/entreprises/entreprisesShowBlackList.html.twig',['entreprises' => $entreprises]);
     }
 
 }

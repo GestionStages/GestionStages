@@ -273,6 +273,18 @@ class Entreprises
     }
     /**
      * @var \Doctrine\Common\Collections\Collection
+     *
+     *
+     *
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Domaineactivite", inversedBy="codeentreprise")
+     * @ORM\JoinTable(name="associerentreprisesdomaine",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="codeEntreprise", referencedColumnName="codeEntreprise")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="codeDomaine", referencedColumnName="codeDomaine")
+     *   }
+     * )
      */
     private $codedomaine;
 

@@ -19,6 +19,7 @@ class Domaineactivite
 
     /**
      * @var \Doctrine\Common\Collections\Collection
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Entreprises", mappedBy="codeDomaine")
      */
     private $codeentreprise;
 

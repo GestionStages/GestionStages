@@ -32,14 +32,6 @@ class Technologies
      * @var \Doctrine\Common\Collections\Collection
      *
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Propositions", inversedBy="codetechnololgie")
-     * @ORM\JoinTable(name="associertechnologiespropositions",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="codeTechnololgie", referencedColumnName="codeTechnololgie")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="codeProposition", referencedColumnName="codeProposition")
-     *   }
-     * )
      */
     private $codeproposition;
 
