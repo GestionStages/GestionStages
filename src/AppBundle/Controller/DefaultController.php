@@ -18,4 +18,12 @@ class DefaultController extends Controller
             'base_dir' => realpath($this->getParameter('kernel.project_dir')).DIRECTORY_SEPARATOR,
         ]);
     }
+
+    /**
+     *@Route("/other", name="other")
+     */
+
+    public function otherAction() {
+        return $this->render('other.html.twig');
+    }
 }
