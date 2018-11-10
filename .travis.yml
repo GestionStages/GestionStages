@@ -23,6 +23,6 @@ script:
 #  - phpunit
    - return 0
 
-after_succes:
+after_success:
   - test $TRAVIS_PULL_REQUEST == "false" && test $TRAVIS_BRANCH == "dev" && export SSHPASS=$DEPLOY_PASS
   - test $TRAVIS_PULL_REQUEST == "false" && test $TRAVIS_BRANCH == "dev" && sshpass -e ssh -o StrictHostKeyChecking=no $DEPLOY_USER@$DEPLOY_HOST -p $DEPLOY_PORT 'cd /var/www/html && ./deploy.sh'
