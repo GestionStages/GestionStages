@@ -1,0 +1,26 @@
+language: php
+
+addons:
+  apt:
+    packages:
+      - sshpass
+
+# blocklist
+branches:
+  except:
+  - master
+
+# safelist
+branches:
+  only:
+  - dev
+
+#before_script:
+#  - composer install
+#
+#script:
+#  - phpunit
+
+after_succes:
+  - test $TRAVIS_PULL_REQUEST == "false" && test $TRAVIS_BRANCH == "master" && export SSHPASS=$DEPLOY_PASS
+  - test $TRAVIS_PULL_REQUEST == "false" && test $TRAVIS_BRANCH == "master" && sshpass -e ssh -o StrictHostKeyChecking=no $DEPLOY_USER@$DEPLOY_HOST -p $DEPLOY_PORT 'cd /var/www/html && ./deploy.sh'
