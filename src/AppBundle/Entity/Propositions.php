@@ -17,6 +17,8 @@ class Propositions
      * @var string
      *
      * @ORM\Column(name="titreProposition", type="string", length=30, nullable=false)
+     *
+     * @Assert\NotBlank(message="Le titre est obligatoire")
      */
     private $titreproposition;
 
@@ -24,6 +26,8 @@ class Propositions
      * @var string
      *
      * @ORM\Column(name="descriptionProposition", type="string", length=1000, nullable=false)
+     *
+     * @Assert\NotBlank(message="La description est obligatoire")
      */
     private $descriptionproposition;
 
@@ -76,22 +80,22 @@ class Propositions
      */
     private $codetechnololgie;
 
-	/**
-	 * @ORM\Column(type="string")
-	 *
-	 * @Assert\File(mimeTypes={ "application/pdf" })
-	 */
-	private $file;
+    /**
+     * @ORM\Column(type="string")
+     *
+     * @Assert\File(mimeTypes={ "application/pdf" })
+     */
+    private $file;
 
 
-	public function getFile() {
-		return $this->file;
-	}
+    public function getFile() {
+        return $this->file;
+    }
 
 
-	public function setFile($file) {
-		$this->file = $file;
-	}
+    public function setFile($file) {
+        $this->file = $file;
+    }
 
     /**
      * Constructor
