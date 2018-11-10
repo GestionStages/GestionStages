@@ -8,24 +8,28 @@
             <table id="propositionsTable" class="table table-bordered">
                 <thead>
                 <tr>
+                    <th>Statut</th>
                     <th>Titre</th>
                     <th>Entreprise</th>
                     <th>Description</th>
                     <th>Commentaire</th>
                     <th>Postée le</th>
-                    <th>Statut</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
                 {% for uneProposition in propositions  %}
                     <tr>
+
+                        <td align="center">{{ uneProposition.codeEtat.nomEtat }}<br/><br/>{% if (uneProposition.codeEtat.codeEtat == 1) %}<div id="cercleAttente"></div>{% endif %}
+                            {% if (uneProposition.codeEtat.codeEtat == 2) %}<div id="cercleValid"></div>{% endif %}
+                            {% if (uneProposition.codeEtat.codeEtat == 3) %}<div id="cercleAffecte"></div>{% endif %}
+                            {% if (uneProposition.codeEtat.codeEtat == 4) %}<div id="cercleArchive"></div>{% endif %}</td>
                         <td>{{ uneProposition.titreproposition }}</td>
-                        <td></td>
+                        <td>{{ uneProposition.codeentreprise.nomentreprise }}</td>
                         <td>{{ uneProposition.descriptionproposition }}</td>
                         <td>{{ uneProposition.commentaire }}</td>
-                        <td></td>
-                        <td>{{ uneProposition.codeEtat.nomEtat }}</td>
+                        <td>{{ uneProposition.dateajout|date("d/m/Y") }}</td>
                         <td>
                             {% if uneProposition.codeEtat.codeEtat != 3 %}
                                 {% if uneProposition.codeEtat.codeEtat != 2 %}

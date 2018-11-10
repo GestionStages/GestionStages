@@ -14,24 +14,24 @@
                 <h1 class="my-4">Lister les Propositions</h1>
                 <table id="propositionsTable" class="table table-bordered">
                     <thead>
-                        <tr>
-                            <th>Titre</th>
-                            <th>Entreprise</th>
-                            <th>Description</th>
-                            <th>Postée le</th>
-                            <th></th>
-                        </tr>
+                    <tr>
+                        <th>Titre</th>
+                        <th>Entreprise</th>
+                        <th>Description</th>
+                        <th>Postée le</th>
+                        <th></th>
+                    </tr>
                     </thead>
                     <tbody>
-                        {% for uneProposition in propositions  %}
-                            <tr>
-                                <td>{{ uneProposition.titreproposition }}</td>
-                                <td></td>
-                                <td>{{ uneProposition.descriptionproposition }}</td>
-                                <td></td>
-                                <td><a href="{{ path('afficherPropositionbyid', {'id': uneProposition.codeproposition}) }}">Lire plus...</a></td>
-                            </tr>
-                        {% endfor %}
+                    {% for uneProposition in propositions  %}
+                        <tr>
+                            <td>{{ uneProposition.titreproposition }}</td>
+                            <td>{{ uneProposition.codeentreprise.nomentreprise }}</td>
+                            <td>{{ uneProposition.descriptionproposition }}</td>
+                            <td>{{ uneProposition.dateajout|date("d/m/Y") }}</td>
+                            <td><a href="{{ path('afficherPropositionbyid', {'id': uneProposition.codeproposition}) }}">Lire plus...</a></td>
+                        </tr>
+                    {% endfor %}
                     </tbody>
                 </table>
             </div>
@@ -60,9 +60,9 @@
                             <div class="col-lg-6">
                                 <ul class="list-unstyled mb-0">
                                     {% for unDomaineActivite in domaineActivites  %}
-                                    <li>
-                                        <a href="#">{{ unDomaineActivite.nomdomaine }} </a>
-                                    </li>
+                                        <li>
+                                            <a href="#">{{ unDomaineActivite.nomdomaine }} </a>
+                                        </li>
                                     {% endfor %}
                                 </ul>
                             </div>
