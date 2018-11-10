@@ -2,7 +2,7 @@
 
 # Rappatriement depuis git de la branch
 cd /var/www/html
-git checkout
+git pull origin dev --rebase
 
 # Installation des dependencies
 composer install
