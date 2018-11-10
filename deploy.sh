@@ -2,6 +2,9 @@
 
 # Rappatriement depuis git de la branch
 cd /var/www/html
+
+# On écrase les modifs locales
+git reset --hard HEAD
 git pull origin dev --rebase
 
 # Installation des dependencies
