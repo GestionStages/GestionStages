@@ -29,7 +29,7 @@ class Entreprises
      *
      * @ORM\Column(name="adresseEntreprise", type="string", length=60, nullable=false)
      *
-     *@Assert\NotBlank(message="L'adresse de l'Entreprise est obligaoire")
+     *@Assert\NotBlank(message="L'adresse de l'Entreprise est obligatoire")
      */
     private $adresseentreprise;
 
@@ -39,7 +39,7 @@ class Entreprises
      *
      * @ORM\Column(name="villeEntreprise", type="string", length=30, nullable=false)
      *
-     * @Assert\NotBlank(message="La ville de l'Entreprise est obligaoire")
+     * @Assert\NotBlank(message="La ville de l'Entreprise est obligatoire")
      */
     private $villeentreprise;
 
@@ -48,7 +48,7 @@ class Entreprises
      *
      * @ORM\Column(name="codePostalEntreprise", type="int", nullable=false)
      *
-     * @Assert\NotBlank(message="Le code postal est obligaoire")
+     * @Assert\NotBlank(message="Le code postal est obligatoire")
      *
      *
      * @Assert\Regex(
