@@ -28,3 +28,7 @@
     border-radius: 20px;
     background: red;
 }
+.btn {
+    width: 75px;
+    margin-bottom: 1px;
+}
