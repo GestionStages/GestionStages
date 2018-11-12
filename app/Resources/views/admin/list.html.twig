@@ -24,7 +24,8 @@
                         <td align="center">{{ uneProposition.codeEtat.nomEtat }}<br/><br/>{% if (uneProposition.codeEtat.codeEtat == 1) %}<div id="cercleAttente"></div>{% endif %}
                             {% if (uneProposition.codeEtat.codeEtat == 2) %}<div id="cercleValid"></div>{% endif %}
                             {% if (uneProposition.codeEtat.codeEtat == 3) %}<div id="cercleAffecte"></div>{% endif %}
-                            {% if (uneProposition.codeEtat.codeEtat == 4) %}<div id="cercleArchive"></div>{% endif %}</td>
+                            {% if (uneProposition.codeEtat.codeEtat == 4) %}<div id="cercleArchive"></div>{% endif %}
+                            {% if (uneProposition.codeEtat.codeEtat == 5) %}<div id="cercleRefuse"></div>{% endif %}</td>
                         <td>{{ uneProposition.titreproposition }}</td>
                         <td>{{ uneProposition.codeentreprise.nomentreprise }}</td>
                         <td>{{ uneProposition.descriptionproposition }}</td>
