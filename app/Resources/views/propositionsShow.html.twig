@@ -17,7 +17,6 @@
                     <tr>
                         <th>Titre</th>
                         <th>Entreprise</th>
-                        <th>Description</th>
                         <th>Postée le</th>
                         <th></th>
                     </tr>
@@ -27,7 +26,6 @@
                         <tr>
                             <td>{{ uneProposition.titreproposition }}</td>
                             <td>{{ uneProposition.codeentreprise.nomentreprise }}</td>
-                            <td>{{ uneProposition.descriptionproposition }}</td>
                             <td>{{ uneProposition.dateajout|date("d/m/Y") }}</td>
                             <td><a href="{{ path('afficherPropositionbyid', {'id': uneProposition.codeproposition}) }}">Lire plus...</a></td>
                         </tr>
