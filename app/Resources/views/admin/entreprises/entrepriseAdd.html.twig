@@ -3,50 +3,54 @@
 {% block title %}Ajouter une Entreprise{% endblock %}
 
 {% block body %}
-    <h1>Ajouter une Entreprise</h1>
-    {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
-    <div class="form-group form-inline row">
-        {{ form_label(form.nomentreprise, "Nom (*)", {'label_attr': {'class': "col-4"}}) }}
-        {{ form_widget(form.nomentreprise, {'attr': {'class': "form-control col-5"}}) }}
-        {{ form_errors(form.nomentreprise) }}
+    <div class="box">
+        <div class="box-body">
+            <h1>Ajouter une Entreprise</h1>
+            {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+            <div class="form-group form-inline row">
+                {{ form_label(form.nomentreprise, "Nom (*)", {'label_attr': {'class': "col-4"}}) }}
+                {{ form_widget(form.nomentreprise, {'attr': {'class': "form-control col-5"}}) }}
+                {{ form_errors(form.nomentreprise) }}
+            </div>
+
+
+            <div class="form-group form-inline row">
+                {{ form_label(form.adresseentreprise, "Adresse (*)", {'label_attr': {'class': "col-4"}}) }}
+                {{ form_widget(form.adresseentreprise, {'attr': {'class': "form-control col-5"}}) }}
+                {{ form_errors(form.adresseentreprise) }}
+            </div>
+
+            <div class="form-group form-inline row">
+                {{ form_label(form.villeentreprise, "Ville (*)", {'label_attr': {'class': "col-4"}}) }}
+                {{ form_widget(form.villeentreprise, {'attr': {'class': "form-control col-5"}}) }}
+                {{ form_errors(form.villeentreprise) }}
+            </div>
+
+            <div class="form-group form-inline row">
+                {{ form_label(form.codepostalentreprise, "Code Postal (*)", {'label_attr': {'class': "col-4"}}) }}
+                {{ form_widget(form.codepostalentreprise, {'attr': {'class': "form-control col-5"}}) }}
+                {{ form_errors(form.codepostalentreprise) }}
+            </div>
+
+            <div class="form-group form-inline row">
+                {{ form_label(form.telentreprise, "Télephone (*)", {'label_attr': {'class': "col-4"}}) }}
+                {{ form_widget(form.telentreprise, {'attr': {'class': "form-control col-5"}}) }}
+                {{ form_errors(form.telentreprise) }}
+            </div>
+
+            <div class="form-check form-inline row">
+                {{ form_label(form.codedomaine, "Domaine(s) d'activité (*)", {'label_attr': {'class': "col-4"}}) }}
+
+                {{ form_widget(form.codedomaine, {'attr': {'class': "form-check-input form-check-inline"}}) }}
+
+                {{ form_errors(form.codedomaine) }}
+            </div>
+
+            <div class="btn-group" role="group" aria-label="...">
+                <button type="submit" class="btn btn-primary" >Valider</button>
+            </div>
+
+            {{ form_end(form) }}
+        </div>
     </div>
-
-
-    <div class="form-group form-inline row">
-        {{ form_label(form.adresseentreprise, "Adresse (*)", {'label_attr': {'class': "col-4"}}) }}
-        {{ form_widget(form.adresseentreprise, {'attr': {'class': "form-control col-5"}}) }}
-        {{ form_errors(form.adresseentreprise) }}
-    </div>
-
-    <div class="form-group form-inline row">
-        {{ form_label(form.villeentreprise, "Ville (*)", {'label_attr': {'class': "col-4"}}) }}
-        {{ form_widget(form.villeentreprise, {'attr': {'class': "form-control col-5"}}) }}
-        {{ form_errors(form.villeentreprise) }}
-    </div>
-
-    <div class="form-group form-inline row">
-        {{ form_label(form.codepostalentreprise, "Code Postal (*)", {'label_attr': {'class': "col-4"}}) }}
-        {{ form_widget(form.codepostalentreprise, {'attr': {'class': "form-control col-5"}}) }}
-        {{ form_errors(form.codepostalentreprise) }}
-    </div>
-
-    <div class="form-group form-inline row">
-        {{ form_label(form.telentreprise, "Télephone (*)", {'label_attr': {'class': "col-4"}}) }}
-        {{ form_widget(form.telentreprise, {'attr': {'class': "form-control col-5"}}) }}
-        {{ form_errors(form.telentreprise) }}
-    </div>
-
-    <div class="form-check form-inline row">
-        {{ form_label(form.codedomaine, "Domaine(s) d'activité (*)", {'label_attr': {'class': "col-4"}}) }}
-
-        {{ form_widget(form.codedomaine, {'attr': {'class': "form-check-input form-check-inline"}}) }}
-
-        {{ form_errors(form.codedomaine) }}
-    </div>
-
-    <div class="btn-group" role="group" aria-label="...">
-        <button type="submit" class="btn btn-primary" >Valider</button>
-    </div>
-
-    {{ form_end(form) }}
 {% endblock %}
