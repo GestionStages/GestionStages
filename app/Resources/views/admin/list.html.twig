@@ -12,7 +12,6 @@
                     <th>Statut</th>
                     <th>Titre</th>
                     <th>Entreprise</th>
-                    <th>Description</th>
                     <th>Commentaire</th>
                     <th>Postée le</th>
                     <th>Actions</th>
@@ -21,15 +20,15 @@
                 <tbody>
                 {% for uneProposition in propositions  %}
                     <tr>
-
-                        <td align="center">{{ uneProposition.codeEtat.nomEtat }}<br/><br/>{% if (uneProposition.codeEtat.codeEtat == 1) %}<div id="cercleAttente"></div>{% endif %}
+                        <td align="center">{{ uneProposition.codeEtat.nomEtat }}<br/><br/>
+                            {% if (uneProposition.codeEtat.codeEtat == 1) %}<div id="cercleAttente"></div>{% endif %}
                             {% if (uneProposition.codeEtat.codeEtat == 2) %}<div id="cercleValid"></div>{% endif %}
                             {% if (uneProposition.codeEtat.codeEtat == 3) %}<div id="cercleAffecte"></div>{% endif %}
                             {% if (uneProposition.codeEtat.codeEtat == 4) %}<div id="cercleArchive"></div>{% endif %}
-                            {% if (uneProposition.codeEtat.codeEtat == 5) %}<div id="cercleRefuse"></div>{% endif %}</td>
-                        <td>{{ uneProposition.titreproposition }}</td>
+                            {% if (uneProposition.codeEtat.codeEtat == 5) %}<div id="cercleRefuse"></div>{% endif %}
+                        </td>
+                        <td><a href="{{ path("afficherPropositionbyid", {'id': uneProposition.codeProposition}) }}">{{ uneProposition.titreproposition }}</a></td>
                         <td>{{ uneProposition.codeentreprise.nomentreprise }}</td>
-                        <td>{{ uneProposition.descriptionproposition }}</td>
                         <td>{{ uneProposition.commentaire }}</td>
                         <td>{{ uneProposition.dateajout|date("d/m/Y") }}</td>
                         <td>
