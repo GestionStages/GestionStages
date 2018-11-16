@@ -22,13 +22,13 @@ class ContactController extends Controller
 
 {
     /**
-     *
-     * @Route("/contact/add", name="addContact")
-     *
-     * @param Request $request
-     * @param SessionInterface $session
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
+ *
+ * @Route("/contact/add", name="addContact")
+ *
+ * @param Request $request
+ * @param SessionInterface $session
+ * @return \Symfony\Component\HttpFoundation\Response
+ */
 
     public function addAction(Request $request,SessionInterface $session)
     {
@@ -79,6 +79,52 @@ class ContactController extends Controller
 
         //on rend la vue
         return $this->render('contacts/contactAdd.html.twig', array('form'=>$formView,'entreprise'=> $entreprise));
+
+    }
+    /**
+     *
+     * @Route("/contact/addM", name="addContactModal")
+     *
+     * @param Request $request
+     * @param SessionInterface $session
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+
+    public function addModalAction(Request $request,SessionInterface $session)
+    {
+
+        $repository = $this->getDoctrine()
+            ->getRepository(Entreprises::class);
+
+        //recuperation de l'entreprise par l'id passer en session
+        $entreprise = $repository->createQueryBuilder('e')
+            ->where('e.codeentreprise = :entreprise')
+            ->setParameter('entreprise', $session->get('entreprise'))
+            ->getQuery()
+            // Cette ligne permet de récupérer directement l'objet et non un tableau avec l'objet à l'interieur
+            ->getOneOrNullResult();
+
+
+        //On crée un nouveau contact
+        $contact = new Contacts();
+        $contact->setNomcontact($request->request->get('nom'));
+        $contact->setPrenomcontact($request->request->get('prenom'));
+        $contact->setMailcontact($request->request->get('mail'));
+        $contact->setTelcontact($request->request->get('telephone'));
+        // On affecte l'entreprise au contact
+        $entreprise->addCodeContact($contact);
+
+            //on enregistre le contact dans la bdd
+            $em = $this-> getDoctrine()->getManager();
+            $em->persist($contact);
+            $em->flush();
+
+            // On affiche message de validation dans le formulaire de redirection
+            $this->get('session')->getFlashBag()->add('notice','Le contact ('.$contact->getNomcontact(). " " . $contact->getPrenomcontact() . ') est ajouté !');
+            //var_dump($request->request);
+            //Retourne form de la liste des contacts de l'entreprise
+            return $this->render('contacts/contactsShow.html.twig',['contacts' => $entreprise->getCodecontact(), 'entreprise' => $entreprise]);
+
 
     }
 
