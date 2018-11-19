@@ -74,8 +74,8 @@
     <script src="{{ asset('bundles/pugxautocompleter/js/autocompleter-jqueryui.js') }}"></script>
     <script>
         $('#appbundle_propositions_codeentreprise').autocompleter({
-            url_list: '/entreprises/search',
-            url_get: '/entreprises/get'
+            url_list: './entreprises/search',
+            url_get: './entreprises/get'
         });
     </script>
 {% endblock %}
