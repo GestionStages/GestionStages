@@ -99,7 +99,7 @@ class PropositionsController extends Controller
     }
     /**
      *
-     * @Route("/show", name="afficherProposition")
+     * @Route("/", name="afficherProposition")
      *
      */
     public function showProposition()
