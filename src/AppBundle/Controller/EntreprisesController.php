@@ -182,4 +182,26 @@ class EntreprisesController extends Controller
         return $this->render('admin/entreprises/entreprisesShowBlackList.html.twig',['entreprises' => $entreprises]);
     }
 
+	/**
+	 * @Route("/entreprises/search")
+	 * @param Request $request
+	 * @return Response
+	 */
+    public function searchEntreprise(Request $request)
+    {
+    	$q = $request->query->get('term');
+    	$results = $this->getDoctrine()->getRepository(Entreprises::class)->findLikeName($q);
+
+    	return $this->render('entreprises/list.json.twig', ['results' => $results]);
+    }
+
+	/**
+	 * @Route("/entreprises/get")
+	 * @param $id
+	 * @return \Symfony\Component\HttpFoundation\JsonResponse
+	 */
+	public function getEntreprise($id = null) {
+		$entreprise = $this->getDoctrine()->getRepository('App:Entreprises')->find($id);
+		return $this->json($entreprise->getNomentreprise());
+	}
 }
