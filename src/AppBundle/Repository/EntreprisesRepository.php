@@ -8,13 +8,16 @@ class EntreprisesRepository extends EntityRepository {
 
 	public function findLikeName($name)
 	{
-		$repository = $this->getDoctrine()->getRepository('AppBundle:Entreprises');
-		$query = $repository->createQueryBuilder('e')
-			->where('e.nomEntreprise LIKE :name')
-			->setParameter('name', $name)
-			->getQuery();
+		$entreprises = $this->getEntityManager()
+			->createQuery('
+					SELECT e
+					FROM AppBundle:Entreprises e
+					WHERE e.nomentreprise LIKE :name
+					')
+			->setParameter('name', '%'.$name.'%')
+			->getResult();
 
-		return $query->getResult();
+		return $entreprises;
 	}
 
 }

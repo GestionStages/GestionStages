@@ -1,3 +1,3 @@
 [{% for entreprise in results -%}
-    {{ {id: entreprise.value, label: entreprise.nomEntreprise, value: entreprise.value}|json_encode|raw }}
+    {{ {id: entreprise.codeEntreprise, label: entreprise.nomEntreprise, value: entreprise.codeEntreprise}|json_encode|raw }}
 {%- endfor %}]
