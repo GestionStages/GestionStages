@@ -10,6 +10,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use PUGX\AutocompleterBundle\Form\Type\AutocompleteType;
 
 class PropositionsType extends AbstractType
 {
@@ -20,10 +21,8 @@ class PropositionsType extends AbstractType
     {
         $builder->add('titreproposition', TextType::class)
             ->add('descriptionproposition',TextareaType::class)
-            ->add('codeentreprise', EntityType::class, array(
-                'class'  => 'AppBundle:Entreprises',
-	            'choice_label' => 'nomentreprise',
-	            ))
+            ->add('codeentreprise', AutocompleteType::class, ['class' => Entreprises::class]
+                )
             ->add('codeclasse',EntityType::class, array(
                 'class' => 'AppBundle:Classes',
 	            'choice_label' => 'nomclasse',

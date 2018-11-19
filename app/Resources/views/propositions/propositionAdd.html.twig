@@ -67,3 +67,13 @@
         {{ form_end(form) }}
     </div>
 {% endblock %}
+œ
+{% block javascripts %}
+    {{  parent() }}
+    <script src="//code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script src="{{ asset('bundles/pugxautocompleter/js/autocompleter-jqueryui.js') }}"></script>
+    $('#appbundle_propositions_codeentreprise').autocompleter({
+        url_list: '/entreprises/search',
+        url_get: '/entreprises/get'
+    });
+{% endblock %}
