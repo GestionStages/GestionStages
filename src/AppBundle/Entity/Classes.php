@@ -18,7 +18,14 @@ class Classes
      *
      * @ORM\Column(name="nomClasse", type="string", length=30, nullable=false)
      *
+     * @Assert\NotNull
      * @Assert\NotBlank(message="Le nom est obligatoire")
+     * @Assert\Length(
+     *     min = 2,
+     *     max = 30,
+     *     minMessage = "Le nom de la classe doit faire au minimum {{ limit }} caractères.",
+     *     maxMessage = "Le nom de la classe doit faire au maximum {{ limit }} caractères."
+     * )
      */
     private $nomclasse;
 
@@ -27,7 +34,14 @@ class Classes
      *
      * @ORM\Column(name="description", type="string", length=50, nullable=false)
      *
-     * @Assert\NotBlank(message="La description est obligatoire")
+     * @Assert\NotNull
+     * @Assert\NotBlank(message="La description est obligatoire.")
+     * @Assert\Length(
+     *     min = 10,
+     *     max = 50,
+     *     minMessage = "Le description de la classe doit faire au minimum {{ limit }} caractères.",
+     *     maxMessage = "Le description de la classe doit faire au maximum {{ limit }} caractères."
+     * )
      */
     private $description;
 
