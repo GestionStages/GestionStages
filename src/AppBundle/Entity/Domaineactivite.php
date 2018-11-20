@@ -9,6 +9,15 @@ class Domaineactivite
 {
     /**
      * @var string
+     *
+     * @Assert\NotNull
+     * @Assert\NotBlank
+     * @Assert\Length(
+     *     min = 2,
+     *     max = 50,
+     *     minMessage = "Le nom du domaine d'activité doit faire au minimum {{ limit }} caractères.",
+     *     maxMessage = "Le nom du domaine d'activité doit faire au maximum {{ limit }} caractères."
+     * )
      */
     private $nomdomaine;
 
