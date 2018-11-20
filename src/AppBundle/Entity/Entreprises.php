@@ -20,7 +20,15 @@ class Entreprises
      *
      * @ORM\Column(name="nomEntreprise", type="string", length=30, nullable=false)
      *
-     * @Assert\NotBlank(message="Le nom est obligatoire")
+     * @Assert\NotNull
+     * @Assert\NotBlank(message="Le nom est obligatoire.")
+     * @Assert\Length(
+     *     min = 2,
+     *     max = 30,
+     *     minMessage = "Le nom doit faire au minimum {{ limit }} caractères.",
+     *     maxMessage = "Le nom doit faire au maximum {{ limit }} caractères."
+     * )
+     *
      */
     private $nomentreprise;
 
@@ -29,7 +37,14 @@ class Entreprises
      *
      * @ORM\Column(name="adresseEntreprise", type="string", length=60, nullable=false)
      *
-     *@Assert\NotBlank(message="L'adresse de l'Entreprise est obligatoire")
+     * @Assert\NotNull
+     * @Assert\NotBlank(message="L'adresse de l'entreprise est obligatoire.")
+     * @Assert\Length(
+     *     min = 8,
+     *     max = 60,
+     *     minMessage = "L'adresse doit faire au minimum {{ limit }} caractères.",
+     *     maxMessage = "L'adresse doit faire au maximum {{ limit }} caractères."
+     * )
      */
     private $adresseentreprise;
 
@@ -39,7 +54,15 @@ class Entreprises
      *
      * @ORM\Column(name="villeEntreprise", type="string", length=30, nullable=false)
      *
-     * @Assert\NotBlank(message="La ville de l'Entreprise est obligatoire")
+     * @Assert\NotNull
+     * @Assert\NotBlank(message="La ville de l'entreprise est obligatoire.")
+     * @Assert\Length(
+     *     min = 3,
+     *     max = 30,
+     *     minMessage = "Le nom de la ville doit faire au minimum {{ limit }} caractères.",
+     *     maxMessage = "Le nom de la ville doit faire au maximum {{ limit }} caractères."
+     * )
+     *
      */
     private $villeentreprise;
 
@@ -48,13 +71,12 @@ class Entreprises
      *
      * @ORM\Column(name="codePostalEntreprise", type="int", nullable=false)
      *
+     * @Assert\NotBlank
      * @Assert\NotBlank(message="Le code postal est obligatoire")
-     *
-     *
      * @Assert\Regex(
-     *      pattern= "#^[0-9]{5,5}$#",
+     *     pattern= "#^[0-9]{5,5}$#",
      *     match=true,
-     *     message= "Le format du code Postal n'est pas respecté"
+     *     message= "Le format du code postal n'est pas respecté."
      * )
      */
     private $codepostalentreprise;
@@ -64,12 +86,13 @@ class Entreprises
      *
      * @ORM\Column(name="telEntreprise", type="string", length=10, nullable=false)
      *
-     *@Assert\NotBlank(message="Le téléphone est obligatoire")
+     * @Assert\NotNull
+     * @Assert\NotBlank(message="Le téléphone est obligatoire")
      *
      * @Assert\Regex(
-     *      pattern= "#^(?:(?:\+|00)33|0)\s*[1-9](?:[\s.-]*\d{2}){4}$#",
+     *     pattern= "#^(?:(?:\+|00)33|0)\s*[1-9](?:[\s.-]*\d{2}){4}$#",
      *     match=true,
-     *     message= "Le format du numéro de téléphone n'est pas respecté"
+     *     message= "Le format du numéro de téléphone n'est pas respecté."
      * )
      *
      */
