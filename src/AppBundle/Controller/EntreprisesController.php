@@ -194,14 +194,4 @@ class EntreprisesController extends Controller
 
     	return $this->render('entreprises/list.json.twig', ['results' => $results]);
     }
-
-	/**
-	 * @Route("/entreprises/get")
-	 * @param $id
-	 * @return \Symfony\Component\HttpFoundation\JsonResponse
-	 */
-	public function getEntreprise($id = null) {
-		$entreprise = $this->getDoctrine()->getRepository('App:Entreprises')->find($id);
-		return $this->json($entreprise->getNomentreprise());
-	}
 }
