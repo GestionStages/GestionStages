@@ -30,7 +30,7 @@ class AdminController extends Controller
 
         $propositions = $query->getResult();
 
-        return $this->render('admin/list.html.twig',['propositions' => $propositions]);
+        return $this->render('admin/propositions/list.html.twig',['propositions' => $propositions]);
     }
 
     /**
