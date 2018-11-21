@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="{{ asset('css/ionicons.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/adminlte.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/adminlte-skin.css') }}">
-
+    {% block stylesheets %}{% endblock %}
     {#
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -21,7 +21,7 @@
 
 <div class="wrapper">
     <header class="main-header">
-        <a href="{{ path('homepage') }}" class="logo">
+        <a href="{{ path('afficherProposition') }}" class="logo">
             <!-- mini logo for sidebar mini 50x50 pixels -->
             <span class="logo-mini"><b>A</b>LT</span>
             <!-- logo for regular state and mobile devices -->
@@ -172,7 +172,7 @@
 
             <ul class="sidebar-menu" data-widget="tree">
                 <li class="header">MAIN NAVIGATION</li>
-                <li><a href="https://adminlte.io/docs"><i class="fa fa-home"></i> <span>Accueil admin</span></a></li>
+                <li><a href="{{ path('showAdminHome') }}"><i class="fa fa-home"></i> <span>Accueil admin</span></a></li>
                 <li class="treeview">
                     <a href="#">
                         <i class="fa fa-dashboard"></i> <span>Gestion des offres</span>
@@ -186,7 +186,7 @@
                 </li>
                 <li class="treeview">
                     <a href="#">
-                        <i class="fa fa-dashboard"></i> <span>Gestion des Entreprises</span>
+                        <i class="fa fa-building"></i> <span>Gestion des Entreprises</span>
                         <span class="pull-right-container">
                             <i class="fa fa-angle-left pull-right"></i>
                         </span>
@@ -194,6 +194,19 @@
                     <ul class="treeview-menu">
                         <li><a href="{{ path('showEntreprises') }}"><i class="fa fa-circle-o"></i> Entreprises </a></li>
                         <li><a href="{{ path('showEntreprisesBlackList') }}"><i class="fa fa-circle-o"></i> Entreprises BlackList</a></li>
+                        <li><a href="{{ path('showDomaineActivite') }}"><i class="fa fa-circle-o"></i> Domaines d'activité</a></li>
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-mortar-board"></i> <span>Gestion des Classes</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="{{ path('showClasses') }}"><i class="fa fa-circle-o"></i> Classes </a></li>
+
                     </ul>
                 </li>
             </ul>

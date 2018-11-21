@@ -14,7 +14,7 @@ class DomaineactiviteController extends Controller
 {
     /**
      *
-     * @Route("/domaineactivite/add", name="addDomaineActivite")
+     * @Route("/admin/domaineactivite/add", name="addDomaineActivite")
      *
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
@@ -53,26 +53,26 @@ class DomaineactiviteController extends Controller
         $formView = $form->createView();
 
         //on rend la vue
-        return $this->render('domainesActivites/domainesActivitesAdd.html.twig', array('form'=>$formView));
+        return $this->render('admin/domainesActivites/domainesActivitesAdd.html.twig', array('form'=>$formView));
 
     }
 
     /**
      *
-     * @Route("/domaineactivite/show", name="showDomaineActivite")
+     * @Route("/admin/domaineactivite/show", name="showDomaineActivite")
      *
      */
     public function showDomaineActivite(){
         $domainesActivites = $this->getDoctrine()->getRepository('AppBundle:Domaineactivite')->findAll();
 
-        return $this->render('domainesActivites/domainesActivitesShow.html.twig',['domainesActivites'=>$domainesActivites]);
+        return $this->render('admin/domainesActivites/domainesActivitesShow.html.twig',['domainesActivites'=>$domainesActivites]);
     }
 
     /**
      * @param Domaineactivite $domaineactivite
      * @param Request $request
      * @return Response
-     * @Route("/domaineactivite/edit/{id}", name="editDomaineActivite")
+     * @Route("/admin/domaineactivite/edit/{id}", name="editDomaineActivite")
      *
      */
     public function edit(Request $request, Domaineactivite $domaineactivite){
@@ -101,13 +101,13 @@ class DomaineactiviteController extends Controller
         $formView = $form->createView();
 
         //on rend la vue
-        return $this->render('domainesActivites/domainesActivitesAdd.html.twig', array('form'=>$formView));
+        return $this->render('admin/domainesActivites/domainesActivitesAdd.html.twig', array('form'=>$formView));
     }
 
     /**
      * @param Domaineactivite $domaineactivite
      * @return Response
-     * @Route("/domaineactivite/delete/{id}", name="deleteDomaineActivite")
+     * @Route("/admin/domaineactivite/delete/{id}", name="deleteDomaineActivite")
      *
      *
      */

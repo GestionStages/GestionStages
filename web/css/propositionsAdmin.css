@@ -1,0 +1,34 @@
+#cercleValid {
+    width: 20px;
+    height: 20px;
+    border-radius: 20px;
+    background: green;
+}
+#cercleAttente {
+     width: 20px;
+     height: 20px;
+     border-radius: 20px;
+     background: darkorange;
+ }
+#cercleAffecte {
+    width: 20px;
+    height: 20px;
+    border-radius: 20px;
+    background: lightskyblue;
+}
+#cercleArchive {
+    width: 20px;
+    height: 20px;
+    border-radius: 20px;
+    background: slategray;
+}
+#cercleRefuse {
+    width: 20px;
+    height: 20px;
+    border-radius: 20px;
+    background: red;
+}
+.btn {
+    width: 75px;
+    margin-bottom: 1px;
+}

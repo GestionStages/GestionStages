@@ -18,7 +18,14 @@ class Contacts
      *
      * @ORM\Column(name="nomContact", type="string", length=30, nullable=false)
      *
-     * @Assert\NotBlank(message="Le nom est obligatoire")
+     * @Assert\NotNull
+     * @Assert\NotBlank(message="Le nom est obligatoire.")
+     * @Assert\Length(
+     *     min = 2,
+     *     max = 30,
+     *     minMessage = "Le nom doit faire au minimum {{ limit }} caractères.",
+     *     maxMessage = "Le nom doit faire au maximum {{ limit }} caractères."
+     * )
      *
      */
     private $nomcontact;
@@ -28,7 +35,14 @@ class Contacts
      *
      * @ORM\Column(name="prenomContact", type="string", length=30, nullable=false)
      *
-     * @Assert\NotBlank(message="Le prénom est obligatoire")
+     * @Assert\NotNull
+     * @Assert\NotBlank(message="Le prénom est obligatoire.")
+     * @Assert\Length(
+     *     min = 2,
+     *     max = 30,
+     *     minMessage = "Le prénom doit faire au minimum {{ limit }} caractères.",
+     *     maxMessage = "Le prénnom doit faire au maximum {{ limit }} caractères."
+     * )
      *
      */
     private $prenomcontact;
@@ -38,10 +52,16 @@ class Contacts
      *
      * @ORM\Column(name="mailContact", type="string", length=30, nullable=false)
      *
-     * @Assert\Regex(
-     *      pattern= "#^[^\W][a-zA-Z0-9_]+(\.[a-zA-Z0-9_]+)*\@[a-zA-Z0-9_]+(\.[a-zA-Z0-9_]+)*\.[a-zA-Z]{2,4}$#",
-     *     match=true,
-     *     message= "Le format de l'email n'est pas respecté"
+     * @Assert\NotNull
+     * @Assert\NotBlank
+     * @Assert\Length(
+     *     min = 2,
+     *     max = 30,
+     *     minMessage = "L'adresse mail doit faire au minimum {{ limit }} caractères.",
+     *     maxMessage = "L'adresse mail doit faire au maximum {{ limit }} caractères."
+     * )
+     * @Assert\Email(
+     *     message= "L'adresse mail fournie est invalide !"
      * )
      */
     private $mailcontact;
@@ -51,6 +71,8 @@ class Contacts
      *
      * @ORM\Column(name="telContact", type="string", length=10, nullable=false)
      *
+     * @Assert\NotNull
+     * @Assert\NotBlank
      * @Assert\Regex(
      *      pattern= "#^(?:(?:\+|00)33|0)\s*[1-9](?:[\s.-]*\d{2}){4}$#",
      *     match=true,

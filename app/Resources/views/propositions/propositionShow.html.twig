@@ -1,0 +1,43 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Poster une offre{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <h1 class="my-4">Proposition ({{ proposition.codeentreprise.nomentreprise }})</h1>
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h2 class="card-title">
+                            {{ proposition.titreproposition }}
+                            <span class="badge badge-pill
+                                {% if (proposition.codeEtat.codeEtat == 1) %}badge-primary{% endif %}
+                                {% if (proposition.codeEtat.codeEtat == 2) %}badge-success{% endif %}
+                                {% if (proposition.codeEtat.codeEtat == 3) %}badge-warning{% endif %}
+                                {% if (proposition.codeEtat.codeEtat == 4) %}badge-info{% endif %}
+                                {% if (proposition.codeEtat.codeEtat == 5) %}badge-danger{% endif %}
+                            ">{{ proposition.codeEtat.nomEtat }}</span>
+                        </h2>
+                        {% if proposition.codeEtat.codeEtat != 3 %}
+                            {% if proposition.codeEtat.codeEtat != 2 %}
+                                <a href="{{ path('validProposition', {'id': proposition.codeproposition}) }}" class="btn btn-success">Valider</a>
+                            {% endif %}
+                            {% if proposition.codeEtat.codeEtat != 5 %}
+                                <a href="{{ path('rejectProposition', {'id': proposition.codeproposition}) }}" class="btn btn-danger">Refuser</a>
+                            {% endif %}
+                            {% if proposition.codeEtat.codeEtat != 4 %}
+                                <a href="{{ path('archiveProposition', {'id': proposition.codeproposition}) }}" class="btn btn-info">Archiver</a>
+                            {% endif %}
+                        {% endif %}
+                        <hr/>
+                        <p class="card-text">{{ proposition.descriptionproposition | escape | linkify | raw | nl2br }}</p>
+                    </div>
+                    <div class="card-footer text-muted">
+                        Posté par <a href="#">{{ proposition.codeentreprise.nomentreprise }}</a> le {{ proposition.dateajout|date("d/m/Y") }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
