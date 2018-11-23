@@ -67,11 +67,11 @@ class PropositionsController extends Controller
                 }
 
                 $this->get('session')->getFlashBag()->add('notice','Vous devez selectionner au moins 1 Classe !');
-                return $this->render('propositionAdd.html.twig', array('form'=>$form->createView()));
+                return $this->render('propositions:propositionAdd.html.twig', array('form'=>$form->createView()));
 
             }
             $this->get('session')->getFlashBag()->add('notice','Vous devez selectionner au moins 1 Technologie !');
-            return $this->render('propositionAdd.html.twig', array('form'=>$form->createView()));
+            return $this->render('propositions/propositionAdd.html.twig', array('form'=>$form->createView()));
 
         }
 
@@ -79,7 +79,7 @@ class PropositionsController extends Controller
         $formView = $form->createView();
 
         //on rend la vue
-        return $this->render('propositionAdd.html.twig', array('form'=>$formView));
+        return $this->render('propositions/propositionAdd.html.twig', array('form'=>$formView));
 
     }
 
@@ -95,11 +95,11 @@ class PropositionsController extends Controller
             ->getRepository('AppBundle:Propositions')
             ->find($id);
 
-        return $this->render('propositionShow.html.twig',['proposition' => $proposition]);
+        return $this->render('propositions/propositionShow.html.twig',['proposition' => $proposition]);
     }
     /**
      *
-     * @Route("/show", name="afficherProposition")
+     * @Route("/", name="afficherProposition")
      *
      */
     public function showProposition()
@@ -115,7 +115,7 @@ class PropositionsController extends Controller
 
         $propositions = $query->getResult();
 
-        return $this->render('propositionsShow.html.twig',['propositions' => $propositions, 'domaineActivites'=>$domaineAct]);
+        return $this->render('propositions/propositionsShow.html.twig',['propositions' => $propositions, 'domaineActivites'=>$domaineAct]);
     }
 
 }

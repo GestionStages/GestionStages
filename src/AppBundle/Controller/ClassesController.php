@@ -19,7 +19,7 @@ class ClassesController extends Controller
 {
     /**
      *
-     * @Route("admin/classes/add", name="addClasse")
+     * @Route("/admin/classes/add", name="addClasse")
      *
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
@@ -59,7 +59,7 @@ class ClassesController extends Controller
      * @param Request $request
      * @param Classes $classe
      * @return Response
-     * @Route("admin/classes/edit/{id}", name="editClasse")
+     * @Route("/admin/classes/edit/{id}", name="editClasse")
      */
     public function edit(Request $request, Classes $classe){
         $form = $this->createForm(ClassesType::class, $classe);

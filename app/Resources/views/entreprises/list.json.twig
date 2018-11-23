@@ -1,0 +1,6 @@
+{ "results":
+    [{% for entreprise in results -%}
+        {{ {id: entreprise.codeEntreprise, text: entreprise.nomEntreprise}|json_encode|raw }}
+        {%- if not loop.last %},{% endif %}
+    {%- endfor %}]
+}

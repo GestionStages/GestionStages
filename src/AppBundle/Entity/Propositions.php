@@ -18,7 +18,15 @@ class Propositions
      *
      * @ORM\Column(name="titreProposition", type="string", length=30, nullable=false)
      *
-     * @Assert\NotBlank(message="Le titre est obligatoire")
+     * @Assert\NotNull
+     * @Assert\NotBlank(message="Le titre est obligatoire.")
+     * @Assert\Length(
+     *     min = 5,
+     *     max = 30,
+     *     minMessage = "Le titre doit faire au minimum {{ limit }} caractères.",
+     *     maxMessage = "Le titre doit faire au maximum {{ limit }} caractères."
+     * )
+     *
      */
     private $titreproposition;
 
@@ -27,7 +35,14 @@ class Propositions
      *
      * @ORM\Column(name="descriptionProposition", type="string", length=1000, nullable=false)
      *
-     * @Assert\NotBlank(message="La description est obligatoire")
+     * @Assert\NotNull
+     * @Assert\NotBlank(message="La description est obligatoire.")
+     * @Assert\Length(
+     *     min = 20,
+     *     max = 1000,
+     *     minMessage = "La description doit faire au minimum {{ limit }} caractères.",
+     *     maxMessage = "La description ne peut excéder {{ limit }} caractères."
+     * )
      */
     private $descriptionproposition;
 
@@ -263,6 +278,9 @@ class Propositions
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="commentaire", type="string", length=1000, nullable=true)
+     *
      */
     private $commentaire;
 

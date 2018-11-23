@@ -31,7 +31,7 @@
                             {% endif %}
                         {% endif %}
                         <hr/>
-                        <p class="card-text">{{ proposition.descriptionproposition }}</p>
+                        <p class="card-text">{{ proposition.descriptionproposition | escape | linkify | raw | nl2br }}</p>
                     </div>
                     <div class="card-footer text-muted">
                         Posté par <a href="#">{{ proposition.codeentreprise.nomentreprise }}</a> le {{ proposition.dateajout|date("d/m/Y") }}

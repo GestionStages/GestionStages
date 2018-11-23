@@ -20,7 +20,7 @@ class EntreprisesController extends Controller
 
     /**
      *
-     * @Route("admin/entreprises/add", name="addEntreprise")
+     * @Route("/admin/entreprises/add", name="addEntreprise")
      *
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
@@ -69,7 +69,7 @@ class EntreprisesController extends Controller
      * @param Request $request
      * @param Entreprises $entreprise
      * @return Response
-     * @Route("admin/entreprises/edit/{id}", name="editEntreprise")
+     * @Route("/admin/entreprises/edit/{id}", name="editEntreprise")
      */
     public function edit(Request $request, Entreprises $entreprise){
         $form = $this->createForm(EntreprisesType::class, $entreprise);
@@ -109,7 +109,7 @@ class EntreprisesController extends Controller
     /**
      * @param Entreprises $entreprise
      * @return Response
-     * @Route("admin/entreprises/blacklist/{id}", name="blackListEntreprise")
+     * @Route("/admin/entreprises/blacklist/{id}", name="blackListEntreprise")
      *
      */
 
@@ -126,7 +126,7 @@ class EntreprisesController extends Controller
     /**
      * @param Entreprises $entreprise
      * @return Response
-     * @Route("admin/entreprises/noblacklist/{id}", name="noBlackListEntreprise")
+     * @Route("/admin/entreprises/noblacklist/{id}", name="noBlackListEntreprise")
      *
      */
 
@@ -163,7 +163,7 @@ class EntreprisesController extends Controller
 
     /**
      *
-     * @Route("admin/entreprises/showBlackList", name="showEntreprisesBlackList")
+     * @Route("/admin/entreprises/showBlackList", name="showEntreprisesBlackList")
      *
      * @return Response
      *
@@ -182,4 +182,16 @@ class EntreprisesController extends Controller
         return $this->render('admin/entreprises/entreprisesShowBlackList.html.twig',['entreprises' => $entreprises]);
     }
 
+	/**
+	 * @Route("/entreprises/search")
+	 * @param Request $request
+	 * @return Response
+	 */
+    public function searchEntreprise(Request $request)
+    {
+    	$q = $request->query->get('term');
+    	$results = $this->getDoctrine()->getRepository(Entreprises::class)->findLikeName($q);
+
+    	return $this->render('entreprises/list.json.twig', ['results' => $results]);
+    }
 }

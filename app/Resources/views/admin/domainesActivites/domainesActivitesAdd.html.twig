@@ -1,0 +1,27 @@
+{% extends "admin/base.html.twig" %}
+
+{% block title %}Ajouter un domaine d'activité{% endblock %}
+
+{% block body %}
+    <div class="box">
+        <div class="box-body">
+            <h1>Ajouter un domaine d'activité</h1>
+
+            {{ form_start(form) }}
+
+            <div class="form-group">
+            <br>
+                {{ form_label(form.nomdomaine , "Nom du domaine d'activité (*)") }}
+                {{ form_widget(form.nomdomaine, {'attr': {'class': "form-control"}}) }}
+                {{ form_errors(form.nomdomaine) }}
+            </div>
+
+
+            <div class="btn-group" role="group" aria-label="...">
+                <button type="submit" class="btn btn-primary" >Envoyer</button>
+            </div>
+
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}

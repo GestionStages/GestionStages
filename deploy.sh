@@ -18,4 +18,4 @@ php bin/console cache:clear --env=dev
 php bin/console cache:clear --env=prod
 
 # Reassignation des droits
-chown -hR www-data:www-data /var/www/html
+chown -hR www-data:www-data /var/www/html/
