@@ -1,6 +1,6 @@
 {% extends "base.html.twig" %}
 
-{% block title %}Poster une offre{% endblock %}
+{% block title %}{{ proposition.titreproposition }}{% endblock %}
 
 {% block body %}
     <div class="container">
@@ -19,17 +19,25 @@
                                 {% if (proposition.codeEtat.codeEtat == 5) %}badge-danger{% endif %}
                             ">{{ proposition.codeEtat.nomEtat }}</span>
                         </h2>
+                        <a href="{{ path('editProposition', {'id': proposition.codeproposition}) }}" class="btn btn-primary"><i class="fa fa-edit" aria-hidden="true"></i> Editer</a>
                         {% if proposition.codeEtat.codeEtat != 3 %}
                             {% if proposition.codeEtat.codeEtat != 2 %}
-                                <a href="{{ path('validProposition', {'id': proposition.codeproposition}) }}" class="btn btn-success">Valider</a>
+                                <a href="{{ path('validProposition', {'id': proposition.codeproposition}) }}" class="btn btn-success"><i class="fa fa-check" aria-hidden="true"></i> Valider</a>
                             {% endif %}
                             {% if proposition.codeEtat.codeEtat != 5 %}
-                                <a href="{{ path('rejectProposition', {'id': proposition.codeproposition}) }}" class="btn btn-danger">Refuser</a>
+                                <a href="{{ path('rejectProposition', {'id': proposition.codeproposition}) }}" class="btn btn-danger"><i class="fa fa-minus-circle" aria-hidden="true"></i> Refuser</a>
                             {% endif %}
                             {% if proposition.codeEtat.codeEtat != 4 %}
-                                <a href="{{ path('archiveProposition', {'id': proposition.codeproposition}) }}" class="btn btn-info">Archiver</a>
+                                <a href="{{ path('archiveProposition', {'id': proposition.codeproposition}) }}" class="btn btn-info"><i class="fa fa-archive" aria-hidden="true"></i> Archiver</a>
                             {% endif %}
                         {% endif %}
+                        <hr/>
+                        {% for classe in proposition.codeclasse %}
+                            <span class="badge badge-pill badge-primary"><i class="fa fa-graduation-cap" aria-hidden="true"></i> {{ classe.nomclasse }}</span>
+                        {% endfor %}
+                        {% for techno in proposition.codetechnololgie %}
+                            <span class="badge badge-pill badge-secondary"><i class="fa fa-code" aria-hidden="true"></i> {{ techno.nomtechnologie }}</span>
+                        {% endfor %}
                         <hr/>
                         <p class="card-text">{{ proposition.descriptionproposition | escape | linkify | raw | nl2br }}</p>
                     </div>
