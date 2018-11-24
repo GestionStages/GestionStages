@@ -85,7 +85,7 @@ class Propositions
      *   }
      * )
      */
-    private $codetechnololgie;
+    private $codetechnologie;
 
     /**
      * @ORM\Column(type="string")
@@ -110,7 +110,7 @@ class Propositions
     public function __construct()
     {
         $this->codeclasse = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->codetechnololgie = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->codetechnologie = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
 
@@ -231,37 +231,37 @@ class Propositions
     }
 
     /**
-     * Add codetechnololgie
+     * Add codetechnologie
      *
-     * @param \AppBundle\Entity\Technologies $codetechnololgie
+     * @param \AppBundle\Entity\Technologies $codetechnologie
      *
      * @return Propositions
      */
-    public function addCodetechnololgie(\AppBundle\Entity\Technologies $codetechnololgie)
+    public function addCodetechnologie(\AppBundle\Entity\Technologies $codetechnologie)
     {
-        $this->codetechnololgie[] = $codetechnololgie;
+        $this->codetechnologie[] = $codetechnologie;
 
         return $this;
     }
 
     /**
-     * Remove codetechnololgie
+     * Remove codetechnologie
      *
-     * @param \AppBundle\Entity\Technologies $codetechnololgie
+     * @param \AppBundle\Entity\Technologies $codetechnologie
      */
-    public function removeCodetechnololgie(\AppBundle\Entity\Technologies $codetechnololgie)
+    public function removeCodetechnologie(\AppBundle\Entity\Technologies $codetechnologie)
     {
-        $this->codetechnololgie->removeElement($codetechnololgie);
+        $this->codetechnologie->removeElement($codetechnologie);
     }
 
     /**
-     * Get codetechnololgie
+     * Get codetechnologie
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getCodetechnololgie()
+    public function getCodetechnologie()
     {
-        return $this->codetechnololgie;
+        return $this->codetechnologie;
     }
 
     /**

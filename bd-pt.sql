@@ -1,15 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.3
+-- version 4.6.6deb4
 -- https://www.phpmyadmin.net/
 --
--- Hôte : 127.0.0.1:3306
--- Généré le :  ven. 26 oct. 2018 à 11:08
--- Version du serveur :  5.7.23
--- Version de PHP :  7.2.10
+-- Client :  localhost:3306
+-- Généré le :  Sam 24 Novembre 2018 à 22:50
+-- Version du serveur :  10.1.26-MariaDB-0+deb9u1
+-- Version de PHP :  7.0.30-0+deb9u1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -19,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données :  `bd-pt`
+-- Base de données :  `symfony`
 --
 
 -- --------------------------------------------------------
@@ -29,19 +27,29 @@ SET time_zone = "+00:00";
 --
 
 DROP TABLE IF EXISTS `associerclassespropositions`;
-CREATE TABLE IF NOT EXISTS `associerclassespropositions` (
+CREATE TABLE `associerclassespropositions` (
   `codeProposition` int(11) NOT NULL,
-  `codeClasse` int(11) NOT NULL,
-  PRIMARY KEY (`codeProposition`,`codeClasse`),
-  KEY `fk_classesPropositions` (`codeClasse`)
+  `codeClasse` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `associerclassespropositions`
+-- Contenu de la table `associerclassespropositions`
 --
 
 INSERT INTO `associerclassespropositions` (`codeProposition`, `codeClasse`) VALUES
-(1, 1);
+(1, 1),
+(3, 1),
+(4, 1),
+(4, 2),
+(5, 1),
+(5, 2),
+(6, 1),
+(6, 2),
+(7, 1),
+(8, 1),
+(9, 1),
+(9, 2),
+(11, 1);
 
 -- --------------------------------------------------------
 
@@ -50,20 +58,18 @@ INSERT INTO `associerclassespropositions` (`codeProposition`, `codeClasse`) VALU
 --
 
 DROP TABLE IF EXISTS `associerentreprisescontact`;
-CREATE TABLE IF NOT EXISTS `associerentreprisescontact` (
+CREATE TABLE `associerentreprisescontact` (
   `codeEntreprise` int(11) NOT NULL,
-  `codeContact` int(11) NOT NULL,
-  PRIMARY KEY (`codeEntreprise`,`codeContact`),
-  KEY `fk_codeContactEntreprise` (`codeContact`)
+  `codeContact` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `associerentreprisescontact`
+-- Contenu de la table `associerentreprisescontact`
 --
 
 INSERT INTO `associerentreprisescontact` (`codeEntreprise`, `codeContact`) VALUES
-(1, 1),
-(1, 2);
+(1, 3),
+(1, 4);
 
 -- --------------------------------------------------------
 
@@ -72,20 +78,25 @@ INSERT INTO `associerentreprisescontact` (`codeEntreprise`, `codeContact`) VALUE
 --
 
 DROP TABLE IF EXISTS `associerentreprisesdomaine`;
-CREATE TABLE IF NOT EXISTS `associerentreprisesdomaine` (
+CREATE TABLE `associerentreprisesdomaine` (
   `codeEntreprise` int(11) NOT NULL,
-  `codeDomaine` int(11) NOT NULL,
-  PRIMARY KEY (`codeEntreprise`,`codeDomaine`),
-  KEY `fk_codeDomaineEntreprise` (`codeDomaine`)
+  `codeDomaine` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `associerentreprisesdomaine`
+-- Contenu de la table `associerentreprisesdomaine`
 --
 
 INSERT INTO `associerentreprisesdomaine` (`codeEntreprise`, `codeDomaine`) VALUES
 (1, 2),
-(1, 3);
+(1, 3),
+(7, 4),
+(8, 4),
+(9, 4),
+(10, 4),
+(11, 4),
+(12, 4),
+(13, 4);
 
 -- --------------------------------------------------------
 
@@ -94,18 +105,16 @@ INSERT INTO `associerentreprisesdomaine` (`codeEntreprise`, `codeDomaine`) VALUE
 --
 
 DROP TABLE IF EXISTS `associertechnologiespropositions`;
-CREATE TABLE IF NOT EXISTS `associertechnologiespropositions` (
-  `codeTechnololgie` int(11) NOT NULL,
-  `codeProposition` int(11) NOT NULL,
-  PRIMARY KEY (`codeTechnololgie`,`codeProposition`),
-  KEY `fk_codePropositionTechnologie` (`codeProposition`)
+CREATE TABLE `associertechnologiespropositions` (
+  `codeTechnologie` int(11) NOT NULL,
+  `codeProposition` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `associertechnologiespropositions`
+-- Contenu de la table `associertechnologiespropositions`
 --
 
-INSERT INTO `associertechnologiespropositions` (`codeTechnololgie`, `codeProposition`) VALUES
+INSERT INTO `associertechnologiespropositions` (`codeTechnologie`, `codeProposition`) VALUES
 (1, 1),
 (2, 1);
 
@@ -116,19 +125,19 @@ INSERT INTO `associertechnologiespropositions` (`codeTechnololgie`, `codeProposi
 --
 
 DROP TABLE IF EXISTS `classes`;
-CREATE TABLE IF NOT EXISTS `classes` (
-  `codeClasse` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `classes` (
+  `codeClasse` int(11) NOT NULL,
   `nomClasse` varchar(30) NOT NULL,
-  PRIMARY KEY (`codeClasse`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+  `description` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `classes`
+-- Contenu de la table `classes`
 --
 
-INSERT INTO `classes` (`codeClasse`, `nomClasse`) VALUES
-(1, 'LP-APIDAE'),
-(2, 'LP-ACPI');
+INSERT INTO `classes` (`codeClasse`, `nomClasse`, `description`) VALUES
+(1, 'LP-APIDAE', 'E-business (WEB)'),
+(2, 'LP-ACPI', 'Assistant chef projet informatique');
 
 -- --------------------------------------------------------
 
@@ -137,22 +146,21 @@ INSERT INTO `classes` (`codeClasse`, `nomClasse`) VALUES
 --
 
 DROP TABLE IF EXISTS `contacts`;
-CREATE TABLE IF NOT EXISTS `contacts` (
-  `codeContact` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `contacts` (
+  `codeContact` int(11) NOT NULL,
   `nomContact` varchar(30) NOT NULL,
   `prenomContact` varchar(30) NOT NULL,
   `mailContact` varchar(30) NOT NULL,
-  `telContact` char(10) NOT NULL,
-  PRIMARY KEY (`codeContact`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+  `telContact` char(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `contacts`
+-- Contenu de la table `contacts`
 --
 
 INSERT INTO `contacts` (`codeContact`, `nomContact`, `prenomContact`, `mailContact`, `telContact`) VALUES
-(1, 'Dupont', 'Jean', 'dupontjean@gormail.fr', '0685956520'),
-(2, 'Durand', 'John', 'johndurand@mail.fr', '0652359585');
+(3, 'toto', 'titi', 'toto@yo.com', '0204050607'),
+(4, 'tata', 'titi', 'titi@gmail.com', '0658595260');
 
 -- --------------------------------------------------------
 
@@ -161,20 +169,20 @@ INSERT INTO `contacts` (`codeContact`, `nomContact`, `prenomContact`, `mailConta
 --
 
 DROP TABLE IF EXISTS `domaineactivite`;
-CREATE TABLE IF NOT EXISTS `domaineactivite` (
-  `codeDomaine` int(11) NOT NULL AUTO_INCREMENT,
-  `nomDomaine` varchar(50) NOT NULL,
-  PRIMARY KEY (`codeDomaine`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+CREATE TABLE `domaineactivite` (
+  `codeDomaine` int(11) NOT NULL,
+  `nomDomaine` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `domaineactivite`
+-- Contenu de la table `domaineactivite`
 --
 
 INSERT INTO `domaineactivite` (`codeDomaine`, `nomDomaine`) VALUES
 (1, 'Jeux Vidéo'),
 (2, 'Comptabilité'),
-(3, 'Streaming');
+(3, 'Streaming'),
+(4, 'Autre');
 
 -- --------------------------------------------------------
 
@@ -183,26 +191,32 @@ INSERT INTO `domaineactivite` (`codeDomaine`, `nomDomaine`) VALUES
 --
 
 DROP TABLE IF EXISTS `entreprises`;
-CREATE TABLE IF NOT EXISTS `entreprises` (
-  `codeEntreprise` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `entreprises` (
+  `codeEntreprise` int(11) NOT NULL,
   `nomEntreprise` varchar(30) NOT NULL,
   `adresseEntreprise` varchar(60) NOT NULL,
   `villeEntreprise` varchar(30) NOT NULL,
   `codePostalEntreprise` int(5) NOT NULL,
   `telEntreprise` char(14) NOT NULL,
-  `blacklister` tinyint(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`codeEntreprise`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+  `blacklister` tinyint(1) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `entreprises`
+-- Contenu de la table `entreprises`
 --
 
 INSERT INTO `entreprises` (`codeEntreprise`, `nomEntreprise`, `adresseEntreprise`, `villeEntreprise`, `codePostalEntreprise`, `telEntreprise`, `blacklister`) VALUES
-(1, 'ToHero', '1 rue Emile Ain', 'Montpellier', 34090, '0642520665', 1),
+(1, 'ToHero', '1 rue Emile Ain', 'Montpellier', 34090, '0642520665', 0),
 (4, 'CGI', '8 rue Georges Freche', 'Montpellier', 34096, '0658653145', 0),
 (5, 'Kaliop', '7 rue Ponpidou', 'Montpellier', 34090, '04.95.45.65.23', 0),
-(6, 'Cap Gemini', '25 avenue polichon', 'Montpellier', 34090, '0685956535', 0);
+(6, 'Cap Gemini', '25 avenue polichon', 'Montpellier', 34090, '0685956535', 0),
+(7, 'Le jardin des chats', '60 chemin de pergue', 'Aubais', 30250, '0466382867', 0),
+(8, 'Générale du Solaire', '230 rue Saint exupéry', 'Mauguio', 34130, '0411626352', 0),
+(9, 'L\'Atelier de la Peluche', '8 rue Jacques d\'Aragon', 'Montpellier', 34000, '0964284857', 0),
+(10, 'DAI SARL', 'Non fournie', 'Saint Gély du Fesc', 34981, '0695707639', 0),
+(11, 'Groupe SOTHYS', 'Non fournie', 'Brive', 19100, '0555174500', 0),
+(12, 'INRA', '2 place Pierre Viala', 'Montpellier', 34060, '0700000000', 0),
+(13, 'ACELYS', 'Pole Eureka 418 rue du Mas Verchant', 'Montpellier', 34000, '0467155015', 0);
 
 -- --------------------------------------------------------
 
@@ -211,14 +225,13 @@ INSERT INTO `entreprises` (`codeEntreprise`, `nomEntreprise`, `adresseEntreprise
 --
 
 DROP TABLE IF EXISTS `etat`;
-CREATE TABLE IF NOT EXISTS `etat` (
-  `codeEtat` int(11) NOT NULL AUTO_INCREMENT,
-  `nomEtat` varchar(40) NOT NULL,
-  PRIMARY KEY (`codeEtat`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+CREATE TABLE `etat` (
+  `codeEtat` int(11) NOT NULL,
+  `nomEtat` varchar(40) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `etat`
+-- Contenu de la table `etat`
 --
 
 INSERT INTO `etat` (`codeEtat`, `nomEtat`) VALUES
@@ -235,16 +248,14 @@ INSERT INTO `etat` (`codeEtat`, `nomEtat`) VALUES
 --
 
 DROP TABLE IF EXISTS `fichiers`;
-CREATE TABLE IF NOT EXISTS `fichiers` (
-  `codeFichier` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `fichiers` (
+  `codeFichier` int(11) NOT NULL,
   `urlFichier` varchar(500) NOT NULL,
-  `codeProposition` int(11) NOT NULL,
-  PRIMARY KEY (`codeFichier`),
-  KEY `fk_codePropositionFichier` (`codeProposition`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+  `codeProposition` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `fichiers`
+-- Contenu de la table `fichiers`
 --
 
 INSERT INTO `fichiers` (`codeFichier`, `urlFichier`, `codeProposition`) VALUES
@@ -257,26 +268,33 @@ INSERT INTO `fichiers` (`codeFichier`, `urlFichier`, `codeProposition`) VALUES
 --
 
 DROP TABLE IF EXISTS `propositions`;
-CREATE TABLE IF NOT EXISTS `propositions` (
-  `codeProposition` int(11) NOT NULL AUTO_INCREMENT,
-  `titreProposition` varchar(30) NOT NULL,
-  `descriptionProposition` varchar(1000) NOT NULL,
-  `dateAjout` date NOT NULL,
-  `commentaire` varchar(1000) DEFAULT NULL,
-  `codeEntreprise` int(11) NOT NULL,
-  `codeEtat` int(11) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`codeProposition`),
-  KEY `fk_codeEntreprise` (`codeEntreprise`),
-  KEY `fk_codeEtat` (`codeEtat`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+CREATE TABLE `propositions` (
+  `codeProposition` int(11) NOT NULL,
+  `titreProposition` varchar(255) NOT NULL,
+  `descriptionProposition` longtext NOT NULL,
+  `dateAjout` datetime NOT NULL,
+  `commentaire` longtext,
+  `codeEntreprise` int(11) DEFAULT NULL,
+  `codeEtat` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `propositions`
+-- Contenu de la table `propositions`
 --
 
 INSERT INTO `propositions` (`codeProposition`, `titreProposition`, `descriptionProposition`, `dateAjout`, `commentaire`, `codeEntreprise`, `codeEtat`) VALUES
-(1, 'Developpeur WEB - PHP/JAVA', 'Vous serez amenez à développer dans une équipe de développeur sur le site officiel de WAKANIM pour mettre à jour les fonctionnalités du site', '2018-10-22', NULL, 1, 1),
-(2, 'Developpeur JAVA (Oracle)', 'Vous devrez développer dans une peite équipe un logiciel comptable en JAVA sous Oracle', '2018-10-23', NULL, 1, 1);
+(1, 'Developpeur WEB - PHP/JAVA', 'Vous serez amenez à développer dans une équipe de développeur sur le site officiel de WAKANIM pour mettre à jour les fonctionnalités du site', '2018-10-22 00:00:00', NULL, 1, 5),
+(2, 'Developpeur JAVA (Oracle)', 'Vous devrez développer dans une peite équipe un logiciel comptable en JAVA sous Oracle', '2018-10-23 00:00:00', NULL, 1, 1),
+(3, 'test', 'bcdef', '2018-11-13 00:00:00', NULL, 5, 2),
+(4, 'Application de réservations', 'Développement application web de gestion de réservations en HTML, CCS, PHP, JavaScript, Jquery', '2018-11-21 00:00:00', NULL, 7, 2),
+(5, 'ERP Drupal 7', 'Développement d\'un ERP sous Drupal 7 (évolution CRM actuel)', '2018-11-21 00:00:00', NULL, 8, 2),
+(6, 'Développement web', 'Dev web en PHP, HTML, CSS, JavaScript', '2018-11-21 00:00:00', NULL, 9, 2),
+(7, 'Développement', 'Développer de nouveaux modules (applications web, communication avec des serveurs type Dossier Médical Personnel, sérialisation pharmaceutique, dossier pharmacie avec connexion SOAP et REST)', '2018-11-21 00:00:00', NULL, 10, 2),
+(8, 'Développement web', '- Participer à l\'analyse du besoin décrit dans le cahier des charges fonctionnel ;\r\n- Proposer une ergonomie en rapport avec l’application existante ;\r\n- Identifier les solutions techniques adaptées dans le cadre de l’architecture technique existante ;', '2018-11-21 00:00:00', NULL, 11, 2),
+(9, 'Système gestion produits', '- L’identification des besoins et l’étude des outils existants au sein de l’équipe.\r\n- Les spécifications d’un système interface / base de données.\r\n- Le développement du système.', '2018-11-21 00:00:00', NULL, 12, 2),
+(10, 'Paramétrage Case Management', 'Vous devez implémenter une gestion de demandes entrantes, la gestion d’échanges d’informations entrantes et sortantes (dont des documents) entre l’émetteur de la demande et les acteurs en charge du traitement du dossier.', '2018-11-21 00:00:00', NULL, 1, 2),
+(11, 'Testss', 'Une desciption test de 20 charactères', '2018-11-21 00:00:00', NULL, 4, 2),
+(12, 'Développement WEB (JS)', 'Uneeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee', '2018-11-21 00:00:00', NULL, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -285,23 +303,152 @@ INSERT INTO `propositions` (`codeProposition`, `titreProposition`, `descriptionP
 --
 
 DROP TABLE IF EXISTS `technologies`;
-CREATE TABLE IF NOT EXISTS `technologies` (
-  `codeTechnololgie` int(11) NOT NULL AUTO_INCREMENT,
-  `nomTechnologie` varchar(30) NOT NULL,
-  PRIMARY KEY (`codeTechnololgie`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+CREATE TABLE `technologies` (
+  `codeTechnologie` int(11) NOT NULL,
+  `nomTechnologie` varchar(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `technologies`
+-- Contenu de la table `technologies`
 --
 
-INSERT INTO `technologies` (`codeTechnololgie`, `nomTechnologie`) VALUES
+INSERT INTO `technologies` (`codeTechnologie`, `nomTechnologie`) VALUES
 (1, 'PHP'),
 (2, 'JAVA'),
-(3, 'JAVASCRIPT');
+(3, 'JAVASCRIPT'),
+(6, 'BOOTSTRAP'),
+(7, 'C#'),
+(8, 'C++');
 
 --
--- Contraintes pour les tables déchargées
+-- Index pour les tables exportées
+--
+
+--
+-- Index pour la table `associerclassespropositions`
+--
+ALTER TABLE `associerclassespropositions`
+  ADD PRIMARY KEY (`codeProposition`,`codeClasse`),
+  ADD KEY `IDX_E93C30F3EE464F70` (`codeClasse`);
+
+--
+-- Index pour la table `associerentreprisescontact`
+--
+ALTER TABLE `associerentreprisescontact`
+  ADD PRIMARY KEY (`codeEntreprise`,`codeContact`),
+  ADD KEY `IDX_7C4F034A56A6085` (`codeContact`);
+
+--
+-- Index pour la table `associerentreprisesdomaine`
+--
+ALTER TABLE `associerentreprisesdomaine`
+  ADD PRIMARY KEY (`codeEntreprise`,`codeDomaine`),
+  ADD KEY `IDX_4882EFBE31A78C71` (`codeDomaine`);
+
+--
+-- Index pour la table `associertechnologiespropositions`
+--
+ALTER TABLE `associertechnologiespropositions`
+  ADD PRIMARY KEY (`codeTechnologie`,`codeProposition`),
+  ADD KEY `IDX_9FB189D2AB4411A` (`codeProposition`);
+
+--
+-- Index pour la table `classes`
+--
+ALTER TABLE `classes`
+  ADD PRIMARY KEY (`codeClasse`);
+
+--
+-- Index pour la table `contacts`
+--
+ALTER TABLE `contacts`
+  ADD PRIMARY KEY (`codeContact`);
+
+--
+-- Index pour la table `domaineactivite`
+--
+ALTER TABLE `domaineactivite`
+  ADD PRIMARY KEY (`codeDomaine`);
+
+--
+-- Index pour la table `entreprises`
+--
+ALTER TABLE `entreprises`
+  ADD PRIMARY KEY (`codeEntreprise`);
+
+--
+-- Index pour la table `etat`
+--
+ALTER TABLE `etat`
+  ADD PRIMARY KEY (`codeEtat`);
+
+--
+-- Index pour la table `fichiers`
+--
+ALTER TABLE `fichiers`
+  ADD PRIMARY KEY (`codeFichier`),
+  ADD KEY `fk_codePropositionFichier` (`codeProposition`);
+
+--
+-- Index pour la table `propositions`
+--
+ALTER TABLE `propositions`
+  ADD PRIMARY KEY (`codeProposition`),
+  ADD KEY `fk_codeEntreprise` (`codeEntreprise`),
+  ADD KEY `fk_codeEtat` (`codeEtat`);
+
+--
+-- Index pour la table `technologies`
+--
+ALTER TABLE `technologies`
+  ADD PRIMARY KEY (`codeTechnologie`);
+
+--
+-- AUTO_INCREMENT pour les tables exportées
+--
+
+--
+-- AUTO_INCREMENT pour la table `classes`
+--
+ALTER TABLE `classes`
+  MODIFY `codeClasse` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT pour la table `contacts`
+--
+ALTER TABLE `contacts`
+  MODIFY `codeContact` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+--
+-- AUTO_INCREMENT pour la table `domaineactivite`
+--
+ALTER TABLE `domaineactivite`
+  MODIFY `codeDomaine` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+--
+-- AUTO_INCREMENT pour la table `entreprises`
+--
+ALTER TABLE `entreprises`
+  MODIFY `codeEntreprise` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+--
+-- AUTO_INCREMENT pour la table `etat`
+--
+ALTER TABLE `etat`
+  MODIFY `codeEtat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+--
+-- AUTO_INCREMENT pour la table `fichiers`
+--
+ALTER TABLE `fichiers`
+  MODIFY `codeFichier` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT pour la table `propositions`
+--
+ALTER TABLE `propositions`
+  MODIFY `codeProposition` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+--
+-- AUTO_INCREMENT pour la table `technologies`
+--
+ALTER TABLE `technologies`
+  MODIFY `codeTechnologie` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+--
+-- Contraintes pour les tables exportées
 --
 
 --
@@ -330,7 +477,7 @@ ALTER TABLE `associerentreprisesdomaine`
 --
 ALTER TABLE `associertechnologiespropositions`
   ADD CONSTRAINT `fk_codePropositionTechnologie` FOREIGN KEY (`codeProposition`) REFERENCES `propositions` (`codeProposition`),
-  ADD CONSTRAINT `fk_codeTechnologieProposition` FOREIGN KEY (`codeTechnololgie`) REFERENCES `technologies` (`codeTechnololgie`);
+  ADD CONSTRAINT `fk_codeTechnologieProposition` FOREIGN KEY (`codeTechnologie`) REFERENCES `technologies` (`codeTechnologie`);
 
 --
 -- Contraintes pour la table `fichiers`
@@ -344,7 +491,6 @@ ALTER TABLE `fichiers`
 ALTER TABLE `propositions`
   ADD CONSTRAINT `fk_codeEntreprise` FOREIGN KEY (`codeEntreprise`) REFERENCES `entreprises` (`codeEntreprise`),
   ADD CONSTRAINT `fk_codeEtat` FOREIGN KEY (`codeEtat`) REFERENCES `etat` (`codeEtat`);
-COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

@@ -22,16 +22,16 @@ class Technologies
     /**
      * @var integer
      *
-     * @ORM\Column(name="codeTechnololgie", type="integer")
+     * @ORM\Column(name="codeTechnologie", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $codetechnololgie;
+    private $codetechnologie;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Propositions", inversedBy="codetechnololgie")
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Propositions", inversedBy="codetechnologie")
      */
     private $codeproposition;
 
@@ -69,13 +69,13 @@ class Technologies
     }
 
     /**
-     * Get codetechnololgie
+     * Get codetechnologie
      *
      * @return integer
      */
-    public function getCodetechnololgie()
+    public function getCodetechnologie()
     {
-        return $this->codetechnololgie;
+        return $this->codetechnologie;
     }
 
     /**

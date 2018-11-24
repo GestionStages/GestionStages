@@ -30,7 +30,7 @@ class PropositionsType extends AbstractType
 	            'multiple' => true,
 	            'expanded' => true,
                 ))
-            ->add('codetechnololgie',EntityType::class, array(
+            ->add('codetechnologie',EntityType::class, array(
                 'class' => 'AppBundle:Technologies',
 	            'choice_label' => 'nomtechnologie',
 	            'multiple' => true,

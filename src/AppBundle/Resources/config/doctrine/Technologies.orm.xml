@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
   <entity name="AppBundle\Entity\Technologies" table="technologies">
-    <id name="codetechnololgie" type="integer" column="codeTechnololgie">
+    <id name="codetechnologie" type="integer" column="codeTechnologie">
       <generator strategy="IDENTITY"/>
     </id>
     <field name="nomtechnologie" type="string" column="nomTechnologie" length="30" nullable="false">
@@ -9,10 +9,10 @@
         <option name="fixed"/>
       </options>
     </field>
-    <many-to-many field="codeproposition" target-entity="Propositions" inversed-by="codetechnololgie" fetch="LAZY">
+    <many-to-many field="codeproposition" target-entity="Propositions" inversed-by="codetechnologie" fetch="LAZY">
       <join-table name="associertechnologiespropositions">
         <join-columns>
-          <join-column name="codeTechnololgie" referenced-column-name="codeTechnololgie"/>
+          <join-column name="codeTechnologie" referenced-column-name="codeTechnologie"/>
         </join-columns>
         <inverse-join-columns>
           <join-column name="codeProposition" referenced-column-name="codeProposition"/>

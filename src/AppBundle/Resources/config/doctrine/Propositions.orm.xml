@@ -44,6 +44,6 @@
         </inverse-join-columns>
       </join-table>
     </many-to-many>
-    <many-to-many field="codetechnololgie" target-entity="Technologies" mapped-by="codeproposition" fetch="LAZY"/>
+    <many-to-many field="codetechnologie" target-entity="Technologies" mapped-by="codeproposition" fetch="LAZY"/>
   </entity>
 </doctrine-mapping>
