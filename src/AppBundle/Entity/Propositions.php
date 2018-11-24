@@ -16,14 +16,12 @@ class Propositions
     /**
      * @var string
      *
-     * @ORM\Column(name="titreProposition", type="string", length=30, nullable=false)
+     * @ORM\Column(name="titreProposition", type="string", length=255, nullable=false)
      *
      * @Assert\NotNull
      * @Assert\NotBlank(message="Le titre est obligatoire.")
      * @Assert\Length(
-     *     min = 5,
-     *     max = 30,
-     *     minMessage = "Le titre doit faire au minimum {{ limit }} caractères.",
+     *     max = 255,
      *     maxMessage = "Le titre doit faire au maximum {{ limit }} caractères."
      * )
      *
@@ -33,16 +31,10 @@ class Propositions
     /**
      * @var string
      *
-     * @ORM\Column(name="descriptionProposition", type="string", length=1000, nullable=false)
+     * @ORM\Column(name="descriptionProposition", type="text", nullable=false)
      *
      * @Assert\NotNull
      * @Assert\NotBlank(message="La description est obligatoire.")
-     * @Assert\Length(
-     *     min = 20,
-     *     max = 1000,
-     *     minMessage = "La description doit faire au minimum {{ limit }} caractères.",
-     *     maxMessage = "La description ne peut excéder {{ limit }} caractères."
-     * )
      */
     private $descriptionproposition;
 
@@ -271,6 +263,7 @@ class Propositions
     {
         return $this->codetechnololgie;
     }
+
     /**
      * @var \DateTime
      */
@@ -279,7 +272,7 @@ class Propositions
     /**
      * @var string
      *
-     * @ORM\Column(name="commentaire", type="string", length=1000, nullable=true)
+     * @ORM\Column(name="commentaire", type="text", nullable=true)
      *
      */
     private $commentaire;

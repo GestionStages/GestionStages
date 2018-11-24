@@ -8,18 +8,18 @@
     <id name="codeproposition" type="integer" column="codeProposition">
       <generator strategy="IDENTITY"/>
     </id>
-    <field name="titreproposition" type="string" column="titreProposition" length="30" nullable="false">
+    <field name="titreproposition" type="string" column="titreProposition" length="255" nullable="false">
       <options>
         <option name="fixed"/>
       </options>
     </field>
-    <field name="descriptionproposition" type="string" column="descriptionProposition" length="1000" nullable="false">
+    <field name="descriptionproposition" type="text" column="descriptionProposition" nullable="false">
       <options>
         <option name="fixed"/>
       </options>
     </field>
     <field name="dateajout" type="date" column="dateAjout" nullable="false"/>
-    <field name="commentaire" type="string" column="commentaire" length="1000" nullable="true">
+    <field name="commentaire" type="text" column="commentaire" nullable="true">
       <options>
         <option name="fixed"/>
       </options>
