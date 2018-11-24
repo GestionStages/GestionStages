@@ -18,7 +18,7 @@
         <option name="fixed"/>
       </options>
     </field>
-    <field name="dateajout" type="date" column="dateAjout" nullable="false"/>
+    <field name="dateajout" type="datetime" column="dateAjout" nullable="false"/>
     <field name="commentaire" type="text" column="commentaire" nullable="true">
       <options>
         <option name="fixed"/>

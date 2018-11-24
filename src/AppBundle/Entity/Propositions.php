@@ -266,6 +266,7 @@ class Propositions
 
     /**
      * @var \DateTime
+     * @ORM\Column(name="dateajout", type="datetime", nullable=false)
      */
     private $dateajout;
 
