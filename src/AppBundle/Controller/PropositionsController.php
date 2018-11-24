@@ -15,7 +15,6 @@ use Symfony\Component\HttpFoundation\Response;
 class PropositionsController extends Controller
 {
     /**
-     *
      * @Route("/add", name="addProposition")
      *
      * @param Request $request
@@ -35,44 +34,29 @@ class PropositionsController extends Controller
         //si le formulaire a été soumis et qu'il est valide
 
         if($form->isSubmitted() && $form->isValid()){
-            // Si au moins un domaine et selectionner
-            if(count($form->getData()->getCodetechnololgie()) != 0){
+            $repository = $this->getDoctrine()
+                ->getRepository(Etat::class);
 
-                if(count($form->getData()->getCodeclasse()) != 0){
+            //recuperation de l'entreprise par l'id passer en session
+            $etat = $repository->createQueryBuilder('e')
+                ->where('e.codeetat = 1')
+                ->getQuery()
+                // Cette ligne permet de récupérer directement l'objet et non un tableau avec l'objet à l'interieur
+                ->getOneOrNullResult();
 
-                    $repository = $this->getDoctrine()
-                        ->getRepository(Etat::class);
+            //on enregistre la proposition dans la bdd
+            $em = $this-> getDoctrine()->getManager();
+            // on affecte l'etat en attente par default
+            $proposition->setCodeetat($etat);
+            $proposition->setDateajout(new \DateTime('NOW'));
+            $em->persist($proposition);
+            $em->flush();
 
-                    //recuperation de l'entreprise par l'id passer en session
-                    $etat = $repository->createQueryBuilder('e')
-                        ->where('e.codeetat = 1')
-                        ->getQuery()
-                        // Cette ligne permet de récupérer directement l'objet et non un tableau avec l'objet à l'interieur
-                        ->getOneOrNullResult();
+            // On affiche message de validation dans le formulaire de redirection
+            $this->get('session')->getFlashBag()->add('notice','La proposition à été ajoutée !');
 
-                    //on enregistre la proposition dans la bdd
-                    $em = $this-> getDoctrine()->getManager();
-                    // on affecte l'etat en attente par default
-                    $proposition->setCodeetat($etat);
-                    $proposition->setDateajout(new \DateTime('NOW'));
-                    $em->persist($proposition);
-                    $em->flush();
-
-                    // On affiche message de validation dans le formulaire de redirection
-                    $this->get('session')->getFlashBag()->add('notice','La proposition à été ajoutée !');
-
-                    //Retourne form de la liste des domaines d'activités
-                    return $this->redirect($this->generateUrl('afficherProposition'));
-
-                }
-
-                $this->get('session')->getFlashBag()->add('notice','Vous devez selectionner au moins 1 Classe !');
-                return $this->render('propositions:propositionAdd.html.twig', array('form'=>$form->createView()));
-
-            }
-            $this->get('session')->getFlashBag()->add('notice','Vous devez selectionner au moins 1 Technologie !');
-            return $this->render('propositions/propositionAdd.html.twig', array('form'=>$form->createView()));
-
+            //Retourne form de la liste des domaines d'activités
+            return $this->redirect($this->generateUrl('afficherProposition'));
         }
 
         //On génére le fichier final
@@ -80,15 +64,11 @@ class PropositionsController extends Controller
 
         //on rend la vue
         return $this->render('propositions/propositionAdd.html.twig', array('form'=>$formView));
-
     }
 
     /**
-     *
      * @Route("/show/{id}", name="afficherPropositionbyid", requirements={"id"="\d+"})
-     *
      */
-
     public function showPropositionById($id)
     {
         $proposition = $this->getDoctrine()
@@ -133,9 +113,7 @@ class PropositionsController extends Controller
     }
 
     /**
-     *
      * @Route("/show", name="afficherProposition")
-     *
      */
     public function showProposition()
     {
