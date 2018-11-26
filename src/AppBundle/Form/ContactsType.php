@@ -21,7 +21,8 @@ class ContactsType extends AbstractType
                 ->add('nomcontact', TextType::class, array('disabled' => true))
                 ->add('prenomcontact',TextType::class, array('disabled' => true))
                 ->add('mailcontact', TextType::class )
-                ->add('telcontact', TelType::class);
+                ->add('telcontact', TelType::class)
+                ->add('postecontact',TextType::class);
         }
         //si on ajoute un contact
         else
@@ -30,7 +31,8 @@ class ContactsType extends AbstractType
                 ->add('nomcontact', TextType::class)
                 ->add('prenomcontact',TextType::class)
                 ->add('mailcontact', TextType::class )
-                ->add('telcontact', TelType::class);
+                ->add('telcontact', TelType::class)
+                ->add('postecontact',TextType::class);
         }
 
     }/**

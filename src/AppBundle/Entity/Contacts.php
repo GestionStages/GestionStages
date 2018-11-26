@@ -245,4 +245,35 @@ class Contacts
     {
         return $this->codeentreprise;
     }
+    /**
+     * @var string
+     * @ORM\Column(name="posteContact", type="string", length=50, nullable=false)
+     * @Assert\NotBlank(message="Le poste dans l'entreprise est obligatoire.")
+     */
+    private $postecontact;
+
+
+    /**
+     * Set postecontact
+     *
+     * @param string $postecontact
+     *
+     * @return Contacts
+     */
+    public function setPostecontact($postecontact)
+    {
+        $this->postecontact = $postecontact;
+
+        return $this;
+    }
+
+    /**
+     * Get postecontact
+     *
+     * @return string
+     */
+    public function getPostecontact()
+    {
+        return $this->postecontact;
+    }
 }
