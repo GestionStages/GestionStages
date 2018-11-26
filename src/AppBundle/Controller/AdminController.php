@@ -121,6 +121,7 @@ class AdminController extends Controller
             // on ferme le fichier
             fclose($fichierTitre);
 
+            $this->get('session')->getFlashBag()->add('notice','Modification de l\'accueil enregistrée !');
             return $this->redirectToRoute('homepage');
 
         }
