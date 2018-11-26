@@ -44,6 +44,15 @@
         </inverse-join-columns>
       </join-table>
     </many-to-many>
-    <many-to-many field="codetechnologie" target-entity="Technologies" mapped-by="codeproposition" fetch="LAZY"/>
+    <many-to-many field="codetechnologie" target-entity="Technologies" inversed-by="codeproposition" fetch="LAZY">
+      <join-table name="associertechnologiespropositions">
+        <join-columns>
+          <join-column name="codeProposition" referenced-column-name="codeProposition"/>
+        </join-columns>
+        <inverse-join-columns>
+          <join-column name="codeTechnologie" referenced-column-name="codeTechnologie"/>
+        </inverse-join-columns>
+      </join-table>
+    </many-to-many>
   </entity>
 </doctrine-mapping>

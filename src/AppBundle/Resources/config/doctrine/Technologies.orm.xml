@@ -9,15 +9,6 @@
         <option name="fixed"/>
       </options>
     </field>
-    <many-to-many field="codeproposition" target-entity="Propositions" inversed-by="codetechnologie" fetch="LAZY">
-      <join-table name="associertechnologiespropositions">
-        <join-columns>
-          <join-column name="codeTechnologie" referenced-column-name="codeTechnologie"/>
-        </join-columns>
-        <inverse-join-columns>
-          <join-column name="codeProposition" referenced-column-name="codeProposition"/>
-        </inverse-join-columns>
-      </join-table>
-    </many-to-many>
+    <many-to-many field="codeproposition" target-entity="Propositions" mapped-by="codetechnologie" fetch="LAZY"/>
   </entity>
 </doctrine-mapping>
