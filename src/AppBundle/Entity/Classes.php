@@ -18,7 +18,6 @@ class Classes
      *
      * @ORM\Column(name="nomClasse", type="string", length=30, nullable=false)
      *
-     * @Assert\NotNull
      * @Assert\NotBlank(message="Le nom est obligatoire")
      * @Assert\Length(
      *     min = 2,
@@ -34,7 +33,6 @@ class Classes
      *
      * @ORM\Column(name="description", type="string", length=50, nullable=false)
      *
-     * @Assert\NotNull
      * @Assert\NotBlank(message="La description est obligatoire.")
      * @Assert\Length(
      *     min = 10,
@@ -157,5 +155,63 @@ class Classes
     public function getCodeproposition()
     {
         return $this->codeproposition;
+    }
+    /**
+     * @var \DateTime
+     */
+    private $dateDebStage;
+
+    /**
+     * @var \DateTime
+     */
+    private $dateFinStage;
+
+
+    /**
+     * Set dateDebStage
+     *
+     * @param \DateTime $dateDebStage
+     *
+     * @return Classes
+     */
+    public function setDateDebStage($dateDebStage)
+    {
+        $this->dateDebStage = $dateDebStage;
+
+        return $this;
+    }
+
+    /**
+     * Get dateDebStage
+     *
+     * @return \DateTime
+     */
+    public function getDateDebStage()
+    {
+        return $this->dateDebStage;
+    }
+
+    /**
+     * Set dateFinStage
+     *
+     * @param \DateTime $dateFinStage
+     *
+     * @return Classes
+     */
+    public function setDateFinStage($dateFinStage)
+    {
+        $this->dateFinStage = $dateFinStage;
+
+        return $this;
+    }
+
+    /**
+     * Get dateFinStage
+     *
+     * @return \DateTime
+     */
+    public function getDateFinStage()
+    {
+        return $this->dateFinStage;
     }
 }

@@ -1,6 +1,8 @@
 {% extends "admin/base.html.twig" %}
 
 {% block title %}Classes{% endblock %}
+{% block stylesheets %}
+{% endblock %}
 
 {% block body %}
 
@@ -25,11 +27,29 @@
                 {{ form_errors(form.description) }}
             </div>
 
+            <div class="form-group">
+                {{ form_label(form.dateDebStage, "Date Début Stage", {'label_attr': {'class': "col-4"}}) }}
+                {{ form_widget(form.dateDebStage, {'attr': {'class': "form-control col-5"}}) }}
+                {{ form_errors(form.dateDebStage) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_label(form.dateFinStage, "Date Fin Stage", {'label_attr': {'class': "col-4"}}) }}
+                {{ form_widget(form.dateFinStage, {'attr': {'class': "form-control col-5"}}) }}
+                {{ form_errors(form.dateFinStage) }}
+            </div>
+
             <div class="btn-group" role="group" aria-label="...">
                 <button type="submit" class="btn btn-primary" >Valider</button>
             </div>
 
             {{ form_end(form) }}
+
+
+
+
         </div>
     </div>
+{% endblock %}
+{% block javascripts %}
 {% endblock %}

@@ -22,7 +22,14 @@
                         <div class="card-body">
                             <h4 class="card-title">{{ uneClasse.nomclasse }}</h4>
                             <p class="card-text">{{ uneClasse.description }}</p>
-                            <p class="card-text">Date Stage</p>
+                            <p class="card-text">DATES STAGE</p>
+                            {% if(uneClasse.dateDebStage is not null and uneClasse.dateFinStage is not null) %}
+                                <p class="card-text">Du {{ uneClasse.dateDebStage|date('d-m-Y') }}</p>
+                                <p class="card-text">Au {{ uneClasse.dateFinStage|date('d-m-Y') }}</p>
+                            {% else %}
+                                <p class="card-text">Non disponible</p>
+                            {% endif %}
+
                         </div>
                         <div class="card-footer">
                             <a href="https://iut-montpellier-sete.edu.umontpellier.fr/licences-informatique/" class="btn btn-primary">Plus d'informations</a>
