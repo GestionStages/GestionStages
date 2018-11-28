@@ -26,7 +26,7 @@ class PropositionsController extends Controller
 
 
     /**
-     * @Route("/add", name="addProposition")
+     * @Route("/propositions/add", name="addProposition")
      *
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
@@ -92,7 +92,7 @@ class PropositionsController extends Controller
     }
 
     /**
-     * @Route("/show/{id}", name="afficherPropositionbyid", requirements={"id"="\d+"})
+     * @Route("/propositions/{id}", name="afficherPropositionbyid", requirements={"id"="\d+"})
      */
     public function showPropositionById($id)
     {
@@ -106,7 +106,7 @@ class PropositionsController extends Controller
     /**
      * @param Request $request
      * @param Propositions $proposition
-     * @Route("/edit/{id}", name="editProposition", requirements={"id"="\d+"})
+     * @Route("/propositions/{id}/edit", name="editProposition", requirements={"id"="\d+"})
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
     public function edit(Request $request, Propositions $proposition)
@@ -151,7 +151,7 @@ class PropositionsController extends Controller
     }
 
     /**
-     * @Route("/show", name="afficherProposition")
+     * @Route("/propositions", name="afficherProposition")
      */
     public function showProposition()
     {
@@ -170,10 +170,11 @@ class PropositionsController extends Controller
     }
 
     /**
-     * @Route("/deleteFile/{id}", name="deletepropositionfile", requirements={"id"="\d+"})
+     * @Route("/propositions/{id}/deleteFile", name="deletepropositionfile", requirements={"id"="\d+"})
      *
      * @param Request $request
      * @param Propositions $proposition
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function deleteFile(Request $request, Propositions $proposition) {
         //Suppression du fichier

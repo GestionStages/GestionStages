@@ -65,7 +65,7 @@ class ClassesController extends Controller
      * @param Request $request
      * @param Classes $classe
      * @return Response
-     * @Route("/admin/classes/edit/{id}", name="editClasse")
+     * @Route("/admin/classes/{id}/edit", name="editClasse")
      */
     public function edit(Request $request, Classes $classe){
         $form = $this->createForm(ClassesType::class, $classe);
@@ -101,7 +101,7 @@ class ClassesController extends Controller
     /**
     * @param Classes $classe
     * @return Response
-    * @Route("/admin/classes/delete/{id}", name="deleteClasse")
+    * @Route("/admin/classes/{id}/delete", name="deleteClasse")
     *
     */
 

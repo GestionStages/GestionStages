@@ -60,7 +60,7 @@ class EntreprisesController extends Controller
      * @param Request $request
      * @param Entreprises $entreprise
      * @return Response
-     * @Route("/admin/entreprises/edit/{id}", name="editEntreprise")
+     * @Route("/admin/entreprises/{id}/edit", name="editEntreprise")
      */
     public function edit(Request $request, Entreprises $entreprise){
         $form = $this->createForm(EntreprisesType::class, $entreprise);
@@ -91,7 +91,7 @@ class EntreprisesController extends Controller
     /**
      * @param Entreprises $entreprise
      * @return Response
-     * @Route("/admin/entreprises/blacklist/{id}", name="blackListEntreprise")
+     * @Route("/admin/entreprises/{id}/blacklist", name="blackListEntreprise")
      *
      */
 
@@ -108,7 +108,7 @@ class EntreprisesController extends Controller
     /**
      * @param Entreprises $entreprise
      * @return Response
-     * @Route("/admin/entreprises/noblacklist/{id}", name="noBlackListEntreprise")
+     * @Route("/admin/entreprises/{id}/noblacklist", name="noBlackListEntreprise")
      *
      */
 
@@ -124,7 +124,7 @@ class EntreprisesController extends Controller
 
     /**
      *
-     * @Route("/admin/entreprises/show", name="showEntreprises")
+     * @Route("/admin/entreprises", name="showEntreprises")
      *
      * @return Response
      *
@@ -145,7 +145,7 @@ class EntreprisesController extends Controller
 
     /**
      *
-     * @Route("/admin/entreprises/showBlackList", name="showEntreprisesBlackList")
+     * @Route("/admin/entreprisesBlackList", name="showEntreprisesBlackList")
      *
      * @return Response
      *

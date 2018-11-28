@@ -87,7 +87,7 @@ class ContactController extends Controller
      * @param Contacts $contact
      * @param SessionInterface $session
      * @return Response
-     * @Route("/admin/contacts/edit/{id}", name="editContact")
+     * @Route("/admin/contacts/{id}/edit", name="editContact")
      */
     public function edit(Request $request, Contacts $contact, SessionInterface $session){
 
@@ -135,7 +135,7 @@ class ContactController extends Controller
      * @param Contacts $contact
      * @param SessionInterface $session
      * @return Response
-     * @Route("/admin/contacts/deleteContact/{id}", name="deleteContact")
+     * @Route("/admin/contacts/{id}/deleteContact", name="deleteContact")
      */
 
     public function delete(Contacts $contact, SessionInterface $session){
@@ -164,7 +164,7 @@ class ContactController extends Controller
 
     /**
      *
-     * @Route("/entreprises/{id}/showContacts", name="showContacts")
+     * @Route("/entreprises/{id}/contacts", name="showContacts")
      * @param Entreprises $entreprise
      * @param SessionInterface $session
      * @return Response
