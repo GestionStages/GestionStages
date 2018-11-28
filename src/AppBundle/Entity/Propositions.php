@@ -18,7 +18,6 @@ class Propositions
      *
      * @ORM\Column(name="titreProposition", type="string", length=255, nullable=false)
      *
-     * @Assert\NotNull
      * @Assert\NotBlank(message="Le titre est obligatoire.")
      * @Assert\Length(
      *     max = 255,
@@ -33,7 +32,6 @@ class Propositions
      *
      * @ORM\Column(name="descriptionProposition", type="text", nullable=false)
      *
-     * @Assert\NotNull
      * @Assert\NotBlank(message="La description est obligatoire.")
      */
     private $descriptionproposition;
