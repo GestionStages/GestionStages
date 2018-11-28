@@ -44,7 +44,7 @@
                         <td>{{ uneProposition.commentaire }}</td>
                         <td>{{ uneProposition.dateajout|date("d/m/Y H:i") }}</td>
                         <td>
-                            <a href="{{ path('editProposition', {'id': uneProposition.codeproposition}) }}" class="btn btn-primary"><i class="fa fa-edit" aria-hidden="true"></i> Editer</a><br/>
+                            <a href="{{ path('editPropositionAdmin', {'id': uneProposition.codeproposition}) }}" class="btn btn-primary"><i class="fa fa-edit" aria-hidden="true"></i> Editer</a><br/>
                             {% if uneProposition.codeEtat.codeEtat != 3 %}
                                 {% if uneProposition.codeEtat.codeEtat != 2 %}
                                     <a href="{{ path('validProposition', {'id': uneProposition.codeproposition}) }}" class="btn btn-success"><i class="fa fa-check" aria-hidden="true"></i> Valider</a><br/>

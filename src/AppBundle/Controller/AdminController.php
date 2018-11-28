@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Propositions;
 use AppBundle\Entity\Etat;
+use AppBundle\Form\PropositionsType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -33,6 +34,40 @@ class AdminController extends Controller
         $propositions = $query->getResult();
 
         return $this->render('admin/propositions/list.html.twig',['propositions' => $propositions]);
+    }
+
+    /**
+     * @param Request $request
+     * @param Propositions $proposition
+     * @Route("/admin/propositions/{id}/edit", name="editPropositionAdmin", requirements={"id"="\d+"})
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     */
+    public function edit(Request $request, Propositions $proposition)
+    {
+        $form = $this->createForm(PropositionsType::class, $proposition);
+
+        $form->handleRequest($request);
+
+        //si le formulaire a été soumis
+
+        if($form->isSubmitted() && $form->isValid()){
+            //on enregistre la proposition dans la bdd
+            $em = $this-> getDoctrine()->getManager();
+            $em->persist($proposition);
+            $em->flush();
+
+            // On affiche message de validation dans le formulaire de redirection
+            $this->get('session')->getFlashBag()->add('notice','La proposition à été modifiée !');
+
+            //Retourne form de la liste des domaines d'activités
+            return $this->redirect($this->generateUrl('showAdminListAll'));
+        }
+
+        //On génére le fichier final
+        $formView = $form->createView();
+
+        //on rend la vue
+        return $this->render('admin/propositions/propositionAdd.html.twig', array('form'=>$formView));
     }
 
     /**
