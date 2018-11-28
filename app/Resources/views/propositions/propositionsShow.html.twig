@@ -48,7 +48,7 @@
 
             <!-- Sidebar Widgets Column -->
             <div class="col-md-4">
-
+                {#
                 <!-- Search Widget -->
                 <div class="card my-4">
                     <h5 class="card-header">Search</h5>
@@ -61,25 +61,48 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Categories Widget -->
+                #}
                 <div class="card my-4">
-                    <h5 class="card-header">Categories</h5>
+                    <h5 class="card-header">Filtres</h5>
                     <div class="card-body">
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <ul class="list-unstyled mb-0">
-                                    {% for unDomaineActivite in domaineActivites  %}
-                                        <li>
-                                            <a href="#">{{ unDomaineActivite.nomdomaine }} </a>
-                                        </li>
-                                    {% endfor %}
-                                </ul>
-                            </div>
+                        <div>
+                            <form method="get" action="{{ path('afficherProposition') }}">
+                                <strong>Classe</strong>
+                                {% for uneClasse in classes  %}
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="classes[]" value="{{ uneClasse.codeclasse }}" id="classe-{{ uneClasse.codeclasse }}" {% if uneClasse.codeclasse in checkedClasses %}checked{% endif %}>
+                                        <label class="form-check-label" for="classe-{{ uneClasse.codeclasse }}">
+                                            {{ uneClasse.nomclasse }}
+                                        </label>
+                                    </div>
+                                {% endfor %}
+                                <br/>
+                                <strong>Domaine d'activité</strong>
+                                {% for unDomaineActivite in domaineActivites  %}
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="domaines[]" value="{{ unDomaineActivite.codedomaine }}" id="domaine-{{ unDomaineActivite.codedomaine }}" {% if unDomaineActivite.codedomaine in checkedDomaines %}checked{% endif %}>
+                                        <label class="form-check-label" for="domaine-{{ unDomaineActivite.codedomaine }}">
+                                            {{ unDomaineActivite.nomdomaine }}
+                                        </label>
+                                    </div>
+                                {% endfor %}
+                                <br/>
+                                <strong>Technologie</strong>
+                                {% for uneTechnologie in technologies %}
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="technos[]" value="{{ uneTechnologie.codetechnologie }}" id="techno-{{ uneTechnologie.codetechnologie }}" {% if uneTechnologie.codetechnologie in checkedTechnos %}checked{% endif %}>
+                                        <label class="form-check-label" for="techno-{{ uneTechnologie.codetechnologie }}">
+                                            {{ uneTechnologie.nomtechnologie }}
+                                        </label>
+                                    </div>
+                                {% endfor %}
+                                <br/>
+                                <input type="submit"/>
+                            </form>
                         </div>
                     </div>
                 </div>
-
+                {#
                 <!-- Side Widget -->
                 <div class="card my-4">
                     <h5 class="card-header">Side Widget</h5>
@@ -87,7 +110,7 @@
                         You can put anything you want inside of these side widgets. They are easy to use, and feature the new Bootstrap 4 card containers!
                     </div>
                 </div>
-
+                #}
             </div>
 
         </div>
