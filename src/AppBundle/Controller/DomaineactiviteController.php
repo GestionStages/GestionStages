@@ -72,7 +72,7 @@ class DomaineactiviteController extends Controller
      * @param Domaineactivite $domaineactivite
      * @param Request $request
      * @return Response
-     * @Route("/admin/domaineactivite/edit/{id}", name="editDomaineActivite")
+     * @Route("/admin/domaineactivite/{id}/edit", name="editDomaineActivite")
      *
      */
     public function edit(Request $request, Domaineactivite $domaineactivite){
@@ -107,7 +107,7 @@ class DomaineactiviteController extends Controller
     /**
      * @param Domaineactivite $domaineactivite
      * @return Response
-     * @Route("/admin/domaineactivite/delete/{id}", name="deleteDomaineActivite")
+     * @Route("/admin/domaineactivite/{id}/delete", name="deleteDomaineActivite")
      *
      *
      */

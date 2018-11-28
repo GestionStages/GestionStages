@@ -21,7 +21,7 @@ class AdminController extends Controller
     }
 
     /**
-     * @Route("/admin/list", name="showAdminListAll")
+     * @Route("/admin/offres", name="showAdminListAll")
      */
     public function showListAll()
     {
@@ -71,7 +71,7 @@ class AdminController extends Controller
     }
 
     /**
-     * @Route("/admin/valid/{id}", name="validProposition", requirements={"id"="\d+"})
+     * @Route("/admin/offres/{id}/valid", name="validProposition", requirements={"id"="\d+"})
      */
     public function approve($id)
     {
@@ -91,7 +91,7 @@ class AdminController extends Controller
     }
 
     /**
-     * @Route("/admin/reject/{id}", name="rejectProposition", requirements={"id"="\d+"})
+     * @Route("/admin/offres/{id}/reject", name="rejectProposition", requirements={"id"="\d+"})
      */
     public function reject($id)
     {
@@ -111,7 +111,7 @@ class AdminController extends Controller
     }
 
     /**
-     * @Route("/admin/archive/{id}", name="archiveProposition", requirements={"id"="\d+"})
+     * @Route("/admin/offres/{id}/archive", name="archiveProposition", requirements={"id"="\d+"})
      */
     public function archive($id)
     {
@@ -131,7 +131,7 @@ class AdminController extends Controller
     }
 
     /**
-     * @Route("/admin/editinfosgenerales", name="editinfos")
+     * @Route("/admin/accueil/edit", name="editinfos")
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
@@ -149,7 +149,7 @@ class AdminController extends Controller
             // on ferme le fichier
             fclose($fichierInfos);
 
-            // on ouvre le fichier infos en écrasant l'ancienne valeur (w+)
+            // on ouvre le fichier titre en écrasant l'ancienne valeur (w+)
             $fichierTitre = fopen(realpath('../app/Resources/views/admin/infosGenerales/titreInfoGenerales.html.twig'),'w+');
             // on ecrit la nouvelle valeur
             fwrite($fichierTitre, $titre);
