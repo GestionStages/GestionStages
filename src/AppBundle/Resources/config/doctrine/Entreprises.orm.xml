@@ -4,17 +4,17 @@
     <id name="codeentreprise" type="integer" column="codeEntreprise">
       <generator strategy="IDENTITY"/>
     </id>
-    <field name="nomentreprise" type="string" column="nomEntreprise" length="30" nullable="false">
+    <field name="nomentreprise" type="string" column="nomEntreprise" length="255" nullable="false">
       <options>
         <option name="fixed"/>
       </options>
     </field>
-    <field name="adresseentreprise" type="string" column="adresseEntreprise" length="60" nullable="false">
+    <field name="adresseentreprise" type="string" column="adresseEntreprise" length="1024" nullable="false">
       <options>
         <option name="fixed"/>
       </options>
     </field>
-    <field name="villeentreprise" type="string" column="villeEntreprise" length="30" nullable="false">
+    <field name="villeentreprise" type="string" column="villeEntreprise" length="255" nullable="false">
       <options>
         <option name="fixed"/>
       </options>

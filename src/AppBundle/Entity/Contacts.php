@@ -16,14 +16,12 @@ class Contacts
     /**
      * @var string
      *
-     * @ORM\Column(name="nomContact", type="string", length=30, nullable=false)
+     * @ORM\Column(name="nomContact", type="string", length=255, nullable=false)
      *
      * @Assert\NotNull
      * @Assert\NotBlank(message="Le nom est obligatoire.")
      * @Assert\Length(
-     *     min = 2,
-     *     max = 30,
-     *     minMessage = "Le nom doit faire au minimum {{ limit }} caractères.",
+     *     max = 255,
      *     maxMessage = "Le nom doit faire au maximum {{ limit }} caractères."
      * )
      *
@@ -33,14 +31,12 @@ class Contacts
     /**
      * @var string
      *
-     * @ORM\Column(name="prenomContact", type="string", length=30, nullable=false)
+     * @ORM\Column(name="prenomContact", type="string", length=255, nullable=false)
      *
      * @Assert\NotNull
      * @Assert\NotBlank(message="Le prénom est obligatoire.")
      * @Assert\Length(
-     *     min = 2,
-     *     max = 30,
-     *     minMessage = "Le prénom doit faire au minimum {{ limit }} caractères.",
+     *     max = 255,
      *     maxMessage = "Le prénnom doit faire au maximum {{ limit }} caractères."
      * )
      *
@@ -50,14 +46,12 @@ class Contacts
     /**
      * @var string
      *
-     * @ORM\Column(name="mailContact", type="string", length=30, nullable=false)
+     * @ORM\Column(name="mailContact", type="string", length=1024, nullable=false)
      *
      * @Assert\NotNull
      * @Assert\NotBlank
      * @Assert\Length(
-     *     min = 2,
-     *     max = 30,
-     *     minMessage = "L'adresse mail doit faire au minimum {{ limit }} caractères.",
+     *     max = 1024,
      *     maxMessage = "L'adresse mail doit faire au maximum {{ limit }} caractères."
      * )
      * @Assert\Email(

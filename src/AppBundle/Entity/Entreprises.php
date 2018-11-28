@@ -18,14 +18,12 @@ class Entreprises
      *
      *
      *
-     * @ORM\Column(name="nomEntreprise", type="string", length=30, nullable=false)
+     * @ORM\Column(name="nomEntreprise", type="string", length=255, nullable=false)
      *
      * @Assert\NotNull
      * @Assert\NotBlank(message="Le nom est obligatoire.")
      * @Assert\Length(
-     *     min = 2,
-     *     max = 30,
-     *     minMessage = "Le nom doit faire au minimum {{ limit }} caractères.",
+     *     max = 255,
      *     maxMessage = "Le nom doit faire au maximum {{ limit }} caractères."
      * )
      *
@@ -35,14 +33,12 @@ class Entreprises
     /**
      * @var string
      *
-     * @ORM\Column(name="adresseEntreprise", type="string", length=60, nullable=false)
+     * @ORM\Column(name="adresseEntreprise", type="string", length=1024, nullable=false)
      *
      * @Assert\NotNull
      * @Assert\NotBlank(message="L'adresse de l'entreprise est obligatoire.")
      * @Assert\Length(
-     *     min = 8,
-     *     max = 60,
-     *     minMessage = "L'adresse doit faire au minimum {{ limit }} caractères.",
+     *     max = 1024,
      *     maxMessage = "L'adresse doit faire au maximum {{ limit }} caractères."
      * )
      */
@@ -52,14 +48,12 @@ class Entreprises
      * @var string
      *
      *
-     * @ORM\Column(name="villeEntreprise", type="string", length=30, nullable=false)
+     * @ORM\Column(name="villeEntreprise", type="string", length=255, nullable=false)
      *
      * @Assert\NotNull
      * @Assert\NotBlank(message="La ville de l'entreprise est obligatoire.")
      * @Assert\Length(
-     *     min = 3,
-     *     max = 30,
-     *     minMessage = "Le nom de la ville doit faire au minimum {{ limit }} caractères.",
+     *     max = 255,
      *     maxMessage = "Le nom de la ville doit faire au maximum {{ limit }} caractères."
      * )
      *

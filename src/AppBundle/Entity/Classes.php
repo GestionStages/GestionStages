@@ -16,13 +16,11 @@ class Classes
     /**
      * @var string
      *
-     * @ORM\Column(name="nomClasse", type="string", length=30, nullable=false)
+     * @ORM\Column(name="nomClasse", type="string", length=255, nullable=false)
      *
      * @Assert\NotBlank(message="Le nom est obligatoire")
      * @Assert\Length(
-     *     min = 2,
-     *     max = 30,
-     *     minMessage = "Le nom de la classe doit faire au minimum {{ limit }} caractères.",
+     *     max = 255,
      *     maxMessage = "Le nom de la classe doit faire au maximum {{ limit }} caractères."
      * )
      */
@@ -31,14 +29,12 @@ class Classes
     /**
      * @var string
      *
-     * @ORM\Column(name="description", type="string", length=50, nullable=false)
+     * @ORM\Column(name="description", type="string", length=1024, nullable=false)
      *
      * @Assert\NotBlank(message="La description est obligatoire.")
      * @Assert\Length(
-     *     min = 10,
-     *     max = 50,
-     *     minMessage = "Le description de la classe doit faire au minimum {{ limit }} caractères.",
-     *     maxMessage = "Le description de la classe doit faire au maximum {{ limit }} caractères."
+     *     max = 1024,
+     *     maxMessage = "La description de la classe doit faire au maximum {{ limit }} caractères."
      * )
      */
     private $description;

@@ -4,22 +4,22 @@
     <id name="codecontact" type="integer" column="codeContact">
       <generator strategy="IDENTITY"/>
     </id>
-    <field name="nomcontact" type="string" column="nomContact" length="30" nullable="false">
+    <field name="nomcontact" type="string" column="nomContact" length="255" nullable="false">
       <options>
         <option name="fixed"/>
       </options>
     </field>
-    <field name="prenomcontact" type="string" column="prenomContact" length="30" nullable="false">
+    <field name="prenomcontact" type="string" column="prenomContact" length="255" nullable="false">
       <options>
         <option name="fixed"/>
       </options>
     </field>
-    <field name="postecontact" type="string" column="posteContact" length="50" nullable="false">
+    <field name="postecontact" type="string" column="posteContact" length="255" nullable="false">
       <options>
         <option name="fixed"/>
       </options>
     </field>
-    <field name="mailcontact" type="string" column="mailContact" length="30" nullable="false">
+    <field name="mailcontact" type="string" column="mailContact" length="1024" nullable="false">
       <options>
         <option name="fixed"/>
       </options>

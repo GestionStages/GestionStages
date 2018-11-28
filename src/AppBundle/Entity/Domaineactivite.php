@@ -16,9 +16,7 @@ class Domaineactivite
      * @Assert\NotNull
      * @Assert\NotBlank
      * @Assert\Length(
-     *     min = 2,
-     *     max = 50,
-     *     minMessage = "Le nom du domaine d'activité doit faire au minimum {{ limit }} caractères.",
+     *     max = 255,
      *     maxMessage = "Le nom du domaine d'activité doit faire au maximum {{ limit }} caractères."
      * )
      */
