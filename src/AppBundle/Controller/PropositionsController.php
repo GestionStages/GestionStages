@@ -140,7 +140,7 @@ class PropositionsController extends Controller
             $this->get('session')->getFlashBag()->add('notice','La proposition à été modifiée !');
 
             //Retourne form de la liste des domaines d'activités
-            return $this->redirect($this->generateUrl('afficherPropositionbyid',['id' => $proposition->getCodeproposition()]));
+            return $this->redirect($this->generateUrl('afficherProposition'));
         }
 
         //On génére le fichier final
