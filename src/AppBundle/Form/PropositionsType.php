@@ -36,7 +36,7 @@ class PropositionsType extends AbstractType
 	            'multiple' => true,
 	            'expanded' => true,
             ))
-            ->add('file', FileType::class, array('label' => 'Fiche de poste (PDF)'))
+            ->add('file', FileType::class, array('label' => 'Fiche de poste (DOC, DOCX, PDF)'))
 	        ->add('commentaire',TextareaType::class);
     }/**
      * {@inheritdoc}

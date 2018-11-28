@@ -9,18 +9,28 @@ use AppBundle\Entity\Propositions;
 use AppBundle\Form\PropositionsType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class PropositionsController extends Controller
 {
+    /**
+     * @return string
+     */
+    private function generateUniqueFileName()
+    {
+        return md5(uniqid());
+    }
+
+
     /**
      * @Route("/add", name="addProposition")
      *
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
-
     public function addAction(Request $request)
     {
 
@@ -32,7 +42,6 @@ class PropositionsController extends Controller
         $form->handleRequest($request);
 
         //si le formulaire a été soumis et qu'il est valide
-
         if($form->isSubmitted() && $form->isValid()){
             $repository = $this->getDoctrine()
                 ->getRepository(Etat::class);
@@ -46,9 +55,25 @@ class PropositionsController extends Controller
 
             //on enregistre la proposition dans la bdd
             $em = $this-> getDoctrine()->getManager();
+
             // on affecte l'etat en attente par default
             $proposition->setCodeetat($etat);
             $proposition->setDateajout(new \DateTime('NOW'));
+
+            /** @var UploadedFile $file */
+            if(!is_null($file = $proposition->getFile())) {
+                $filename = $this->generateUniqueFileName().".".$file->guessExtension();
+
+                try {
+                    $file->move(
+                        $this->getParameter('fileDirectory'),
+                        $filename
+                    );
+
+                    $proposition->setFile($filename);
+                } catch (FileException $e) {}
+            }
+
             $em->persist($proposition);
             $em->flush();
 
@@ -91,15 +116,28 @@ class PropositionsController extends Controller
         $form->handleRequest($request);
 
         //si le formulaire a été soumis
-
         if($form->isSubmitted() && $form->isValid()){
+            /** @var UploadedFile $file */
+            if(!is_null($file = $proposition->getFile())) {
+                $filename = $this->generateUniqueFileName().".".$file->guessExtension();
+
+                try {
+                    $file->move(
+                        $this->getParameter('fileDirectory'),
+                        $filename
+                    );
+
+                    $proposition->setFile($filename);
+                } catch (FileException $e) {}
+            }
+
             //on enregistre la proposition dans la bdd
             $em = $this-> getDoctrine()->getManager();
             $em->persist($proposition);
             $em->flush();
 
             // On affiche message de validation dans le formulaire de redirection
-            $this->get('session')->getFlashBag()->add('notice','La proposition à été ajoutée !');
+            $this->get('session')->getFlashBag()->add('notice','La proposition à été modifiée !');
 
             //Retourne form de la liste des domaines d'activités
             return $this->redirect($this->generateUrl('afficherPropositionbyid',['id' => $proposition->getCodeproposition()]));
@@ -131,4 +169,27 @@ class PropositionsController extends Controller
         return $this->render('propositions/propositionsShow.html.twig',['propositions' => $propositions, 'domaineActivites'=>$domaineAct]);
     }
 
+    /**
+     * @Route("/deleteFile/{id}", name="deletepropositionfile", requirements={"id"="\d+"})
+     *
+     * @param Request $request
+     * @param Propositions $proposition
+     */
+    public function deleteFile(Request $request, Propositions $proposition) {
+        //Suppression du fichier
+        $file = $proposition->getFile();
+        unlink($this->getParameter('fileDirectory')."/".$file);
+
+        //Suppression de la référence en DB
+        $proposition->setFile(null);
+        $em = $this-> getDoctrine()->getManager();
+        $em->persist($proposition);
+        $em->flush();
+
+        // On affiche message de validation dans le formulaire de redirection
+        $this->get('session')->getFlashBag()->add('notice','La proposition à été modifiée !');
+
+        //Retourne form de la liste des domaines d'activités
+        return $this->redirect($this->generateUrl('afficherPropositionbyid',['id' => $proposition->getCodeproposition()]));
+    }
 }

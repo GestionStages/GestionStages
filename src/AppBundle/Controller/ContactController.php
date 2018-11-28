@@ -69,7 +69,7 @@ class ContactController extends Controller
             $this->get('session')->getFlashBag()->add('notice','Le contact ('.$contact->getNomcontact(). " " . $contact->getPrenomcontact() . ') est ajouté !');
 
             //Retourne form de la liste des contacts de l'entreprise
-            return $this->render('admin/contacts/contactsShow.html.twig',['contacts' => $entreprise->getCodecontact(), 'entreprise' => $entreprise]);
+            return $this->redirectToRoute('showContacts',['id' => $entreprise->getCodeEntreprise()]);
 
         }
 
@@ -119,7 +119,7 @@ class ContactController extends Controller
                 $this->get('session')->getFlashBag()->add('notice','Contact ('.$contact->getNomcontact() . " " . $contact->getPrenomcontact() .') modifié !');
 
                 // Retourne form de la liste des contacts de l'entreprise
-                return $this->render('admin/contacts/contactsShow.html.twig',['contacts' => $entreprise->getCodecontact(), 'entreprise' => $entreprise]);
+                return $this->redirectToRoute('showContacts',['id' => $entreprise->getCodeEntreprise()]);
 
             }
 

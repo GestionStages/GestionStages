@@ -40,6 +40,11 @@
                         {% endfor %}
                         <hr/>
                         <p class="card-text">{{ proposition.descriptionproposition | escape | linkify | raw | nl2br }}</p>
+                        {% if proposition.file is not null %}
+                            <hr/>
+                            <a href="{{ asset("uploads/"~proposition.file) }}" class="btn btn-primary btn-sm"><i class="fa fa-file"></i> Voir la fiche de poste</a>
+                            <a href="{{ path('deletepropositionfile', {'id': proposition.codeproposition}) }}" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Supprimer la fiche de poste</a>
+                        {% endif %}
                     </div>
                     <div class="card-footer text-muted">
                         Posté par <a href="#">{{ proposition.codeentreprise.nomentreprise }}</a> le {{ proposition.dateajout|date("d/m/Y") }}
