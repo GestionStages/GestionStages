@@ -110,7 +110,7 @@ class ClassesController extends Controller
         $em->remove($classe);
         $em->flush();
         // On affiche message de validation dans le formulaire de redirection
-        $this->get('session')->getFlashBag()->add('notice','Le classe ('.$classe->getNomclasse().') est supprimée !');
+        $this->get('session')->getFlashBag()->add('notice','La classe ('.$classe->getNomclasse().') est supprimée !');
 
         //Retourne form de la liste des classes
         return $this->redirect($this->generateUrl('showClasses'));
