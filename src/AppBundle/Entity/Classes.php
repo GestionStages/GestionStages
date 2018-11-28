@@ -4,12 +4,14 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Classes
  *
  * @ORM\Table(name="classes")
  * @ORM\Entity
+ * @UniqueEntity(fields="nomclasse", message="Une classe existant possède déjà ce nom.")
  */
 class Classes
 {

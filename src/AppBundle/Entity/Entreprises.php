@@ -4,12 +4,14 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Entreprises
  *
  * @ORM\Table(name="entreprises")
  * @ORM\Entity
+ * @UniqueEntity(fields="nomentreprise", message="Une entreprise existante possède déjà ce nom.")
  */
 class Entreprises
 {
@@ -20,7 +22,6 @@ class Entreprises
      *
      * @ORM\Column(name="nomEntreprise", type="string", length=30, nullable=false)
      *
-     * @Assert\NotNull
      * @Assert\NotBlank(message="Le nom est obligatoire.")
      * @Assert\Length(
      *     min = 2,
@@ -37,7 +38,6 @@ class Entreprises
      *
      * @ORM\Column(name="adresseEntreprise", type="string", length=60, nullable=false)
      *
-     * @Assert\NotNull
      * @Assert\NotBlank(message="L'adresse de l'entreprise est obligatoire.")
      * @Assert\Length(
      *     min = 8,
@@ -54,7 +54,6 @@ class Entreprises
      *
      * @ORM\Column(name="villeEntreprise", type="string", length=30, nullable=false)
      *
-     * @Assert\NotNull
      * @Assert\NotBlank(message="La ville de l'entreprise est obligatoire.")
      * @Assert\Length(
      *     min = 3,
@@ -67,11 +66,10 @@ class Entreprises
     private $villeentreprise;
 
     /**
-     * @var int
+     * @var string
      *
-     * @ORM\Column(name="codePostalEntreprise", type="int", nullable=false)
+     * @ORM\Column(name="codePostalEntreprise", type="string", length=5, nullable=false)
      *
-     * @Assert\NotBlank
      * @Assert\NotBlank(message="Le code postal est obligatoire")
      * @Assert\Regex(
      *     pattern= "#^[0-9]{5,5}$#",
@@ -86,7 +84,6 @@ class Entreprises
      *
      * @ORM\Column(name="telEntreprise", type="string", length=10, nullable=false)
      *
-     * @Assert\NotNull
      * @Assert\NotBlank(message="Le téléphone est obligatoire")
      *
      * @Assert\Regex(

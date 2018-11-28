@@ -3,12 +3,15 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Technologies
  *
  * @ORM\Table(name="technologies")
  * @ORM\Entity
+ * @UniqueEntity(fields="nomtechnologie", message="Une technologie existante possède déjà ce nom.")
  */
 class Technologies
 {
@@ -16,6 +19,11 @@ class Technologies
      * @var string
      *
      * @ORM\Column(name="nomTechnologie", type="string", length=30, nullable=false)
+     * @Assert\NotBlank(message="Le nom est obligatoire.")
+     * @Assert\Length(
+     *     max = 30,
+     *     maxMessage = "Le nom doit faire au maximum {{ limit }} caractères."
+     * )
      */
     private $nomtechnologie;
 
