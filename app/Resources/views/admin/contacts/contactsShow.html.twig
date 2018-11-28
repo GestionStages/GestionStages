@@ -31,15 +31,13 @@
                                 <a href="{{ path('editContact', {'id':unContact.codecontact}) }}" class="btn btn-sm btn-primary">
                                     <i class="fa fa-edit" aria-hidden="true"></i> Editer
                                 </a>
-                                <a href="" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#deleteContactModal">
+                                <a href="" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#deleteContactModal-{{ unContact.codecontact }}">
                                     <i class="fa fa-trash" aria-hidden="true"></i> Supprimer
                                 </a>
                             </div>
                         </td>
                     </tr>
-
                     {% include '/admin/contacts/modals/deleteContactModal.html.twig'%}
-
                 {% endfor %}
                 </tbody>
             </table>
