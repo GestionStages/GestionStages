@@ -88,9 +88,9 @@ class Propositions
     private $codetechnologie;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(name="file", type="string", length=1024, nullable=true)
      *
-     * @Assert\File(mimeTypes={ "application/pdf" })
+     * @Assert\File(mimeTypes={ "application/pdf", "application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document" })
      */
     private $file;
 

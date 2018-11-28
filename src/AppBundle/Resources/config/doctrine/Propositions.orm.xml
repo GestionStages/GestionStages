@@ -24,6 +24,7 @@
         <option name="fixed"/>
       </options>
     </field>
+    <field name="file" type="string" length="1024" nullable="true"/>
     <many-to-one field="codeentreprise" target-entity="Entreprises" fetch="LAZY">
       <join-columns>
         <join-column name="codeEntreprise" referenced-column-name="codeEntreprise"/>
