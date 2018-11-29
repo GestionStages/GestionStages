@@ -50,8 +50,10 @@ class Propositions
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Entreprises")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="codeEntreprise", referencedColumnName="codeEntreprise")
+     *   @ORM\JoinColumn(name="codeEntreprise", referencedColumnName="codeEntreprise", nullable=false)
      * })
+     *
+     * @Assert\NotBlank(message="L'entreprise est obligatoire.")
      */
     private $codeentreprise;
 

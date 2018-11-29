@@ -131,7 +131,17 @@ class PropositionsController extends Controller
                     );
 
                     $proposition->setFile($filename);
-                } catch (FileException $e) {}
+                } catch (FileException $e) {
+                    $this->get('session')->getFlashBag()->add('error','Une erreur est survenue lors de la sauvegarde du fichier !');
+                    return $this->render('propositions:propositionAdd.html.twig', array('form'=>$form->createView()));
+                }
+            }
+
+            /** @var Entreprises $entreprise */
+            $entreprise = $form->getData()->getCodeEntreprise();
+            if($entreprise->getBlacklister()) {
+                $this->get('session')->getFlashBag()->add('error',"L'entreprise sélectionnée est invalide !");
+                return $this->render('propositions:propositionAdd.html.twig', array('form'=>$form->createView()));
             }
 
             //on enregistre la proposition dans la bdd

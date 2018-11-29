@@ -27,7 +27,7 @@
     <field name="file" type="string" length="1024" nullable="true"/>
     <many-to-one field="codeentreprise" target-entity="Entreprises" fetch="LAZY">
       <join-columns>
-        <join-column name="codeEntreprise" referenced-column-name="codeEntreprise"/>
+        <join-column name="codeEntreprise" referenced-column-name="codeEntreprise" nullable="false"/>
       </join-columns>
     </many-to-one>
     <many-to-one field="codeetat" target-entity="Etat" fetch="LAZY">

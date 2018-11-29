@@ -76,7 +76,7 @@
     <script>
         $('#appbundle_propositions_codeentreprise').select2({
             ajax: {
-                url: './entreprises/search',
+                url: '{{ path('app_entreprises_searchentreprise') }}',
                 dataType: 'json',
                 delay: 250,
                 cache: true,
