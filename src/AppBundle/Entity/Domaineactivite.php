@@ -4,17 +4,21 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Domaineactivite
+ * @ORM\Table(name="domaineactivite")
+ * @ORM\Entity
+ * @UniqueEntity(fields="nomdomaine", message="Un domaine d'activité existant possède déjà ce nom.")
  */
 class Domaineactivite
 {
     /**
      * @var string
      *
-     * @Assert\NotNull
-     * @Assert\NotBlank
+     * @ORM\Column(name="nomDomaine", type="string", length=30, nullable=false)
+     * @Assert\NotBlank(message = "Le nom est obligatoire.")
      * @Assert\Length(
      *     max = 255,
      *     maxMessage = "Le nom du domaine d'activité doit faire au maximum {{ limit }} caractères."
@@ -24,6 +28,9 @@ class Domaineactivite
 
     /**
      * @var integer
+     * @ORM\Column(name="codeDomaine", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $codedomaine;
 
@@ -109,4 +116,3 @@ class Domaineactivite
         return $this->codeentreprise;
     }
 }
-

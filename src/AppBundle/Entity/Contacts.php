@@ -18,7 +18,6 @@ class Contacts
      *
      * @ORM\Column(name="nomContact", type="string", length=255, nullable=false)
      *
-     * @Assert\NotNull
      * @Assert\NotBlank(message="Le nom est obligatoire.")
      * @Assert\Length(
      *     max = 255,
@@ -33,7 +32,6 @@ class Contacts
      *
      * @ORM\Column(name="prenomContact", type="string", length=255, nullable=false)
      *
-     * @Assert\NotNull
      * @Assert\NotBlank(message="Le prénom est obligatoire.")
      * @Assert\Length(
      *     max = 255,
@@ -48,8 +46,7 @@ class Contacts
      *
      * @ORM\Column(name="mailContact", type="string", length=1024, nullable=false)
      *
-     * @Assert\NotNull
-     * @Assert\NotBlank
+     * @Assert\NotBlank(message="Le mail est obligatoire.")
      * @Assert\Length(
      *     max = 1024,
      *     maxMessage = "L'adresse mail doit faire au maximum {{ limit }} caractères."
@@ -65,8 +62,7 @@ class Contacts
      *
      * @ORM\Column(name="telContact", type="string", length=10, nullable=false)
      *
-     * @Assert\NotNull
-     * @Assert\NotBlank
+     * @Assert\NotBlank("Le téléphone est obligatoire.")
      * @Assert\Regex(
      *      pattern= "#^(?:(?:\+|00)33|0)\s*[1-9](?:[\s.-]*\d{2}){4}$#",
      *     match=true,
