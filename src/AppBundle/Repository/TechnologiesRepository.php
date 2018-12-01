@@ -12,7 +12,7 @@ class TechnologiesRepository extends EntityRepository {
 			->createQuery('
 					SELECT t
 					FROM AppBundle:Technologies t
-					WHERE t.nomTechnologie LIKE :name
+					WHERE t.nomtechnologie LIKE :name
 					')
 			->setParameter('name', '%'.$name.'%')
 			->getResult();

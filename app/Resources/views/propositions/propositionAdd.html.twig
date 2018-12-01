@@ -39,12 +39,7 @@
 
         <div class="form-group form-inline row checkbox-inline">
             {{ form_label(form.codetechnologie, "Technologie(s) utilisée(s)", {'label_attr': {'class': "col-4"}}) }}
-            {% for technologie in form.codetechnologie %}
-                <div class="form-check form-check-inline">
-                    {{ form_widget(technologie, {'attr': {'class': "form-check-input"}}) }}
-                    {{ form_label(technologie, null, {'label_attr': {'class': "form-check-label"}}) }}
-                </div>
-            {% endfor %}
+            {{ form_widget(form.codetechnologie, {'attr': {'class': "form-control col-5"}}) }}
             {{ form_errors(form.codetechnologie) }}
         </div>
 
@@ -80,6 +75,16 @@
                 dataType: 'json',
                 delay: 200,
                 cache: true,
+            },
+            language: 'fr'
+        });
+        $('#appbundle_propositions_codetechnologie').select2({
+            ajax: {
+                url: '{{ path('app_technologies_searchtechnologie') }}',
+                dataType: 'json',
+                delay: 200,
+                cache: true,
+                tags: true,
             },
             language: 'fr'
         });
