@@ -160,6 +160,6 @@ class AdminController extends Controller
             return $this->redirectToRoute('homepage');
 
         }
-        return $this->render('admin/InfosGenerales/infoGeneralesEdit.html.twig', array('infos'=> file_get_contents(realpath('../app/Resources/views/admin/infosGenerales/infoGenerales.html.twig')),'titre'=> file_get_contents(realpath('../app/Resources/views/admin/infosGenerales/titreInfoGenerales.html.twig'))));
+        return $this->render('admin/infosGenerales/infoGeneralesEdit.html.twig', array('infos'=> file_get_contents(realpath('../app/Resources/views/admin/infosGenerales/infoGenerales.html.twig')),'titre'=> file_get_contents(realpath('../app/Resources/views/admin/infosGenerales/titreInfoGenerales.html.twig'))));
     }
 }
