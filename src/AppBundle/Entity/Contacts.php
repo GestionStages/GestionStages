@@ -62,7 +62,7 @@ class Contacts
      *
      * @ORM\Column(name="telContact", type="string", length=10, nullable=false)
      *
-     * @Assert\NotBlank("Le téléphone est obligatoire.")
+     * @Assert\NotBlank(message="Le téléphone est obligatoire.")
      * @Assert\Regex(
      *      pattern= "#^(?:(?:\+|00)33|0)\s*[1-9](?:[\s.-]*\d{2}){4}$#",
      *     match=true,
