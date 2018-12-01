@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Technology</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Nomtechnologie</th>
+                <td>{{ technology.nomtechnologie }}</td>
+            </tr>
+            <tr>
+                <th>Codetechnologie</th>
+                <td>{{ technology.codetechnologie }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('technologies_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('technologies_edit', { 'codetechnologie': technology.codetechnologie }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}
