@@ -27,7 +27,7 @@
         </div>
 
         <div class="form-group form-inline row">
-            {{ form_label(form.codeclasse, "Classe(s) concernée(s) (*)", {'label_attr': {'class': "col-4"}}) }}
+            {{ form_label(form.codeclasse, "Classe(s) concernée(s)", {'label_attr': {'class': "col-4"}}) }}
             {% for classe in form.codeclasse %}
                 <div class="form-check form-check-inline">
                     {{ form_widget(classe, {'attr': {'class': "form-check-input"}}) }}
@@ -38,7 +38,7 @@
         </div>
 
         <div class="form-group form-inline row checkbox-inline">
-            {{ form_label(form.codetechnologie, "Technologie(s) utilisée(s) (*)", {'label_attr': {'class': "col-4"}}) }}
+            {{ form_label(form.codetechnologie, "Technologie(s) utilisée(s)", {'label_attr': {'class': "col-4"}}) }}
             {% for technologie in form.codetechnologie %}
                 <div class="form-check form-check-inline">
                     {{ form_widget(technologie, {'attr': {'class': "form-check-input"}}) }}
