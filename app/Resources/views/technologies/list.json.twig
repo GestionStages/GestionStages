@@ -1,0 +1,6 @@
+{ "results":
+    [{% for technologie in results -%}
+        {{ {id: technologie.codeTechnologie, text: technologie.nomTechnologie}|json_encode|raw }}
+        {%- if not loop.last %},{% endif %}
+    {%- endfor %}]
+}
