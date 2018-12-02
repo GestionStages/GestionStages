@@ -229,15 +229,16 @@
         <section class="content-header">
             <h1>{{ block('title') }}</h1>
         </section>
-
-        {% set flashbag_notices = app.session.flashbag.get('notice')%}
-        {% if flashbag_notices is not empty %}
-            <ul class="error">
-                {% for notice in flashbag_notices %}
-                    <li> {{ notice }}</li>
-                {% endfor %}
-            </ul>
-        {% endif %}
+        {% for error in app.session.flashbag.get('error') %}
+            <div class="alert alert-error">
+                {{ error }}
+            </div>
+        {% endfor %}
+        {% for notice in app.session.flashbag.get('notice') %}
+            <div class="alert alert-success">
+                {{ notice }}
+            </div>
+        {% endfor %}
 
         <section class="content">
             {% block body %} {% endblock %}
