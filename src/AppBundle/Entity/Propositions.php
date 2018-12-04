@@ -355,4 +355,62 @@ class Propositions
     {
         return $this->codeetat;
     }
+    /**
+     * @var \AppBundle\Entity\Etudiants
+     */
+    private $codeEtudiant;
+
+
+    /**
+     * Set codeEtudiant
+     *
+     * @param \AppBundle\Entity\Etudiants $codeEtudiant
+     *
+     * @return Propositions
+     */
+    public function setCodeEtudiant(\AppBundle\Entity\Etudiants $codeEtudiant = null)
+    {
+        $this->codeEtudiant = $codeEtudiant;
+
+        return $this;
+    }
+
+    /**
+     * Get codeEtudiant
+     *
+     * @return \AppBundle\Entity\Etudiants
+     */
+    public function getCodeEtudiant()
+    {
+        return $this->codeEtudiant;
+    }
+    /**
+     * @var \AppBundle\Entity\Professeur
+     */
+    private $codeProfesseur;
+
+
+    /**
+     * Set codeProfesseur
+     *
+     * @param \AppBundle\Entity\Professeur $codeProfesseur
+     *
+     * @return Propositions
+     */
+    public function setCodeProfesseur(\AppBundle\Entity\Professeur $codeProfesseur = null)
+    {
+        $this->codeProfesseur = $codeProfesseur;
+
+        return $this;
+    }
+
+    /**
+     * Get codeProfesseur
+     *
+     * @return \AppBundle\Entity\Professeur
+     */
+    public function getCodeProfesseur()
+    {
+        return $this->codeProfesseur;
+    }
 }

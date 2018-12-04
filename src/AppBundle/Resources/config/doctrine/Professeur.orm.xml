@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity repository-class="AppBundle\Repository\ProfesseurRepository" name="AppBundle\Entity\Professeur">
+    <id name="id" type="integer" column="id">
+      <generator strategy="AUTO"/>
+    </id>
+    <field name="nomProf" type="string" column="nomProf" length="255"/>
+    <field name="prenomProf" type="string" column="prenomProf" length="255"/>
+    <field name="mailProf" type="string" column="mailProf" length="255"/>
+  </entity>
+</doctrine-mapping>

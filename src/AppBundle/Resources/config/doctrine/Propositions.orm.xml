@@ -25,9 +25,19 @@
       </options>
     </field>
     <field name="file" type="string" length="1024" nullable="true"/>
+    <one-to-one field="codeEtudiant" target-entity="Etudiant" inversed-by="codeProposition">
+      <join-columns>
+        <join-column name="codeEtudiant" referenced-column-name="id" nullable="true"/>
+      </join-columns>
+    </one-to-one>
     <many-to-one field="codeentreprise" target-entity="Entreprises" fetch="LAZY">
       <join-columns>
         <join-column name="codeEntreprise" referenced-column-name="codeEntreprise" nullable="false"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="codeProfesseur" target-entity="Professeur" fetch="LAZY">
+      <join-columns>
+        <join-column name="codeProfesseur" referenced-column-name="id" nullable="true"/>
       </join-columns>
     </many-to-one>
     <many-to-one field="codeetat" target-entity="Etat" fetch="LAZY">

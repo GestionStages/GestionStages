@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity repository-class="AppBundle\Repository\EtudiantRepository" name="AppBundle\Entity\Etudiant">
+    <id name="id" type="integer" column="id">
+      <generator strategy="AUTO"/>
+    </id>
+    <field name="nomEtudiant" type="string" column="nomEtudiant" length="255"/>
+    <field name="prenomEtudiant" type="string" column="prenomEtudiant" length="255"/>
+    <field name="mailEtudiant" type="string" column="mailEtudiant" length="255"/>
+    <field name="telEtudiant" type="string" column="telEtudiant" length="10"/>
+    <one-to-one field="codeProposition" target-entity="Propositions" mapped-by="codeEtudiant" />
+  </entity>
+</doctrine-mapping>
