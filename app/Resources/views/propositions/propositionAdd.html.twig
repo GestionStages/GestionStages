@@ -9,7 +9,7 @@
         {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
         <div class="form-group form-inline row">
             {{ form_label(form.titreproposition, "Nom de la proposition (*)", {'label_attr': {'class': "col-4"}}) }}
-            {{ form_widget(form.titreproposition, {'attr': {'class': "form-control col-5"}}) }}
+            {{ form_widget(form.titreproposition, {'attr': {'class': "form-control col-5", 'maxlength': "255"}}) }}
             {{ form_errors(form.titreproposition) }}
         </div>
 
