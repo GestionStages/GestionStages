@@ -79,14 +79,14 @@
             language: 'fr'
         });
         $('#appbundle_propositions_codetechnologie').select2({
+            multiple: true,
             ajax: {
                 url: '{{ path('app_technologies_searchtechnologie') }}',
                 dataType: 'json',
                 delay: 200,
                 cache: true,
-                multiple: true,
-                tags: true,
             },
+            tags: true,
             language: 'fr'
         });
     </script>
