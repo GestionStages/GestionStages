@@ -10,7 +10,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * Entreprises
  *
  * @ORM\Table(name="entreprises")
- * @ORM\Entity
+ * @ORM\Entity (repositoryClass="AppBundle\Repository\EntreprisesRepository")
  * @UniqueEntity(fields="nomentreprise", message="Une entreprise existante possède déjà ce nom.")
  */
 class Entreprises
