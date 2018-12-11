@@ -3,6 +3,7 @@
 namespace AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -20,7 +21,7 @@ class ContactsType extends AbstractType
             $builder
                 ->add('nomcontact', TextType::class, array('disabled' => true))
                 ->add('prenomcontact',TextType::class, array('disabled' => true))
-                ->add('mailcontact', TextType::class )
+                ->add('mailcontact', EmailType::class)
                 ->add('telcontact', TelType::class)
                 ->add('postecontact',TextType::class);
         }
@@ -30,7 +31,7 @@ class ContactsType extends AbstractType
             $builder
                 ->add('nomcontact', TextType::class)
                 ->add('prenomcontact',TextType::class)
-                ->add('mailcontact', TextType::class )
+                ->add('mailcontact', EmailType::class)
                 ->add('telcontact', TelType::class)
                 ->add('postecontact',TextType::class);
         }
