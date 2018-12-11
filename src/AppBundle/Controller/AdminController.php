@@ -17,7 +17,9 @@ class AdminController extends Controller
      */
     public function showHome()
     {
-        return $this->render('admin/home.html.twig');
+        $repository = $this->getDoctrine()->getManager()->getRepository('AppBundle:Propositions');
+        $stat = $repository->nbEnAttenteValid();
+        return $this->render('admin/home.html.twig', ['stat'=>$stat]);
     }
 
     /**
@@ -34,6 +36,16 @@ class AdminController extends Controller
         $propositions = $query->getResult();
 
         return $this->render('admin/propositions/list.html.twig',['propositions' => $propositions]);
+    }
+    /**
+     * @Route("/admin/stat", name="statAdmin")
+     */
+    public function statAdmin()
+    {
+        $repository = $this->getDoctrine()->getManager()->getRepository('AppBundle:Propositions');
+        $stat = $repository->nbEnAttenteValid();
+
+        return new Response($stat);
     }
 
     /**
