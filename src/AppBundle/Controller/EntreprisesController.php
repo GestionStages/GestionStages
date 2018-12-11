@@ -131,6 +131,7 @@ class EntreprisesController extends Controller
      */
     public function showEntreprises()
     {
+        //TODO: A Déplacer dans repository EntrepriseRepository
         $repository = $this->getDoctrine()
             ->getRepository(Entreprises::class);
 
@@ -152,6 +153,7 @@ class EntreprisesController extends Controller
      */
     public function showEntreprisesBlackList()
     {
+        //TODO: A Déplacer dans repository EntrepriseRepository
         $repository = $this->getDoctrine()
             ->getRepository(Entreprises::class);
 
@@ -171,6 +173,7 @@ class EntreprisesController extends Controller
 	 */
     public function searchEntreprise(Request $request)
     {
+        //TODO: A Déplacer dans repository EntrepriseRepository
     	$q = $request->query->get('term');
     	$results = $this->getDoctrine()->getRepository(Entreprises::class)
             ->createQueryBuilder('e')

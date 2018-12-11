@@ -27,6 +27,7 @@ class AdminController extends Controller
      */
     public function showListAll()
     {
+        //TODO: A deplacer dans un repository !
         $repository = $this->getDoctrine()->getRepository(Propositions::class);
 
         $query = $repository->createQueryBuilder('p')
@@ -42,6 +43,7 @@ class AdminController extends Controller
      */
     public function statAdmin()
     {
+        //TODO: Function de test
         $repository = $this->getDoctrine()->getManager()->getRepository('AppBundle:Propositions');
         $stat = $repository->nbEnAttenteValid();
 

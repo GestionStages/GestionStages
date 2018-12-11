@@ -49,6 +49,7 @@ class PropositionsController extends Controller
             $repository = $this->getDoctrine()
                 ->getRepository(Etat::class);
 
+//TODO: A Déplacer dans repository PropositionsRepository
             //recuperation de l'entreprise par l'id passer en session
             $etat = $repository->createQueryBuilder('e')
                 ->where('e.codeetat = 1')
@@ -184,7 +185,7 @@ class PropositionsController extends Controller
         $checkedClasses = $request->get('classes');
         $checkedDomaines = $request->get('domaines');
         $checkedTechnos = $request->get('technos');
-
+//TODO: A Déplacer dans repository PropositionsRepository
         $query = $repository->createQueryBuilder('p')
                             ->where('p.codeetat = 2');
 
