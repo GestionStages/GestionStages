@@ -1,6 +1,12 @@
 {% extends "admin/base.html.twig" %}
 
-{% block title %}Nouveau Contact {% endblock %}
+{% block title %}
+    {% if form.vars.value.codecontact is null %}
+        Nouveau Contact
+    {% else %}
+        Modification du Contact
+    {% endif %}
+{% endblock %}
 
 {% block body %}
     <div class="box">
@@ -19,19 +25,25 @@
 
             <div class="form-group">
                 {{ form_label(form.nomcontact, "Nom (*)", {'label_attr': {'class': "col-4"}}) }}
-                {{ form_widget(form.nomcontact, {'attr': {'class': "form-control col-5"}}) }}
+                {{ form_widget(form.nomcontact, {'attr': {'class': "form-control col-5", 'maxlength': "255"}}) }}
                 {{ form_errors(form.nomcontact) }}
             </div>
 
             <div class="form-group">
                 {{ form_label(form.prenomcontact, "Prénom (*)", {'label_attr': {'class': "col-4"}}) }}
-                {{ form_widget(form.prenomcontact, {'attr': {'class': "form-control col-5"}}) }}
+                {{ form_widget(form.prenomcontact, {'attr': {'class': "form-control col-5", 'maxlength': "255"}}) }}
                 {{ form_errors(form.prenomcontact) }}
             </div>
 
             <div class="form-group">
+                {{ form_label(form.postecontact, "Poste dans l'entreprise (*)", {'label_attr': {'class': "col-4"}}) }}
+                {{ form_widget(form.postecontact, {'attr': {'class': "form-control col-5", 'maxlength': "1024"}}) }}
+                {{ form_errors(form.postecontact) }}
+            </div>
+
+            <div class="form-group">
                 {{ form_label(form.mailcontact, "Mail (*)", {'label_attr': {'class': "col-4"}}) }}
-                {{ form_widget(form.mailcontact, {'attr': {'class': "form-control col-5"}}) }}
+                {{ form_widget(form.mailcontact, {'attr': {'class': "form-control col-5", 'maxlength': "1024"}}) }}
                 {{ form_errors(form.mailcontact) }}
             </div>
 

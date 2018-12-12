@@ -3,12 +3,15 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Technologies
  *
  * @ORM\Table(name="technologies")
  * @ORM\Entity
+ * @UniqueEntity(fields="nomtechnologie", message="Une technologie existante possède déjà ce nom.")
  */
 class Technologies
 {
@@ -16,22 +19,27 @@ class Technologies
      * @var string
      *
      * @ORM\Column(name="nomTechnologie", type="string", length=30, nullable=false)
+     * @Assert\NotBlank(message="Le nom est obligatoire.")
+     * @Assert\Length(
+     *     max = 30,
+     *     maxMessage = "Le nom doit faire au maximum {{ limit }} caractères."
+     * )
      */
     private $nomtechnologie;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="codeTechnololgie", type="integer")
+     * @ORM\Column(name="codeTechnologie", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $codetechnololgie;
+    private $codetechnologie;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Propositions", inversedBy="codetechnololgie")
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Propositions", inversedBy="codetechnologie")
      */
     private $codeproposition;
 
@@ -69,13 +77,13 @@ class Technologies
     }
 
     /**
-     * Get codetechnololgie
+     * Get codetechnologie
      *
      * @return integer
      */
-    public function getCodetechnololgie()
+    public function getCodetechnologie()
     {
-        return $this->codetechnololgie;
+        return $this->codetechnologie;
     }
 
     /**

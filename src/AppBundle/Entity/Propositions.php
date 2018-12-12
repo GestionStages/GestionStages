@@ -9,21 +9,18 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Propositions
  *
  * @ORM\Table(name="propositions", indexes={@ORM\Index(name="fk_codeEntreprise", columns={"codeEntreprise"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\PropositionsRepository")
  */
 class Propositions
 {
     /**
      * @var string
      *
-     * @ORM\Column(name="titreProposition", type="string", length=30, nullable=false)
+     * @ORM\Column(name="titreProposition", type="string", length=255, nullable=false)
      *
-     * @Assert\NotNull
      * @Assert\NotBlank(message="Le titre est obligatoire.")
      * @Assert\Length(
-     *     min = 5,
-     *     max = 30,
-     *     minMessage = "Le titre doit faire au minimum {{ limit }} caractères.",
+     *     max = 255,
      *     maxMessage = "Le titre doit faire au maximum {{ limit }} caractères."
      * )
      *
@@ -33,16 +30,9 @@ class Propositions
     /**
      * @var string
      *
-     * @ORM\Column(name="descriptionProposition", type="string", length=1000, nullable=false)
+     * @ORM\Column(name="descriptionProposition", type="text", nullable=false)
      *
-     * @Assert\NotNull
      * @Assert\NotBlank(message="La description est obligatoire.")
-     * @Assert\Length(
-     *     min = 20,
-     *     max = 1000,
-     *     minMessage = "La description doit faire au minimum {{ limit }} caractères.",
-     *     maxMessage = "La description ne peut excéder {{ limit }} caractères."
-     * )
      */
     private $descriptionproposition;
 
@@ -60,8 +50,10 @@ class Propositions
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Entreprises")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="codeEntreprise", referencedColumnName="codeEntreprise")
+     *   @ORM\JoinColumn(name="codeEntreprise", referencedColumnName="codeEntreprise", nullable=false)
      * })
+     *
+     * @Assert\NotBlank(message="L'entreprise est obligatoire.")
      */
     private $codeentreprise;
 
@@ -93,12 +85,16 @@ class Propositions
      *   }
      * )
      */
-    private $codetechnololgie;
+    private $codetechnologie;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(name="file", type="string", length=1024, nullable=true)
      *
-     * @Assert\File(mimeTypes={ "application/pdf" })
+     * @Assert\File(
+     *     maxSizeMessage="Le fichier dépasse la taille maximale autorisée",
+     *     mimeTypes={ "application/pdf", "application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document" },
+     *     mimeTypesMessage="Le format du fichier est invalide"
+     * )
      */
     private $file;
 
@@ -118,7 +114,7 @@ class Propositions
     public function __construct()
     {
         $this->codeclasse = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->codetechnololgie = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->codetechnologie = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
 
@@ -239,47 +235,49 @@ class Propositions
     }
 
     /**
-     * Add codetechnololgie
+     * Add codetechnologie
      *
-     * @param \AppBundle\Entity\Technologies $codetechnololgie
+     * @param \AppBundle\Entity\Technologies $codetechnologie
      *
      * @return Propositions
      */
-    public function addCodetechnololgie(\AppBundle\Entity\Technologies $codetechnololgie)
+    public function addCodetechnologie(\AppBundle\Entity\Technologies $codetechnologie)
     {
-        $this->codetechnololgie[] = $codetechnololgie;
+        $this->codetechnologie[] = $codetechnologie;
 
         return $this;
     }
 
     /**
-     * Remove codetechnololgie
+     * Remove codetechnologie
      *
-     * @param \AppBundle\Entity\Technologies $codetechnololgie
+     * @param \AppBundle\Entity\Technologies $codetechnologie
      */
-    public function removeCodetechnololgie(\AppBundle\Entity\Technologies $codetechnololgie)
+    public function removeCodetechnologie(\AppBundle\Entity\Technologies $codetechnologie)
     {
-        $this->codetechnololgie->removeElement($codetechnololgie);
+        $this->codetechnologie->removeElement($codetechnologie);
     }
 
     /**
-     * Get codetechnololgie
+     * Get codetechnologie
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getCodetechnololgie()
+    public function getCodetechnologie()
     {
-        return $this->codetechnololgie;
+        return $this->codetechnologie;
     }
+
     /**
      * @var \DateTime
+     * @ORM\Column(name="dateajout", type="datetime", nullable=false)
      */
     private $dateajout;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="commentaire", type="string", length=1000, nullable=true)
+     * @ORM\Column(name="commentaire", type="text", nullable=true)
      *
      */
     private $commentaire;
@@ -360,5 +358,63 @@ class Propositions
     public function getCodeetat()
     {
         return $this->codeetat;
+    }
+    /**
+     * @var \AppBundle\Entity\Etudiants
+     */
+    private $codeEtudiant;
+
+
+    /**
+     * Set codeEtudiant
+     *
+     * @param \AppBundle\Entity\Etudiants $codeEtudiant
+     *
+     * @return Propositions
+     */
+    public function setCodeEtudiant(\AppBundle\Entity\Etudiants $codeEtudiant = null)
+    {
+        $this->codeEtudiant = $codeEtudiant;
+
+        return $this;
+    }
+
+    /**
+     * Get codeEtudiant
+     *
+     * @return \AppBundle\Entity\Etudiants
+     */
+    public function getCodeEtudiant()
+    {
+        return $this->codeEtudiant;
+    }
+    /**
+     * @var \AppBundle\Entity\Professeur
+     */
+    private $codeProfesseur;
+
+
+    /**
+     * Set codeProfesseur
+     *
+     * @param \AppBundle\Entity\Professeur $codeProfesseur
+     *
+     * @return Propositions
+     */
+    public function setCodeProfesseur(\AppBundle\Entity\Professeur $codeProfesseur = null)
+    {
+        $this->codeProfesseur = $codeProfesseur;
+
+        return $this;
+    }
+
+    /**
+     * Get codeProfesseur
+     *
+     * @return \AppBundle\Entity\Professeur
+     */
+    public function getCodeProfesseur()
+    {
+        return $this->codeProfesseur;
     }
 }

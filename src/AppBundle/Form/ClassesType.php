@@ -3,12 +3,12 @@
 namespace AppBundle\Form;
 
 
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-
 class ClassesType extends AbstractType
 {
     /**
@@ -17,7 +17,11 @@ class ClassesType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('nomclasse', TextType::class)
-                ->add('description', TextareaType::class);
+                ->add('description', TextareaType::class)
+                ->add('dateDebStage', DateType::class, array(
+                    'widget' => 'single_text'))
+                ->add('dateFinStage', DateType::class, array(
+                    'widget' => 'single_text'));
     }/**
      * {@inheritdoc}
      */

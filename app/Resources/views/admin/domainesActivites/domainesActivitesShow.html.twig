@@ -22,15 +22,16 @@
                         <td>{{ unDomaineActivite.nomdomaine}}</td>
                         <td class="text-right">
                             <div class="item-actions">
-                                <a href="{{ path('editDomaineActivite', {'id':unDomaineActivite.codedomaine}) }}" class="btn btn-sm btn-primary">
+                                <a href="{{ path('editDomaineActivite', {'id': unDomaineActivite.codedomaine}) }}" class="btn btn-sm btn-primary">
                                     <i class="fa fa-edit" aria-hidden="true"></i> Editer
                                 </a>
-                                <a href="{{ path('deleteDomaineActivite', {'id':unDomaineActivite.codedomaine}) }}" class="btn btn-sm btn-danger">
-                                    <i class="fa fa-remove" aria-hidden="true"></i> Supprimer
+                                <a href="" class="btn btn-sm btn-danger"  data-toggle="modal" data-target="#deleteDomaineModal-{{ unDomaineActivite.codedomaine }}">
+                                    <i class="fa fa-trash" aria-hidden="true"></i> Supprimer
                                 </a>
                             </div>
                         </td>
                     </tr>
+                    {% include "/admin/domainesActivites/modals/deleteDomaineActiviteModal.html.twig" %}
                 {% endfor %}
                 </tbody>
             </table>

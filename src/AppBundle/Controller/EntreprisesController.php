@@ -36,26 +36,17 @@ class EntreprisesController extends Controller
 
        //si le formulaire est validé
         if($form->isSubmitted() && $form->isValid()){
+            // on enregistre l'entreprise en BDD
+            $em = $this->getDoctrine()->getManager();
 
-                // Si au moins un domaine et selectionner
-                if(!is_null($form->getData()->getCodeDomaine())){
-                    // on enregistre l'entreprise en BDD
-                    $em = $this->getDoctrine()->getManager();
+            $em->persist($entreprise);
+            $em->flush();
 
-                    $em->persist($entreprise);
-                    $em->flush();
+            // On affiche message de validation dans le formulaire de redirection
+            $this->get('session')->getFlashBag()->add('notice','Entreprise ('.$entreprise->getNomentreprise().') ajoutée !');
 
-                    // On affiche message de validation dans le formulaire de redirection
-                    $this->get('session')->getFlashBag()->add('notice','Entreprise ('.$entreprise->getNomentreprise().') ajoutée !');
-
-                    // Retourne form de la liste des entreprises
-                    return $this->redirect($this->generateUrl('showEntreprises'));
-
-                }
-                $this->get('session')->getFlashBag()->add('notice','Vous devez selectionner au moins 1 Domaine d\'activité !');
-                return $this->render('admin/entreprises/entrepriseAdd.html.twig', array('form'=>$form->createView()));
-
-
+            // Retourne form de la liste des entreprises
+            return $this->redirect($this->generateUrl('showEntreprises'));
         }
 
         //generer HTML du form
@@ -69,7 +60,7 @@ class EntreprisesController extends Controller
      * @param Request $request
      * @param Entreprises $entreprise
      * @return Response
-     * @Route("/admin/entreprises/edit/{id}", name="editEntreprise")
+     * @Route("/admin/entreprises/{id}/edit", name="editEntreprise")
      */
     public function edit(Request $request, Entreprises $entreprise){
         $form = $this->createForm(EntreprisesType::class, $entreprise);
@@ -79,25 +70,16 @@ class EntreprisesController extends Controller
         //si le formulaire a été soumis
 
         if($form->isSubmitted() && $form->isValid()){
-            // Si au moins un domaine et selectionner
-            if(count($form->getData()->getCodeDomaine()) != 0){
-                //on enregistre l'entreprise dans la bdd
-                $em = $this-> getDoctrine()->getManager();
-                $em->flush();
+            //on enregistre l'entreprise dans la bdd
+            $em = $this-> getDoctrine()->getManager();
+            $em->flush();
 
-                //Envoi un message de validation
-                $this->get('session')->getFlashBag()->add('notice','Entreprise ('.$entreprise->getNomentreprise().') modifiée !');
+            //Envoi un message de validation
+            $this->get('session')->getFlashBag()->add('notice','Entreprise ('.$entreprise->getNomentreprise().') modifiée !');
 
-                // Retourne form de la liste des entreprises
-                return $this->redirect($this->generateUrl('showEntreprises'));
-
-            }
-            $this->get('session')->getFlashBag()->add('notice','Vous devez selectionner au moins 1 Domaine d\'activité !');
-            return $this->render('admin/entreprises/entrepriseAdd.html.twig', array('form'=>$form->createView()));
-
+            // Retourne form de la liste des entreprises
+            return $this->redirect($this->generateUrl('showEntreprises'));
         }
-
-
 
         //On génére le fichier final
         $formView = $form->createView();
@@ -109,7 +91,7 @@ class EntreprisesController extends Controller
     /**
      * @param Entreprises $entreprise
      * @return Response
-     * @Route("/admin/entreprises/blacklist/{id}", name="blackListEntreprise")
+     * @Route("/admin/entreprises/{id}/blacklist", name="blackListEntreprise")
      *
      */
 
@@ -126,7 +108,7 @@ class EntreprisesController extends Controller
     /**
      * @param Entreprises $entreprise
      * @return Response
-     * @Route("/admin/entreprises/noblacklist/{id}", name="noBlackListEntreprise")
+     * @Route("/admin/entreprises/{id}/noblacklist", name="noBlackListEntreprise")
      *
      */
 
@@ -142,7 +124,7 @@ class EntreprisesController extends Controller
 
     /**
      *
-     * @Route("/admin/entreprises/show", name="showEntreprises")
+     * @Route("/admin/entreprises", name="showEntreprises")
      *
      * @return Response
      *
@@ -163,7 +145,7 @@ class EntreprisesController extends Controller
 
     /**
      *
-     * @Route("/admin/entreprises/showBlackList", name="showEntreprisesBlackList")
+     * @Route("/admin/entreprisesBlackList", name="showEntreprisesBlackList")
      *
      * @return Response
      *
@@ -190,7 +172,12 @@ class EntreprisesController extends Controller
     public function searchEntreprise(Request $request)
     {
     	$q = $request->query->get('term');
-    	$results = $this->getDoctrine()->getRepository(Entreprises::class)->findLikeName($q);
+    	$results = $this->getDoctrine()->getRepository(Entreprises::class)
+            ->createQueryBuilder('e')
+            ->where('e.blacklister=0')
+            ->andWhere('e.nomentreprise LIKE ?1')
+            ->setParameter(1, "%".$q."%")
+            ->getQuery()->getResult();
 
     	return $this->render('entreprises/list.json.twig', ['results' => $results]);
     }

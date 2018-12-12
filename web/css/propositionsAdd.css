@@ -1,3 +1,6 @@
 #appbundle_propositions_descriptionproposition {
     height: 300px;
 }
+#commentaire {
+    visibility: hidden;
+}

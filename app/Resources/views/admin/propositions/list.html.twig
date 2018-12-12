@@ -12,6 +12,8 @@
                     <th>Statut</th>
                     <th>Titre</th>
                     <th>Entreprise</th>
+                    <th>Classe(s)</th>
+                    <th>Technologie(s)</th>
                     <th>Commentaire</th>
                     <th>Postée le</th>
                     <th>Actions</th>
@@ -29,18 +31,29 @@
                         </td>
                         <td><a href="{{ path("afficherPropositionbyid", {'id': uneProposition.codeProposition}) }}">{{ uneProposition.titreproposition }}</a></td>
                         <td>{{ uneProposition.codeentreprise.nomentreprise }}</td>
-                        <td>{{ uneProposition.commentaire }}</td>
-                        <td>{{ uneProposition.dateajout|date("d/m/Y") }}</td>
                         <td>
+                            {% for classe in uneProposition.codeclasse %}
+                                {{ classe.nomclasse }}<br/>
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for techno in uneProposition.codetechnologie %}
+                                {{ techno.nomtechnologie }}<br/>
+                            {% endfor %}
+                        </td>
+                        <td>{{ uneProposition.commentaire }}</td>
+                        <td>{{ uneProposition.dateajout|date("d/m/Y H:i") }}</td>
+                        <td>
+                            <a href="{{ path('editPropositionAdmin', {'id': uneProposition.codeproposition}) }}" class="btn btn-primary"><i class="fa fa-edit" aria-hidden="true"></i> Editer</a><br/>
                             {% if uneProposition.codeEtat.codeEtat != 3 %}
                                 {% if uneProposition.codeEtat.codeEtat != 2 %}
-                                    <a href="{{ path('validProposition', {'id': uneProposition.codeproposition}) }}" class="btn btn-success">Valider</a><br/>
+                                    <a href="{{ path('validProposition', {'id': uneProposition.codeproposition}) }}" class="btn btn-success"><i class="fa fa-check" aria-hidden="true"></i> Valider</a><br/>
                                 {% endif %}
                                 {% if uneProposition.codeEtat.codeEtat != 5 %}
-                                    <a href="{{ path('rejectProposition', {'id': uneProposition.codeproposition}) }}" class="btn btn-danger">Refuser</a><br/>
+                                    <a href="{{ path('rejectProposition', {'id': uneProposition.codeproposition}) }}" class="btn btn-danger"><i class="fa fa-minus-circle" aria-hidden="true"></i> Refuser</a><br/>
                                 {% endif %}
                                 {% if uneProposition.codeEtat.codeEtat != 4 %}
-                                    <a href="{{ path('archiveProposition', {'id': uneProposition.codeproposition}) }}" class="btn btn-info">Archiver</a>
+                                    <a href="{{ path('archiveProposition', {'id': uneProposition.codeproposition}) }}" class="btn btn-info"><i class="fa fa-archive" aria-hidden="true"></i> Archiver</a>
                                 {% endif %}
                             {% endif %}
                         </td>

@@ -52,4 +52,3 @@ class Etat
         return $this->codeetat;
     }
 }
-

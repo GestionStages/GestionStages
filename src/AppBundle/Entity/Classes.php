@@ -4,26 +4,25 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Classes
  *
  * @ORM\Table(name="classes")
  * @ORM\Entity
+ * @UniqueEntity(fields="nomclasse", message="Une classe existant possède déjà ce nom.")
  */
 class Classes
 {
     /**
      * @var string
      *
-     * @ORM\Column(name="nomClasse", type="string", length=30, nullable=false)
+     * @ORM\Column(name="nomClasse", type="string", length=255, nullable=false)
      *
-     * @Assert\NotNull
      * @Assert\NotBlank(message="Le nom est obligatoire")
      * @Assert\Length(
-     *     min = 2,
-     *     max = 30,
-     *     minMessage = "Le nom de la classe doit faire au minimum {{ limit }} caractères.",
+     *     max = 255,
      *     maxMessage = "Le nom de la classe doit faire au maximum {{ limit }} caractères."
      * )
      */
@@ -32,15 +31,12 @@ class Classes
     /**
      * @var string
      *
-     * @ORM\Column(name="description", type="string", length=50, nullable=false)
+     * @ORM\Column(name="description", type="string", length=1024, nullable=false)
      *
-     * @Assert\NotNull
      * @Assert\NotBlank(message="La description est obligatoire.")
      * @Assert\Length(
-     *     min = 10,
-     *     max = 50,
-     *     minMessage = "Le description de la classe doit faire au minimum {{ limit }} caractères.",
-     *     maxMessage = "Le description de la classe doit faire au maximum {{ limit }} caractères."
+     *     max = 1024,
+     *     maxMessage = "La description de la classe doit faire au maximum {{ limit }} caractères."
      * )
      */
     private $description;
@@ -157,5 +153,63 @@ class Classes
     public function getCodeproposition()
     {
         return $this->codeproposition;
+    }
+    /**
+     * @var \DateTime
+     */
+    private $dateDebStage;
+
+    /**
+     * @var \DateTime
+     */
+    private $dateFinStage;
+
+
+    /**
+     * Set dateDebStage
+     *
+     * @param \DateTime $dateDebStage
+     *
+     * @return Classes
+     */
+    public function setDateDebStage($dateDebStage)
+    {
+        $this->dateDebStage = $dateDebStage;
+
+        return $this;
+    }
+
+    /**
+     * Get dateDebStage
+     *
+     * @return \DateTime
+     */
+    public function getDateDebStage()
+    {
+        return $this->dateDebStage;
+    }
+
+    /**
+     * Set dateFinStage
+     *
+     * @param \DateTime $dateFinStage
+     *
+     * @return Classes
+     */
+    public function setDateFinStage($dateFinStage)
+    {
+        $this->dateFinStage = $dateFinStage;
+
+        return $this;
+    }
+
+    /**
+     * Get dateFinStage
+     *
+     * @return \DateTime
+     */
+    public function getDateFinStage()
+    {
+        return $this->dateFinStage;
     }
 }

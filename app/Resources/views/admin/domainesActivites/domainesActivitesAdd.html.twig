@@ -12,7 +12,7 @@
             <div class="form-group">
             <br>
                 {{ form_label(form.nomdomaine , "Nom du domaine d'activité (*)") }}
-                {{ form_widget(form.nomdomaine, {'attr': {'class': "form-control"}}) }}
+                {{ form_widget(form.nomdomaine, {'attr': {'class': "form-control", 'maxlength': "255"}}) }}
                 {{ form_errors(form.nomdomaine) }}
             </div>
 

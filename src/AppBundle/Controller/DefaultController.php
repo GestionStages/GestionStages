@@ -2,31 +2,38 @@
 
 	namespace AppBundle\Controller;
 
-	use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+	use AppBundle\Entity\Classes;
+    use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 	use Symfony\Component\HttpFoundation\Request;
 	use Symfony\Component\Routing\Annotation\Route;
 
 	class DefaultController extends Controller
 	{
 
-//		/**
-//		 * @Route("/", name="homepage")
-//		 */
-//		public function indexAction(Request $request)
-//		{
-//			// replace this example code with whatever you need
-//			return $this->render('default/index.html.twig', [
-//				'base_dir' => realpath($this->getParameter('kernel.project_dir')).DIRECTORY_SEPARATOR,
-//			]);
-//		}
-//
-//		/**
-//		 *@Route("/other", name="other")
-//		 */
-//
-//		public function otherAction() {
-//			return $this->render('other.html.twig');
-//		}
+		/**
+		 * @Route("/", name="homepage")
+		 */
+		public function indexAction(Request $request)
+		{
+			// replace this example code with whatever you need
+
+            $repository = $this->getDoctrine()
+                ->getRepository(Classes::class);
+
+            $query = $repository->createQueryBuilder('c')
+                ->getQuery();
+            $classes = $query->getResult();
+
+            return $this->render('home.html.twig',['classes' => $classes]);
+		}
+
+		/**
+		 *@Route("/other", name="other")
+		 */
+
+		public function otherAction() {
+			return $this->render('other.html.twig');
+		}
 
 	}
 

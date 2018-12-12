@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
-  <entity name="AppBundle\Entity\Propositions" table="propositions">
+  <entity name="AppBundle\Entity\Propositions" table="propositions" repository-class="AppBundle\Repository\PropositionsRepository">
     <indexes>
       <index name="fk_codeEntreprise" columns="codeEntreprise"/>
       <index name="fk_codeEtat" columns="codeEtat"/>
@@ -8,25 +8,36 @@
     <id name="codeproposition" type="integer" column="codeProposition">
       <generator strategy="IDENTITY"/>
     </id>
-    <field name="titreproposition" type="string" column="titreProposition" length="30" nullable="false">
+    <field name="titreproposition" type="string" column="titreProposition" length="255" nullable="false">
       <options>
         <option name="fixed"/>
       </options>
     </field>
-    <field name="descriptionproposition" type="string" column="descriptionProposition" length="1000" nullable="false">
+    <field name="descriptionproposition" type="text" column="descriptionProposition" nullable="false">
       <options>
         <option name="fixed"/>
       </options>
     </field>
-    <field name="dateajout" type="date" column="dateAjout" nullable="false"/>
-    <field name="commentaire" type="string" column="commentaire" length="1000" nullable="true">
+    <field name="dateajout" type="datetime" column="dateAjout" nullable="false"/>
+    <field name="commentaire" type="text" column="commentaire" nullable="true">
       <options>
         <option name="fixed"/>
       </options>
     </field>
+    <field name="file" type="string" length="1024" nullable="true"/>
+    <one-to-one field="codeEtudiant" target-entity="Etudiant" inversed-by="codeProposition">
+      <join-columns>
+        <join-column name="codeEtudiant" referenced-column-name="id" nullable="true"/>
+      </join-columns>
+    </one-to-one>
     <many-to-one field="codeentreprise" target-entity="Entreprises" fetch="LAZY">
       <join-columns>
-        <join-column name="codeEntreprise" referenced-column-name="codeEntreprise"/>
+        <join-column name="codeEntreprise" referenced-column-name="codeEntreprise" nullable="false"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="codeProfesseur" target-entity="Professeur" fetch="LAZY">
+      <join-columns>
+        <join-column name="codeProfesseur" referenced-column-name="id" nullable="true"/>
       </join-columns>
     </many-to-one>
     <many-to-one field="codeetat" target-entity="Etat" fetch="LAZY">
@@ -44,6 +55,15 @@
         </inverse-join-columns>
       </join-table>
     </many-to-many>
-    <many-to-many field="codetechnololgie" target-entity="Technologies" mapped-by="codeproposition" fetch="LAZY"/>
+    <many-to-many field="codetechnologie" target-entity="Technologies" inversed-by="codeproposition" fetch="LAZY">
+      <join-table name="associertechnologiespropositions">
+        <join-columns>
+          <join-column name="codeProposition" referenced-column-name="codeProposition"/>
+        </join-columns>
+        <inverse-join-columns>
+          <join-column name="codeTechnologie" referenced-column-name="codeTechnologie"/>
+        </inverse-join-columns>
+      </join-table>
+    </many-to-many>
   </entity>
 </doctrine-mapping>

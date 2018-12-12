@@ -4,16 +4,18 @@
     <id name="codeclasse" type="integer" column="codeClasse">
       <generator strategy="IDENTITY"/>
     </id>
-    <field name="nomclasse" type="string" column="nomClasse" length="30" nullable="false">
+    <field name="nomclasse" type="string" column="nomClasse" length="255" nullable="false" unique="true">
       <options>
         <option name="fixed"/>
       </options>
     </field>
-    <field name="description" type="string" column="description" length="50" nullable="false">
+    <field name="description" type="string" column="description" length="1024" nullable="false">
       <options>
         <option name="fixed"/>
       </options>
     </field>
+    <field name="dateDebStage" type="date" column="dateDebStage" nullable="true"/>
+    <field name="dateFinStage" type="date" column="dateFinStage" nullable="true"/>
     <many-to-many field="codeproposition" target-entity="Propositions" mapped-by="codeclasse" fetch="LAZY"/>
   </entity>
 </doctrine-mapping>

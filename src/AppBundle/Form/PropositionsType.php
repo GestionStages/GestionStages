@@ -3,6 +3,7 @@
 namespace AppBundle\Form;
 
 use AppBundle\Entity\Entreprises;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -23,6 +24,10 @@ class PropositionsType extends AbstractType
             ->add('codeentreprise', EntityType::class, array(
                 'class'  => 'AppBundle:Entreprises',
 	            'choice_label' => 'nomentreprise',
+                'query_builder' => function(EntityRepository $repository) {
+                    return $repository->createQueryBuilder('e')->where('e.blacklister=0');
+                },
+                'placeholder' => 'Sélectionner une entreprise...'
 	            ))
             ->add('codeclasse',EntityType::class, array(
                 'class' => 'AppBundle:Classes',
@@ -30,13 +35,12 @@ class PropositionsType extends AbstractType
 	            'multiple' => true,
 	            'expanded' => true,
                 ))
-            ->add('codetechnololgie',EntityType::class, array(
+            ->add('codetechnologie',EntityType::class, array(
                 'class' => 'AppBundle:Technologies',
 	            'choice_label' => 'nomtechnologie',
 	            'multiple' => true,
-	            'expanded' => true,
             ))
-            ->add('file', FileType::class, array('label' => 'Fiche de poste (PDF)'))
+            ->add('file', FileType::class, array('label' => 'Fiche de poste (DOC, DOCX, PDF)'))
 	        ->add('commentaire',TextareaType::class);
     }/**
      * {@inheritdoc}

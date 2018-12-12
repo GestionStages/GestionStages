@@ -35,17 +35,23 @@ class ClassesController extends Controller
 
         //si le formulaire est validé
         if($form->isSubmitted() && $form->isValid()){
-            // on enregistre la classe en BDD
-            $em = $this->getDoctrine()->getManager();
+            // on verifie que la dateFin ne soit pas inferieur a la dateDeb
+            if ($form->getData()->getDateFinStage() > $form->getData()->getDateDebStage()){
 
-            $em->persist($classe);
-            $em->flush();
+                // on enregistre la classe en BDD
+                $em = $this->getDoctrine()->getManager();
+
+                $em->persist($classe);
+                $em->flush();
 
 
 
-            // On affiche message de validation dans le formulaire de redirection
-            $this->get('session')->getFlashBag()->add('notice','Classe ('.$classe->getNomclasse().') ajoutée !');
-            return $this->redirect($this->generateUrl('showClasses'));
+                // On affiche message de validation dans le formulaire de redirection
+                $this->get('session')->getFlashBag()->add('notice','Classe ('.$classe->getNomclasse().') ajoutée !');
+                return $this->redirect($this->generateUrl('showClasses'));
+            }
+            $this->get('session')->getFlashBag()->add('notice','La période du stage est incorrecte !');
+            return $this->render('admin/classes/classeAdd.html.twig', array('form'=>$form->createView()));
         }
 
         //generer HTML du form
@@ -59,7 +65,7 @@ class ClassesController extends Controller
      * @param Request $request
      * @param Classes $classe
      * @return Response
-     * @Route("/admin/classes/edit/{id}", name="editClasse")
+     * @Route("/admin/classes/{id}/edit", name="editClasse")
      */
     public function edit(Request $request, Classes $classe){
         $form = $this->createForm(ClassesType::class, $classe);
@@ -95,7 +101,7 @@ class ClassesController extends Controller
     /**
     * @param Classes $classe
     * @return Response
-    * @Route("/admin/classes/delete/{id}", name="deleteClasse")
+    * @Route("/admin/classes/{id}/delete", name="deleteClasse")
     *
     */
 
@@ -104,7 +110,7 @@ class ClassesController extends Controller
         $em->remove($classe);
         $em->flush();
         // On affiche message de validation dans le formulaire de redirection
-        $this->get('session')->getFlashBag()->add('notice','Le classe ('.$classe->getNomclasse().') est supprimée !');
+        $this->get('session')->getFlashBag()->add('notice','La classe ('.$classe->getNomclasse().') est supprimée !');
 
         //Retourne form de la liste des classes
         return $this->redirect($this->generateUrl('showClasses'));
@@ -112,7 +118,7 @@ class ClassesController extends Controller
 
     /**
      *
-     * @Route("/admin/classes/show", name="showClasses")
+     * @Route("/admin/classes/", name="showClasses")
      *
      * @return Response
      *

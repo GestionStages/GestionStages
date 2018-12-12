@@ -16,14 +16,11 @@ class Contacts
     /**
      * @var string
      *
-     * @ORM\Column(name="nomContact", type="string", length=30, nullable=false)
+     * @ORM\Column(name="nomContact", type="string", length=255, nullable=false)
      *
-     * @Assert\NotNull
      * @Assert\NotBlank(message="Le nom est obligatoire.")
      * @Assert\Length(
-     *     min = 2,
-     *     max = 30,
-     *     minMessage = "Le nom doit faire au minimum {{ limit }} caractères.",
+     *     max = 255,
      *     maxMessage = "Le nom doit faire au maximum {{ limit }} caractères."
      * )
      *
@@ -33,14 +30,11 @@ class Contacts
     /**
      * @var string
      *
-     * @ORM\Column(name="prenomContact", type="string", length=30, nullable=false)
+     * @ORM\Column(name="prenomContact", type="string", length=255, nullable=false)
      *
-     * @Assert\NotNull
      * @Assert\NotBlank(message="Le prénom est obligatoire.")
      * @Assert\Length(
-     *     min = 2,
-     *     max = 30,
-     *     minMessage = "Le prénom doit faire au minimum {{ limit }} caractères.",
+     *     max = 255,
      *     maxMessage = "Le prénnom doit faire au maximum {{ limit }} caractères."
      * )
      *
@@ -50,14 +44,11 @@ class Contacts
     /**
      * @var string
      *
-     * @ORM\Column(name="mailContact", type="string", length=30, nullable=false)
+     * @ORM\Column(name="mailContact", type="string", length=1024, nullable=false)
      *
-     * @Assert\NotNull
-     * @Assert\NotBlank
+     * @Assert\NotBlank(message="Le mail est obligatoire.")
      * @Assert\Length(
-     *     min = 2,
-     *     max = 30,
-     *     minMessage = "L'adresse mail doit faire au minimum {{ limit }} caractères.",
+     *     max = 1024,
      *     maxMessage = "L'adresse mail doit faire au maximum {{ limit }} caractères."
      * )
      * @Assert\Email(
@@ -71,8 +62,7 @@ class Contacts
      *
      * @ORM\Column(name="telContact", type="string", length=10, nullable=false)
      *
-     * @Assert\NotNull
-     * @Assert\NotBlank
+     * @Assert\NotBlank(message="Le téléphone est obligatoire.")
      * @Assert\Regex(
      *      pattern= "#^(?:(?:\+|00)33|0)\s*[1-9](?:[\s.-]*\d{2}){4}$#",
      *     match=true,
@@ -244,5 +234,36 @@ class Contacts
     public function getCodeentreprise()
     {
         return $this->codeentreprise;
+    }
+    /**
+     * @var string
+     * @ORM\Column(name="posteContact", type="string", length=50, nullable=false)
+     * @Assert\NotBlank(message="Le poste dans l'entreprise est obligatoire.")
+     */
+    private $postecontact;
+
+
+    /**
+     * Set postecontact
+     *
+     * @param string $postecontact
+     *
+     * @return Contacts
+     */
+    public function setPostecontact($postecontact)
+    {
+        $this->postecontact = $postecontact;
+
+        return $this;
+    }
+
+    /**
+     * Get postecontact
+     *
+     * @return string
+     */
+    public function getPostecontact()
+    {
+        return $this->postecontact;
     }
 }

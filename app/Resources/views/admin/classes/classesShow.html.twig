@@ -27,12 +27,13 @@
                                 <a href="{{ path('editClasse', {'id':uneClasse.codeclasse}) }}" class="btn btn-sm btn-primary">
                                     <i class="fa fa-edit" aria-hidden="true"></i> Editer
                                 </a>
-                                <a href="{{ path('deleteClasse', {'id':uneClasse.codeclasse}) }}" class="btn btn-sm btn-warning">
+                                <a href="" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#deleteClasseModal-{{ uneClasse.codeclasse }}">
                                     <i class="fa fa-trash" aria-hidden="true"></i> Supprimer
                                 </a>
                             </div>
                         </td>
                     </tr>
+                    {% include "/admin/classes/modals/deleteClasseModal.html.twig" %}
                 {% endfor %}
                 </tbody>
             </table>
