@@ -372,7 +372,7 @@ class Propositions
      *
      * @return Propositions
      */
-    public function setCodeEtudiant(\AppBundle\Entity\Etudiants $codeEtudiant = null)
+    public function setCodeEtudiant(\AppBundle\Entity\Etudiant $codeEtudiant = null)
     {
         $this->codeEtudiant = $codeEtudiant;
 
