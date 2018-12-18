@@ -35,7 +35,8 @@
         "symfony/symfony": "3.4.*",
         "twbs/bootstrap": "^4.1",
         "twig/twig": "^1.0||^2.0",
-        "ext-ldap": "*"
+        "ext-ldap": "*",
+        "nesbot/carbon": "1.*"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",
