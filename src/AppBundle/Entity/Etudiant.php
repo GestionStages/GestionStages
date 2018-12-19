@@ -8,9 +8,8 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Etudiant
  *
- * @ORM\Table(name="etudiants")
+ * @ORM\Table(name="etudiant")
  * @ORM\Entity
- * @UniqueEntity(fields="nomentreprise", message="Une entreprise existante possède déjà ce nom.")
  */
 class Etudiant
 {
@@ -72,18 +71,6 @@ class Etudiant
      * )
      */
     private $telEtudiant;
-
-
-    /**
-     * @var \AppBundle\Entity\Propositions
-     *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Propositions")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="codeProposition", referencedColumnName="codeProposition", nullable=true)
-     * })
-     *
-     */
-    private $codeproposition;
 
     /**
      * Get id
@@ -196,12 +183,6 @@ class Etudiant
     private $codeEtudiant;
 
     /**
-     * @var \AppBundle\Entity\Propositions
-     */
-    private $codeProposition;
-
-
-    /**
      * Get codeEtudiant
      *
      * @return integer
@@ -210,6 +191,12 @@ class Etudiant
     {
         return $this->codeEtudiant;
     }
+
+    /**
+     * @var \AppBundle\Entity\Propositions
+     */
+    private $codeProposition;
+
 
     /**
      * Set codeProposition
@@ -233,5 +220,34 @@ class Etudiant
     public function getCodeProposition()
     {
         return $this->codeProposition;
+    }
+    /**
+     * @var \AppBundle\Entity\Classes
+     */
+    private $codeclasse;
+
+
+    /**
+     * Set codeclasse
+     *
+     * @param \AppBundle\Entity\Classes $codeclasse
+     *
+     * @return Etudiant
+     */
+    public function setCodeclasse(\AppBundle\Entity\Classes $codeclasse)
+    {
+        $this->codeclasse = $codeclasse;
+
+        return $this;
+    }
+
+    /**
+     * Get codeclasse
+     *
+     * @return \AppBundle\Entity\Classes
+     */
+    public function getCodeclasse()
+    {
+        return $this->codeclasse;
     }
 }

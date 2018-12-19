@@ -6,6 +6,8 @@ use AppBundle\Entity\Classes;
 use AppBundle\Entity\Domaineactivite;
 use AppBundle\Entity\Entreprises;
 use AppBundle\Entity\Etat;
+use AppBundle\Entity\Etudiant;
+use AppBundle\Entity\Professeur;
 use AppBundle\Entity\Propositions;
 use AppBundle\Entity\Technologies;
 use AppBundle\Form\PropositionsType;
@@ -107,6 +109,95 @@ class PropositionsController extends Controller
         return $this->render('propositions/propositionShow.html.twig',['proposition' => $proposition]);
     }
 
+    /**
+     * @Route("/propositions/{id}/affecterEtudiant", name="affecterEtudiant", requirements={"id"="\d+"})
+     *
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function affecterEtudiant(Request $request)
+    {
+        $proposition = $this->getDoctrine()->getRepository(Propositions::class)->find($request->get('id'));
+        if(!$request->get('etudiant')){
+            $etudiants = $this->getDoctrine()->getRepository(Etudiant::class)->findNonAffecter();
+
+            return $this->render('/admin/propositions/affecterEtudiant.html.twig', ['etudiants' => $etudiants, 'proposition' => $proposition]);
+        }
+        else{
+            $etudiant =  $this->getDoctrine()->getRepository(Etudiant::class)->find($request->get('etudiant'));
+            $proposition->setCodeEtudiant($etudiant);
+
+            $em = $this-> getDoctrine()->getManager();
+            $em->persist($proposition);
+            $em->flush();
+
+            // On affiche message de validation dans le formulaire de redirection
+            $this->get('session')->getFlashBag()->add('notice','L\'étudiant à été affecté !');
+            return $this->redirect($this->generateUrl('showAdminListAll'));
+
+        }
+    }
+
+    /**
+     * @Route("/propositions/{id}/desaffecterEtudiant", name="desaffecterEtudiant", requirements={"id"="\d+"})
+     *  @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     */
+    public function desaffecterEtudiant(Request $request){
+        $proposition = $this->getDoctrine()->getRepository(Propositions::class)->find($request->get('id'));
+        $proposition->setCodeEtudiant(null);
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($proposition);
+        $em->flush();
+        $this->get('session')->getFlashBag()->add('notice','L\'étudiant n\'est plus affecté !');
+        return $this->redirect($this->generateUrl('showAdminListAll'));
+
+    }
+
+    /**
+     * @Route("/propositions/{id}/affecterProfesseur", name="affecterProfesseur", requirements={"id"="\d+"})
+     *
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function affecterProfesseur(Request $request)
+    {
+        $proposition = $this->getDoctrine()->getRepository(Propositions::class)->find($request->get('id'));
+        if(!$request->get('professeur')){
+            $professeurs = $this->getDoctrine()->getRepository(Professeur::class)->findAll();
+
+            return $this->render('/admin/propositions/affecterProfesseur.html.twig', ['professeurs' => $professeurs, 'proposition' => $proposition]);
+        }
+        else{
+            $professeur =  $this->getDoctrine()->getRepository(Professeur::class)->find($request->get('professeur'));
+            $proposition->setCodeProfesseur($professeur);
+
+            $em = $this-> getDoctrine()->getManager();
+            $em->persist($proposition);
+            $em->flush();
+
+            // On affiche message de validation dans le formulaire de redirection
+            $this->get('session')->getFlashBag()->add('notice','Le professeur à été affecté !');
+            return $this->redirect($this->generateUrl('showAdminListAll'));
+
+        }
+    }
+
+    /**
+     * @Route("/propositions/{id}/desaffecterProfesseur", name="desaffecterProfesseur", requirements={"id"="\d+"})
+     *  @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     */
+    public function desaffecterProfesseur(Request $request){
+        $proposition = $this->getDoctrine()->getRepository(Propositions::class)->find($request->get('id'));
+        $proposition->setCodeProfesseur(null);
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($proposition);
+        $em->flush();
+        $this->get('session')->getFlashBag()->add('notice','Le tuteur n\'est plus affecté !');
+        return $this->redirect($this->generateUrl('showAdminListAll'));
+
+    }
     /**
      * @param Request $request
      * @param Propositions $proposition
@@ -247,4 +338,6 @@ class PropositionsController extends Controller
         //Retourne form de la liste des domaines d'activités
         return $this->redirect($this->generateUrl('afficherPropositionbyid',['id' => $proposition->getCodeproposition()]));
     }
+
+
 }
