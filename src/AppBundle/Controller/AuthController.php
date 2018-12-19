@@ -19,7 +19,7 @@ class AuthController extends Controller
         $password = $request->get('_password');
         $group = $request->get('group');
 
-        if (!is_null($username) && !is_null($password) && !is_null($group)) {
+        /*if (!is_null($username) && !is_null($password) && !is_null($group)) {
             $conn  = ldap_connect($this->getParameter('ldap_host'), $this->getParameter('ldap_port'));
             ldap_set_option($conn, LDAP_OPT_PROTOCOL_VERSION, 3);
 
@@ -39,10 +39,20 @@ class AuthController extends Controller
             //TODO: Récupérer l'utilisateur & le connecter
 
             return $this->redirectToRoute('homepage');
-        }
+        }*/
 
-        return $this->render('auth/students.html.twig', [
+        /*return $this->render('auth/students.html.twig', [
             'last_username' => $username
-        ]);
+        ]);*/
+
+        return $this->render("user/home.html.twig");
+    }
+
+    /**
+     * @Route("/user", name="showUserHome")
+     * @return Response
+     */
+    public function homeUserAction(){
+        return $this->render("user/home.html.twig");
     }
 }
