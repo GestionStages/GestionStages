@@ -24,7 +24,7 @@ class AdminController extends Controller
         $affecte = $repository->nbAffecte();
         $refuse = $repository->nbRefuse();
         $query = $repository->createQueryBuilder('p')
-            //->where('p.codeetat = 1')
+            ->where('p.codeetat = 1')
             ->orderBy('p.dateajout', 'DESC')
             ->getQuery();
 
