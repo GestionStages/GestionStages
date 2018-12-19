@@ -25,5 +25,10 @@
       </options>
     </field>
     <one-to-one field="codeProposition" target-entity="Propositions" mapped-by="codeEtudiant" />
+      <many-to-one field="codeclasse" target-entity="Classes" fetch="LAZY">
+          <join-columns>
+              <join-column name="codeClasse" referenced-column-name="codeClasse" nullable="false"/>
+          </join-columns>
+      </many-to-one>
   </entity>
 </doctrine-mapping>

@@ -221,4 +221,33 @@ class Etudiant
     {
         return $this->codeProposition;
     }
+    /**
+     * @var \AppBundle\Entity\Classes
+     */
+    private $codeclasse;
+
+
+    /**
+     * Set codeclasse
+     *
+     * @param \AppBundle\Entity\Classes $codeclasse
+     *
+     * @return Etudiant
+     */
+    public function setCodeclasse(\AppBundle\Entity\Classes $codeclasse)
+    {
+        $this->codeclasse = $codeclasse;
+
+        return $this;
+    }
+
+    /**
+     * Get codeclasse
+     *
+     * @return \AppBundle\Entity\Classes
+     */
+    public function getCodeclasse()
+    {
+        return $this->codeclasse;
+    }
 }
