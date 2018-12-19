@@ -121,7 +121,7 @@ class PropositionsController extends Controller
 
             var_dump($request->get('etudiants'));
 
-            return $this->render('propositions/affecterEtudiant.html.twig', ['etudiants' => $etudiants, 'proposition' => $proposition]);
+            return $this->render('/admin/propositions/affecterEtudiant.html.twig', ['etudiants' => $etudiants, 'proposition' => $proposition]);
         }
         else{
             $etudiant =  $this->getDoctrine()->getRepository(Etudiant::class)->find($request->get('etudiants'));
