@@ -17,6 +17,7 @@
                     <tr>
                         <th>Titre</th>
                         <th>Entreprise</th>
+                        <th>Domaine(s) d'activité(s)</th>
                         <th>Classe(s)</th>
                         <th>Technologie(s)</th>
                         <th>Postée le</th>
@@ -28,6 +29,10 @@
                         <tr>
                             <td>{{ uneProposition.titreproposition }}</td>
                             <td>{{ uneProposition.codeentreprise.nomentreprise }}</td>
+                            <td>{% for unDomaine in uneProposition.codeEntreprise.codeDomaine %}
+                                    {{  unDomaine.nomDomaine }}
+                                {% endfor %}
+                            </td>
                             <td>
                                 {% for classe in uneProposition.codeclasse %}
                                     {{ classe.nomclasse }}<br/>
