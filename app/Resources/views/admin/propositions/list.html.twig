@@ -53,8 +53,9 @@
                                     <a href="{{ path('rejectProposition', {'id': uneProposition.codeproposition}) }}" class="btn btn-danger"><i class="fa fa-minus-circle" aria-hidden="true"></i> Refuser</a><br/>
                                 {% endif %}
                                 {% if uneProposition.codeEtat.codeEtat != 4 %}
-                                    <a href="{{ path('archiveProposition', {'id': uneProposition.codeproposition}) }}" class="btn btn-info"><i class="fa fa-archive" aria-hidden="true"></i> Archiver</a>
+                                    <a href="{{ path('archiveProposition', {'id': uneProposition.codeproposition}) }}" class="btn btn-info"><i class="fa fa-archive" aria-hidden="true"></i> Archiver</a><br/>
                                 {% endif %}
+                                <a href="{{ path('affecterEtudiant', {'id': uneProposition.codeproposition}) }}" class="btn btn-default"><i class="fa fa-archive" aria-hidden="true"></i> Affecter</a>
                             {% endif %}
                         </td>
                     </tr>
