@@ -16,7 +16,7 @@
                     <th>Technologie(s)</th>
                     <th>Commentaire</th>
                     <th>Postée le</th>
-                    <th>Etudiant affecté</th>
+                    <th>Personne(s) affectée(s)</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
@@ -44,17 +44,35 @@
                         </td>
                         <td>{{ uneProposition.commentaire }}</td>
                         <td>{{ uneProposition.dateajout|date("d/m/Y H:i") }}</td>
-                        <td>{% if (uneProposition.codeEtudiant is not null) %} {{ uneProposition.codeEtudiant.prenomEtudiant }} {{ uneProposition.codeEtudiant.nomEtudiant }} <br/> ({{ uneProposition.codeEtudiant.codeClasse.nomClasse }}) {% else %} Non affecté {% endif %}</td>
+                        <td><b>Etudiant :</b>
+                            {% if (uneProposition.codeEtudiant is not null) %}
+                                {{ uneProposition.codeEtudiant.prenomEtudiant }} {{ uneProposition.codeEtudiant.nomEtudiant }} ({{ uneProposition.codeEtudiant.codeClasse.nomClasse }})<br/><br/>
+                            {% else %}
+                                non affecté <br/><br/>
+                            {% endif %}
+
+                            <b>Professeur :</b>
+                            {% if (uneProposition.codeProfesseur is not null) %}
+                                {{ uneProposition.codeProfesseur.nomProf }} {{ uneProposition.codeProfesseur.prenomProf }}
+                            {% else %}
+                                non affecté
+                            {% endif %}
+                        </td>
                         <td>
                             <a href="{{ path('editPropositionAdmin', {'id': uneProposition.codeproposition}) }}" class="btn btn-primary"><i class="fa fa-edit" aria-hidden="true"></i> Editer</a><br/>
                             {% if (uneProposition.codeEtat.codeEtat == 2 and uneProposition.codeEtudiant is not null) %}
-                                <a href="{{ path('desaffecterEtudiant', {'id': uneProposition.codeproposition}) }}" class="btn btn-warning"><i class="fa fa-graduation-cap" aria-hidden="true"></i> Desaffecter</a>
+                                <a href="{{ path('desaffecterEtudiant', {'id': uneProposition.codeproposition}) }}" class="btn btn-adn"><i class="fa fa-remove" aria-hidden="true"></i> Etudiant</a><br/>
+                                {% if (uneProposition.codeProfesseur is null) %}
+                                    <a href="{{ path('affecterProfesseur', {'id': uneProposition.codeproposition}) }}" class="btn btn-tumblr"><i class="fa fa-plus" aria-hidden="true"></i> Tuteur</a><br/>
+                                {% else %}
+                                    <a href="{{ path('desaffecterProfesseur', {'id': uneProposition.codeproposition}) }}" class="btn btn-adn"><i class="fa fa-remove" aria-hidden="true"></i> Tuteur</a><br/>
+                                {% endif %}
                             {% else %}
 
                                 {% if uneProposition.codeEtat.codeEtat != 2 %}
                                     <a href="{{ path('validProposition', {'id': uneProposition.codeproposition}) }}" class="btn btn-success"><i class="fa fa-check" aria-hidden="true"></i> Valider</a><br/>
                                 {% else %}
-                                    <a href="{{ path('affecterEtudiant', {'id': uneProposition.codeproposition}) }}" class="btn btn-default"><i class="fa fa-graduation-cap" aria-hidden="true"></i> Affecter</a><br/>
+                                    <a href="{{ path('affecterEtudiant', {'id': uneProposition.codeproposition}) }}" class="btn btn-tumblr"><i class="fa fa-plus" aria-hidden="true"></i> Etudiant</a><br/>
                                 {% endif %}
                                 {% if uneProposition.codeEtat.codeEtat != 5 %}
                                     <a href="{{ path('rejectProposition', {'id': uneProposition.codeproposition}) }}" class="btn btn-danger"><i class="fa fa-minus-circle" aria-hidden="true"></i> Refuser</a><br/>
