@@ -1,6 +1,12 @@
 {% extends "admin/base.html.twig" %}
 
-{% block title %}Nouveau Contact {% endblock %}
+{% block title %}
+    {% if form.vars.value.codecontact is null %}
+        Nouveau Contact
+    {% else %}
+        Modification du Contact
+    {% endif %}
+{% endblock %}
 
 {% block body %}
     <div class="box">
@@ -31,7 +37,7 @@
 
             <div class="form-group">
                 {{ form_label(form.postecontact, "Poste dans l'entreprise (*)", {'label_attr': {'class': "col-4"}}) }}
-                {{ form_widget(form.postecontact, {'attr': {'class': "form-control col-5"'maxlength': "1024"}}) }}
+                {{ form_widget(form.postecontact, {'attr': {'class': "form-control col-5", 'maxlength': "1024"}}) }}
                 {{ form_errors(form.postecontact) }}
             </div>
 

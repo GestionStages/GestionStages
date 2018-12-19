@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  lun. 26 nov. 2018 à 15:44
+-- Généré le :  sam. 01 déc. 2018 à 16:31
 -- Version du serveur :  5.7.23
 -- Version de PHP :  7.2.10
 
@@ -47,7 +47,7 @@ INSERT INTO `associerclassespropositions` (`codeProposition`, `codeClasse`) VALU
 (1, 4),
 (2, 2),
 (3, 1),
-(3, 2);
+(3, 4);
 
 -- --------------------------------------------------------
 
@@ -130,12 +130,13 @@ INSERT INTO `associertechnologiespropositions` (`codeProposition`, `codeTechnolo
 
 DROP TABLE IF EXISTS `classes`;
 CREATE TABLE IF NOT EXISTS `classes` (
-  `nomClasse` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
-  `description` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `nomClasse` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `description` varchar(1024) COLLATE utf8_unicode_ci NOT NULL,
   `dateDebStage` date DEFAULT NULL,
   `dateFinStage` date DEFAULT NULL,
   `codeClasse` int(11) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`codeClasse`)
+  PRIMARY KEY (`codeClasse`),
+  UNIQUE KEY `UNIQ_2ED7EC5A8EBCAA9` (`nomClasse`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -143,7 +144,7 @@ CREATE TABLE IF NOT EXISTS `classes` (
 --
 
 INSERT INTO `classes` (`nomClasse`, `description`, `dateDebStage`, `dateFinStage`, `codeClasse`) VALUES
-('LP-APIDAE', 'E-BUSINESS (WEB)', NULL, NULL, 1),
+('LP-APIDAE', 'E-BUSINESS / WEB', '2019-01-17', '2019-05-15', 1),
 ('LP-ACPI', 'ASSISTANT CHEF PROJET INFORMATIQUE', NULL, NULL, 2),
 ('LP-PSGI', 'SYSTÈMES D’INFORMATION ET GESTION DE DONNÉES', '2019-03-16', '2019-06-12', 4);
 
@@ -155,10 +156,10 @@ INSERT INTO `classes` (`nomClasse`, `description`, `dateDebStage`, `dateFinStage
 
 DROP TABLE IF EXISTS `contacts`;
 CREATE TABLE IF NOT EXISTS `contacts` (
-  `nomContact` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
-  `prenomContact` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
-  `posteContact` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
-  `mailContact` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
+  `nomContact` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `prenomContact` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `posteContact` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `mailContact` varchar(1024) COLLATE utf8_unicode_ci NOT NULL,
   `telContact` char(10) COLLATE utf8_unicode_ci NOT NULL,
   `codeContact` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`codeContact`)
@@ -172,20 +173,22 @@ CREATE TABLE IF NOT EXISTS `contacts` (
 
 DROP TABLE IF EXISTS `domaineactivite`;
 CREATE TABLE IF NOT EXISTS `domaineactivite` (
-  `nomDomaine` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `nomDomaine` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `codeDomaine` int(11) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`codeDomaine`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  PRIMARY KEY (`codeDomaine`),
+  UNIQUE KEY `UNIQ_10E45016CEEE4B84` (`nomDomaine`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Déchargement des données de la table `domaineactivite`
 --
 
 INSERT INTO `domaineactivite` (`nomDomaine`, `codeDomaine`) VALUES
-('Jeux Vidéo', 1),
+('Autre', 4),
 ('Comptablité', 2),
-('Streaming', 3),
-('Autre', 4);
+('Jeux Vidéo', 1),
+('Social', 5),
+('Streaming', 3);
 
 -- --------------------------------------------------------
 
@@ -195,14 +198,15 @@ INSERT INTO `domaineactivite` (`nomDomaine`, `codeDomaine`) VALUES
 
 DROP TABLE IF EXISTS `entreprises`;
 CREATE TABLE IF NOT EXISTS `entreprises` (
-  `nomEntreprise` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
-  `adresseEntreprise` varchar(60) COLLATE utf8_unicode_ci NOT NULL,
-  `villeEntreprise` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
-  `codePostalEntreprise` int(11) NOT NULL,
+  `nomEntreprise` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `adresseEntreprise` varchar(1024) COLLATE utf8_unicode_ci NOT NULL,
+  `villeEntreprise` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `codePostalEntreprise` varchar(5) COLLATE utf8_unicode_ci NOT NULL,
   `telEntreprise` char(14) COLLATE utf8_unicode_ci NOT NULL,
   `blacklister` tinyint(1) NOT NULL DEFAULT '0',
   `codeEntreprise` int(11) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`codeEntreprise`)
+  PRIMARY KEY (`codeEntreprise`),
+  UNIQUE KEY `UNIQ_56B1B7A99B2929EC` (`nomEntreprise`)
 ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -210,17 +214,17 @@ CREATE TABLE IF NOT EXISTS `entreprises` (
 --
 
 INSERT INTO `entreprises` (`nomEntreprise`, `adresseEntreprise`, `villeEntreprise`, `codePostalEntreprise`, `telEntreprise`, `blacklister`, `codeEntreprise`) VALUES
-('ToHero', '1 rue Emile Ain', 'Montpellier', 34090, '0642520665', 1, 1),
-('CGI', '8 rue Georges Freche', 'Montpellier', 34096, '0658653145', 0, 4),
-('Kaliop', '7 rue Ponpidou', 'Montpellier', 34090, '04.95.45.65.23', 0, 5),
-('Cap Gemini', '25 avenue polichon', 'Montpellier', 34090, '0685956535', 0, 6),
-('Le jardin des chats', '60 chemin de pergue', 'Aubais', 30250, '0466382867', 0, 7),
-('Générale du Solaire', '230 rue Saint exupéry', 'Mauguio', 34130, '0411626352', 0, 8),
-('L\'Atelier de la Peluche', '8 rue Jacques d\'Aragon', 'Montpellier', 34000, '0964284857', 0, 9),
-('DAI SARL', 'Non fournie', 'Saint Gély du Fesc', 34981, '0695707639', 0, 10),
-('Groupe SOTHYS', 'Non fournie', 'Brive', 19100, '0555174500', 0, 11),
-('INRA', '2 place Pierre Viala', 'Montpellier', 34060, '0700000000', 0, 12),
-('ACELYS', 'Pole Eureka 418 rue du Mas Verchant', 'Montpellier', 34000, '0467155015', 0, 13);
+('ToHero', '1 rue Emile Ain', 'Montpellier', '34090', '0642520665', 1, 1),
+('CGI', '8 rue Georges Freche', 'Montpellier', '34096', '0658653145', 0, 4),
+('Kaliop', '7 rue Ponpidou', 'Montpellier', '34090', '04.95.45.65.23', 0, 5),
+('Cap Gemini', '25 avenue polichon', 'Montpellier', '34090', '0685956535', 0, 6),
+('Le jardin des chats', '60 chemin de pergue', 'Aubais', '30250', '0466382867', 0, 7),
+('Générale du Solaire', '230 rue Saint exupéry', 'Mauguio', '34130', '0411626352', 0, 8),
+('L\'Atelier de la Peluche', '8 rue Jacques d\'Aragon', 'Montpellier', '34000', '0964284857', 0, 9),
+('DAI SARL', 'Non fournie', 'Saint Gély du Fesc', '34981', '0695707639', 0, 10),
+('Groupe SOTHYS', 'Non fournie', 'Brive', '19100', '0555174500', 0, 11),
+('INRA', '2 place Pierre Viala', 'Montpellier', '34060', '0700000000', 0, 12),
+('ACELYS', 'Pole Eureka 418 rue du Mas Verchant', 'Montpellier', '34000', '0467155015', 0, 13);
 
 -- --------------------------------------------------------
 
@@ -274,8 +278,9 @@ CREATE TABLE IF NOT EXISTS `propositions` (
   `dateAjout` datetime NOT NULL,
   `commentaire` longtext COLLATE utf8_unicode_ci,
   `codeProposition` int(11) NOT NULL AUTO_INCREMENT,
-  `codeEntreprise` int(11) DEFAULT NULL,
+  `codeEntreprise` int(11) NOT NULL,
   `codeEtat` int(11) DEFAULT NULL,
+  `file` varchar(1024) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`codeProposition`),
   KEY `fk_codeEntreprise` (`codeEntreprise`),
   KEY `fk_codeEtat` (`codeEtat`)
@@ -285,10 +290,10 @@ CREATE TABLE IF NOT EXISTS `propositions` (
 -- Déchargement des données de la table `propositions`
 --
 
-INSERT INTO `propositions` (`titreProposition`, `descriptionProposition`, `dateAjout`, `commentaire`, `codeProposition`, `codeEntreprise`, `codeEtat`) VALUES
-('Développement WEB (JS)', 'Vous serez amenez a développer une application WEB dans une équipe de 4 développeur.', '2018-11-26 15:41:31', NULL, 1, 4, 2),
-('Développement C', 'Vous devrez développer une application en C permettant de mettre les énergies renouvelables en avant', '2018-11-26 15:42:31', NULL, 2, 5, 5),
-('Développement JAVA', 'Votre tâche sera de mettre en avant la puissance de cette outils par diverses statistiques de notre entreprise', '2018-11-26 15:43:43', NULL, 3, 1, 1);
+INSERT INTO `propositions` (`titreProposition`, `descriptionProposition`, `dateAjout`, `commentaire`, `codeProposition`, `codeEntreprise`, `codeEtat`, `file`) VALUES
+('Développement WEB (JS)', 'Vous serez amenez a développer une application WEB dans une équipe de 4 développeur.', '2018-11-26 15:41:31', NULL, 1, 4, 4, NULL),
+('Développement C++ / JAVA', 'Vous devrez développer une application en C permettant de mettre les énergies renouvelables en avant', '2018-11-26 15:42:31', NULL, 2, 5, 2, NULL),
+('Développement JAVA / JS', 'Votre tâche sera de mettre en avant la puissance de cette outils par diverses statistiques de notre entreprise.', '2018-11-26 15:43:43', NULL, 3, 1, 5, NULL);
 
 -- --------------------------------------------------------
 
@@ -300,7 +305,8 @@ DROP TABLE IF EXISTS `technologies`;
 CREATE TABLE IF NOT EXISTS `technologies` (
   `nomTechnologie` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
   `codeTechnologie` int(11) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`codeTechnologie`)
+  PRIMARY KEY (`codeTechnologie`),
+  UNIQUE KEY `UNIQ_4CCBFB184919C9AC` (`nomTechnologie`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -308,12 +314,12 @@ CREATE TABLE IF NOT EXISTS `technologies` (
 --
 
 INSERT INTO `technologies` (`nomTechnologie`, `codeTechnologie`) VALUES
-('PHP', 1),
-('JAVA', 2),
-('JAVASCRIPT', 3),
 ('BOOTSTRAP', 6),
 ('C#', 7),
-('C++', 8);
+('C++', 8),
+('JAVA', 2),
+('JAVASCRIPT', 3),
+('PHP', 1);
 
 --
 -- Contraintes pour les tables déchargées

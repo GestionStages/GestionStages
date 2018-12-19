@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Propositions
  *
  * @ORM\Table(name="propositions", indexes={@ORM\Index(name="fk_codeEntreprise", columns={"codeEntreprise"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\PropositionsRepository")
  */
 class Propositions
 {
@@ -372,7 +372,7 @@ class Propositions
      *
      * @return Propositions
      */
-    public function setCodeEtudiant(\AppBundle\Entity\Etudiants $codeEtudiant = null)
+    public function setCodeEtudiant(\AppBundle\Entity\Etudiant $codeEtudiant = null)
     {
         $this->codeEtudiant = $codeEtudiant;
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
-  <entity name="AppBundle\Entity\Propositions" table="propositions">
+  <entity name="AppBundle\Entity\Propositions" table="propositions" repository-class="AppBundle\Repository\PropositionsRepository">
     <indexes>
       <index name="fk_codeEntreprise" columns="codeEntreprise"/>
       <index name="fk_codeEtat" columns="codeEtat"/>
