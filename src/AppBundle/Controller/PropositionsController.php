@@ -115,18 +115,27 @@ class PropositionsController extends Controller
      */
     public function affecterEtudiant(Request $request)
     {
+        $proposition = $this->getDoctrine()->getRepository(Propositions::class)->find($request->get('id'));
+        if(!$request->get('etudiants')){
+            $etudiants = $this->getDoctrine()->getRepository(Etudiant::class)->findNonAffecter();
 
-        $repository = $this->getDoctrine()
-            ->getRepository(Etudiant::class);
+            var_dump($request->get('etudiants'));
 
-        //recuperation de l'entreprise par l'id passer en session
-        $etudiants = $repository->createQueryBuilder('e')
-            ->getQuery()
-            ->getResult();
+            return $this->render('propositions/affecterEtudiant.html.twig', ['etudiants' => $etudiants, 'proposition' => $proposition]);
+        }
+        else{
+            $etudiant =  $this->getDoctrine()->getRepository(Etudiant::class)->find($request->get('etudiants'));
+            $proposition->setCodeEtudiant($etudiant);
 
-        var_dump($request->get('etudiants'));
+            $em = $this-> getDoctrine()->getManager();
+            $em->persist($proposition);
+            $em->flush();
 
-        return $this->render('propositions/affecterEtudiant.html.twig', ['etudiants' => $etudiants]);
+            // On affiche message de validation dans le formulaire de redirection
+            $this->get('session')->getFlashBag()->add('notice','L\'étudiant à été affecté !');
+            return $this->redirect($this->generateUrl('showAdminListAll'));
+
+        }
     }
 
     /**
