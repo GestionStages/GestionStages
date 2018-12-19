@@ -6,6 +6,7 @@ use AppBundle\Entity\Classes;
 use AppBundle\Entity\Domaineactivite;
 use AppBundle\Entity\Entreprises;
 use AppBundle\Entity\Etat;
+use AppBundle\Entity\Etudiant;
 use AppBundle\Entity\Propositions;
 use AppBundle\Entity\Technologies;
 use AppBundle\Form\PropositionsType;
@@ -104,6 +105,28 @@ class PropositionsController extends Controller
             ->find($id);
 
         return $this->render('propositions/propositionShow.html.twig',['proposition' => $proposition]);
+    }
+
+    /**
+     * @Route("/propositions/{id}/affecter", name="affecterEtudiant", requirements={"id"="\d+"})
+     *
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function affecterEtudiant(Request $request)
+    {
+
+        $repository = $this->getDoctrine()
+            ->getRepository(Etudiant::class);
+
+        //recuperation de l'entreprise par l'id passer en session
+        $etudiants = $repository->createQueryBuilder('e')
+            ->getQuery()
+            ->getResult();
+
+        var_dump($request->get('etudiants'));
+
+        return $this->render('propositions/affecterEtudiant.html.twig', ['etudiants' => $etudiants]);
     }
 
     /**
@@ -246,4 +269,6 @@ class PropositionsController extends Controller
         //Retourne form de la liste des domaines d'activités
         return $this->redirect($this->generateUrl('afficherPropositionbyid',['id' => $proposition->getCodeproposition()]));
     }
+
+
 }
