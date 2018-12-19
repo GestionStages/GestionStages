@@ -18,8 +18,18 @@ class AdminController extends Controller
     public function showHome()
     {
         $repository = $this->getDoctrine()->getManager()->getRepository('AppBundle:Propositions');
-        $stat = $repository->nbEnAttenteValid();
-        return $this->render('admin/home.html.twig', ['stat'=>$stat]);
+        $attenteValid = $repository->nbEnAttenteValid();
+        $valid = $repository->nbValid();
+        $archive =$repository->nbArchive();
+        $affecte = $repository->nbAffecte();
+        $refuse = $repository->nbRefuse();
+        $query = $repository->createQueryBuilder('p')
+            //->where('p.codeetat = 1')
+            ->orderBy('p.dateajout', 'DESC')
+            ->getQuery();
+
+        $propositions = $query->getResult();
+        return $this->render('admin/home.html.twig', ['attenteValid'=>$attenteValid, 'valid'=>$valid, 'archive'=>$archive, 'affecte'=>$affecte, 'refuse'=>$refuse, 'propositions'=>$propositions]);
     }
 
     /**

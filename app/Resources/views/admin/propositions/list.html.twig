@@ -22,12 +22,12 @@
                 <tbody>
                 {% for uneProposition in propositions  %}
                     <tr>
-                        <td align="center">{{ uneProposition.codeEtat.nomEtat }}<br/><br/>
-                            {% if (uneProposition.codeEtat.codeEtat == 1) %}<div id="cercleAttente"></div>{% endif %}
-                            {% if (uneProposition.codeEtat.codeEtat == 2) %}<div id="cercleValid"></div>{% endif %}
-                            {% if (uneProposition.codeEtat.codeEtat == 3) %}<div id="cercleAffecte"></div>{% endif %}
-                            {% if (uneProposition.codeEtat.codeEtat == 4) %}<div id="cercleArchive"></div>{% endif %}
-                            {% if (uneProposition.codeEtat.codeEtat == 5) %}<div id="cercleRefuse"></div>{% endif %}
+                        <td align="center">
+                            {% if (uneProposition.codeEtat.codeEtat == 1) %}<br/><br/><span class="label label-warning">{{ uneProposition.codeEtat.nomEtat }}</span> {% endif %}
+                            {% if (uneProposition.codeEtat.codeEtat == 2) %}<br/><br/><span class="label label-success">{{ uneProposition.codeEtat.nomEtat }}</span> {% endif %}
+                            {% if (uneProposition.codeEtat.codeEtat == 3) %}<span class="label label-info">{{ uneProposition.codeEtat.nomEtat }}</span> {% endif %}
+                            {% if (uneProposition.codeEtat.codeEtat == 4) %}<br/><br/><span class="label label-default">{{ uneProposition.codeEtat.nomEtat }}</span> {% endif %}
+                            {% if (uneProposition.codeEtat.codeEtat == 5) %}<br/><br/><span class="label label-danger">{{ uneProposition.codeEtat.nomEtat }}</span> {% endif %}
                         </td>
                         <td><a href="{{ path("afficherPropositionbyid", {'id': uneProposition.codeProposition}) }}">{{ uneProposition.titreproposition }}</a></td>
                         <td>{{ uneProposition.codeentreprise.nomentreprise }}</td>
