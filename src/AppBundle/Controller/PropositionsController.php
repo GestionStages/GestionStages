@@ -139,6 +139,22 @@ class PropositionsController extends Controller
     }
 
     /**
+     * @Route("/propositions/{id}/desaffecter", name="desaffecterEtudiant", requirements={"id"="\d+"})
+     *  @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     */
+    public function desaffecterEtudiant(Request $request){
+        $proposition = $this->getDoctrine()->getRepository(Propositions::class)->find($request->get('id'));
+        $proposition->setCodeEtudiant(null);
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($proposition);
+        $em->flush();
+        $this->get('session')->getFlashBag()->add('notice','L\'étudiant n\'est plus affecté !');
+        return $this->redirect($this->generateUrl('showAdminListAll'));
+
+    }
+
+    /**
      * @param Request $request
      * @param Propositions $proposition
      * @Route("/propositions/{id}/edit", name="editProposition", requirements={"id"="\d+"})
