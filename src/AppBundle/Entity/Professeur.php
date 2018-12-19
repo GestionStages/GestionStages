@@ -2,8 +2,14 @@
 
 namespace AppBundle\Entity;
 
+use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\ORM\Mapping as ORM;
+
 /**
  * Professeur
+ *
+ * @ORM\Table(name="professeur")
+ * @ORM\Entity
  */
 class Professeur
 {
@@ -14,16 +20,37 @@ class Professeur
 
     /**
      * @var string
+     * @ORM\Column(name="nomProf", type="string", length=255, nullable=false)
+     *
+     * @Assert\NotBlank(message="Le nom est obligatoire.")
+     * @Assert\Length(
+     *     max = 255,
+     *     maxMessage = "Le nom doit faire au maximum {{ limit }} caractères."
+     * )
      */
     private $nomProf;
 
     /**
      * @var string
+     * @ORM\Column(name="prenomProf", type="string", length=255, nullable=false)
+     *
+     * @Assert\NotBlank(message="Le prenom est obligatoire.")
+     * @Assert\Length(
+     *     max = 255,
+     *     maxMessage = "Le prenom doit faire au maximum {{ limit }} caractères."
+     * )
      */
     private $prenomProf;
 
     /**
      * @var string
+     * @ORM\Column(name="mailProf", type="string", length=255, nullable=false)
+     *
+     * @Assert\NotBlank(message="Le mail est obligatoire.")
+     * @Assert\Length(
+     *     max = 255,
+     *     maxMessage = "Le mail doit faire au maximum {{ limit }} caractères."
+     * )
      */
     private $mailProf;
 
