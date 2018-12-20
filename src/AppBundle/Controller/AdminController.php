@@ -17,7 +17,19 @@ class AdminController extends Controller
      */
     public function showHome()
     {
-        return $this->render('admin/home.html.twig');
+        $repository = $this->getDoctrine()->getManager()->getRepository('AppBundle:Propositions');
+        $attenteValid = $repository->nbEnAttenteValid();
+        $valid = $repository->nbValid();
+        $archive =$repository->nbArchive();
+        $affecte = $repository->nbAffecte();
+        $refuse = $repository->nbRefuse();
+        $query = $repository->createQueryBuilder('p')
+            ->where('p.codeetat = 1')
+            ->orderBy('p.dateajout', 'DESC')
+            ->getQuery();
+
+        $propositions = $query->getResult();
+        return $this->render('admin/home.html.twig', ['attenteValid'=>$attenteValid, 'valid'=>$valid, 'archive'=>$archive, 'affecte'=>$affecte, 'refuse'=>$refuse, 'propositions'=>$propositions]);
     }
 
     /**
@@ -25,6 +37,7 @@ class AdminController extends Controller
      */
     public function showListAll()
     {
+        //TODO: A deplacer dans un repository !
         $repository = $this->getDoctrine()->getRepository(Propositions::class);
 
         $query = $repository->createQueryBuilder('p')
@@ -34,6 +47,17 @@ class AdminController extends Controller
         $propositions = $query->getResult();
 
         return $this->render('admin/propositions/list.html.twig',['propositions' => $propositions]);
+    }
+    /**
+     * @Route("/admin/stat", name="statAdmin")
+     */
+    public function statAdmin()
+    {
+        //TODO: Function de test
+        $repository = $this->getDoctrine()->getManager()->getRepository('AppBundle:Propositions');
+        $stat = $repository->nbEnAttenteValid();
+
+        return new Response($stat);
     }
 
     /**

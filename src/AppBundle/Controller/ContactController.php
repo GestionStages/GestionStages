@@ -36,7 +36,7 @@ class ContactController extends Controller
 
         $repository = $this->getDoctrine()
             ->getRepository(Entreprises::class);
-
+//TODO: A Déplacer dans repository EntrepriseRepository
         //recuperation de l'entreprise par l'id passer en session
         $entreprise = $repository->createQueryBuilder('e')
             ->where('e.codeentreprise = :entreprise')
@@ -116,7 +116,7 @@ class ContactController extends Controller
         $repository = $this->getDoctrine()
             ->getRepository(Entreprises::class);
 
-
+//TODO: A Déplacer dans repository EntrepriseRepository
         $entreprise = $repository->createQueryBuilder('e')
             ->where('e.codeentreprise = :entreprise')
             ->setParameter('entreprise', $session->get('entreprise'))
@@ -156,6 +156,7 @@ class ContactController extends Controller
      */
 
     public function delete(Contacts $contact, SessionInterface $session){
+        //TODO: A Déplacer dans repository EntrepriseRepository
         $repository = $this->getDoctrine()
             ->getRepository(Entreprises::class);
         // recupere l'entreprise avec l'id stocké en session

@@ -18,4 +18,44 @@ class PropositionsRepositoryTest extends WebTestCase
         $this->assertEquals($entities, 2);
 
     }
+
+    public function testnbValid()
+    {
+        $client = static::createClient();
+        $container = $client->getContainer();
+        $em = $container->get('doctrine')->getManager();
+        $entities = $em->getRepository('AppBundle:Propositions')->nbValid();
+        $this->assertEquals($entities, 1);
+
+    }
+
+    public function testnbAffecte()
+    {
+        $client = static::createClient();
+        $container = $client->getContainer();
+        $em = $container->get('doctrine')->getManager();
+        $entities = $em->getRepository('AppBundle:Propositions')->nbAffecte();
+        $this->assertEquals($entities, 1);
+
+    }
+
+    public function testnbArchive()
+    {
+        $client = static::createClient();
+        $container = $client->getContainer();
+        $em = $container->get('doctrine')->getManager();
+        $entities = $em->getRepository('AppBundle:Propositions')->nbArchive();
+        $this->assertEquals($entities, 1);
+
+    }
+
+    public function testnbRefuse()
+    {
+        $client = static::createClient();
+        $container = $client->getContainer();
+        $em = $container->get('doctrine')->getManager();
+        $entities = $em->getRepository('AppBundle:Propositions')->nbRefuse();
+        $this->assertEquals($entities, 1);
+
+    }
 }
