@@ -29,6 +29,11 @@
         <option name="fixed">1</option>
       </options>
     </field>
+    <field name="mdpcontact" type="string" column="mdpContact" length="255" nullable="true">
+      <options>
+        <option name="fixed">1</option>
+      </options>
+    </field>
     <many-to-many field="codeentreprise" target-entity="Entreprises" mapped-by="codecontact" fetch="LAZY"/>
   </entity>
 </doctrine-mapping>

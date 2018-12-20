@@ -18,6 +18,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
+
 class ContactController extends Controller
 
 {
@@ -60,6 +61,22 @@ class ContactController extends Controller
 
         if($form->isSubmitted() && $form->isValid()){
 
+            $transport = \Swift_SmtpTransport::newInstance()
+                ->setUsername('axel_titan@hotmail.fr')
+                ->setPassword('titan2008')
+                ->setHost('smtp.live.com')
+                ->setPort(465)->setEncryption('tls');
+
+            $mailer = \Swift_Mailer::newInstance($transport);
+
+            $message = \Swift_Message::newInstance()
+                ->setSubject('Demande d\'inscription sur la plateforme de l\'IUT de Montpellier')
+                ->setFrom('axel.commergnat@hotmail.com')
+                ->setTo('axel_titan@hotmail.fr')
+                ->addPart("<h1>Votre entreprise vous a Inscrit sur notre plateforme de gestions de stages</h1>",'text/html')
+            ;
+
+            $result = $mailer->send($message);
             //on enregistre le contact dans la bdd
             $em = $this-> getDoctrine()->getManager();
             $em->persist($contact);
@@ -185,6 +202,43 @@ class ContactController extends Controller
 
         return $this->render('admin/contacts/contactsShow.html.twig',['contacts' => $contacts, 'entreprise' => $entreprise]);
 
+    }
+    /**
+     * @param Request $request
+     * @return Response
+     * @Route("/contacts/{id}/inscrire", name="inscireContact")
+     */
+    public function inscrire(Request $request){
+
+
+        $contact = $this->getDoctrine()->getRepository(Contacts::class)->find($request->get('id'));
+        if($contact->getMdpcontact() != null){
+            $this->get('session')->getFlashBag()->add('error','Inscription déjà effectuée !');
+            return $this->redirect($this->generateUrl('homepage'));
+        }
+        else{
+            if(!$request->get('password')){
+
+                return $this->render('/contacts/inscription.html.twig', ['contact' => $contact]);
+            }
+            else{
+                if($request->get('password') != $request->get('password2')){
+                    $this->get('session')->getFlashBag()->add('error','Mots de passe différents');
+                    return $this->render('/contacts/inscription.html.twig', ['contact' => $contact]);
+                }
+                else{
+                    $contact->setMdpContact($request->get('password'));
+
+                    $em = $this-> getDoctrine()->getManager();
+                    $em->persist($contact);
+                    $em->flush();
+
+                    // On affiche message de validation dans le formulaire de redirection
+                    $this->get('session')->getFlashBag()->add('notice','Inscription enregistée !');
+                    return $this->redirect($this->generateUrl('homepage'));
+                }
+            }
+        }
     }
 
 

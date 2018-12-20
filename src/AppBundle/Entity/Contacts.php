@@ -266,4 +266,35 @@ class Contacts
     {
         return $this->postecontact;
     }
+    /**
+     * @var string
+     * @ORM\Column(name="mdpContact", type="string", length=255, nullable=true)
+     *
+     */
+    private $mdpcontact;
+
+
+    /**
+     * Set mdpcontact
+     *
+     * @param string $mdpcontact
+     *
+     * @return Contacts
+     */
+    public function setMdpcontact($mdpcontact)
+    {
+        $this->mdpcontact = $mdpcontact;
+
+        return $this;
+    }
+
+    /**
+     * Get mdpcontact
+     *
+     * @return string
+     */
+    public function getMdpcontact()
+    {
+        return $this->mdpcontact;
+    }
 }
