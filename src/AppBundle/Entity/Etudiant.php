@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -10,9 +11,8 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="etudiants")
  * @ORM\Entity
- * @UniqueEntity(fields="nomentreprise", message="Une entreprise existante possède déjà ce nom.")
  */
-class Etudiant
+class Etudiant implements UserInterface
 {
     /**
      *
@@ -23,16 +23,7 @@ class Etudiant
     /**
      * @var string
      *
-     *
-     *
-     * @ORM\Column(name="nomEtudiant", type="string", length=255, nullable=false)
-     *
-     * @Assert\NotBlank(message="Le nom est obligatoire.")
-     * @Assert\Length(
-     *     max = 255,
-     *     maxMessage = "Le nom doit faire au maximum {{ limit }} caractères."
-     * )
-     *
+     * @ORM\Column(name="nomEtudiant", type="string", length=255, nullable=false)     *
      */
     private $nomEtudiant;
 
@@ -40,27 +31,16 @@ class Etudiant
      * @var string
      *
      * @ORM\Column(name="prenomEtudiant", type="string", length=255, nullable=false)
-     *
-     * @Assert\NotBlank(message="Le prenom est obligatoire.")
-     * @Assert\Length(
-     *     max = 255,
-     *     maxMessage = "Le prenom doit faire au maximum {{ limit }} caractères."
-     * )
-     *
      */
     private $prenomEtudiant;
 
     /**
      * @var string
-     * @ORM\Column(name="mailEtudiant", type="string", length=255, nullable=false)
      *
-     * @Assert\NotBlank(message="Le mail est obligatoire.")
-     * @Assert\Length(
-     *     max = 255,
-     *     maxMessage = "Le mail doit faire au maximum {{ limit }} caractères."
-     * )
+     * @ORM\Column(name="mailEtudiant", type="string", length=255, nullable=false)
      */
     private $mailEtudiant;
+
     /**
      * @var string
      * @ORM\Column(name="telEtudiant", type="string", length=10, nullable=false)
@@ -72,18 +52,6 @@ class Etudiant
      * )
      */
     private $telEtudiant;
-
-
-    /**
-     * @var \AppBundle\Entity\Propositions
-     *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Propositions")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="codeProposition", referencedColumnName="codeProposition", nullable=true)
-     * })
-     *
-     */
-    private $codeproposition;
 
     /**
      * Get id
@@ -196,12 +164,6 @@ class Etudiant
     private $codeEtudiant;
 
     /**
-     * @var \AppBundle\Entity\Propositions
-     */
-    private $codeProposition;
-
-
-    /**
      * Get codeEtudiant
      *
      * @return integer
@@ -212,26 +174,195 @@ class Etudiant
     }
 
     /**
-     * Set codeProposition
-     *
-     * @param \AppBundle\Entity\Propositions $codeProposition
-     *
-     * @return Etudiant
+     * @var \AppBundle\Entity\Classes
      */
-    public function setCodeProposition(\AppBundle\Entity\Propositions $codeProposition = null)
-    {
-        $this->codeProposition = $codeProposition;
+    private $codeclasse;
 
-        return $this;
+    /**
+     * @var string
+     * @ORM\Column(name="userEtudiant", type="string", length=255, nullable=false)
+     */
+    private $userEtudiant;
+
+    /**
+     * @var string
+     * @ORM\Column(name="numEtudiant", type="string", length=8, nullable=false)
+     *
+     * @Assert\Regex(
+     *     pattern= "#^[0-9]{8,8}$#",
+     *     match=true,
+     *     message= "Le format du numéro n'est pas respecté."
+     * )
+     */
+    private $numEtudiant;
+
+    /**
+     * @var string
+     * @ORM\Column(name="addrEtudiant", type="string", length=1024, nullable=false)
+     *
+     * @Assert\Length(
+     *     max="1024",
+     *     maxMessage="L'addresse doit faire au maximum 1024 caractères"
+     * )
+     */
+    private $addrEtudiant;
+
+    /**
+     * @var \DateTime
+     */
+    private $dateEtudiant;
+
+    /**
+     * @var string
+     * @ORM\Column(name="sexeEtudiant", type="string", length=1, nullable=false)
+     *
+     * @Assert\Choice(
+     *     choices={"h","f","o"},
+     *     message="Vous devez sélectionner un genre valide"
+     * )
+     */
+    private $sexeEtudiant;
+
+    /**
+     * @return string
+     */
+    public function getUserEtudiant()
+    {
+        return $this->userEtudiant;
     }
 
     /**
-     * Get codeProposition
-     *
-     * @return \AppBundle\Entity\Propositions
+     * @param string $userEtudiant
      */
-    public function getCodeProposition()
+    public function setUserEtudiant($userEtudiant)
     {
-        return $this->codeProposition;
+        $this->userEtudiant = $userEtudiant;
     }
+
+    /**
+     * @return string
+     */
+    public function getNumEtudiant()
+    {
+        return $this->numEtudiant;
+    }
+
+    /**
+     * @param string $numEtudiant
+     */
+    public function setNumEtudiant($numEtudiant)
+    {
+        $this->numEtudiant = $numEtudiant;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAddrEtudiant()
+    {
+        return $this->addrEtudiant;
+    }
+
+    /**
+     * @param string $addrEtudiant
+     */
+    public function setAddrEtudiant($addrEtudiant)
+    {
+        $this->addrEtudiant = $addrEtudiant;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDateEtudiant()
+    {
+        return $this->dateEtudiant;
+    }
+
+    /**
+     * @param string $dateEtudiant
+     */
+    public function setDateEtudiant($dateEtudiant)
+    {
+        $this->dateEtudiant = $dateEtudiant;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSexeEtudiant()
+    {
+        return $this->sexeEtudiant;
+    }
+
+    /**
+     * @param string $sexeEtudiant
+     */
+    public function setSexeEtudiant($sexeEtudiant)
+    {
+        $this->sexeEtudiant = $sexeEtudiant;
+    }
+
+    /**
+     * @return Classes
+     */
+    public function getCodeclasse()
+    {
+        return $this->codeclasse;
+    }
+
+    /**
+     * @param Classes $codeclasse
+     */
+    public function setCodeclasse($codeclasse)
+    {
+        $this->codeclasse = $codeclasse;
+    }
+
+    public function getRoles() {
+        return ['ROLE_STUDENT'];
+    }
+
+    /**
+     * Returns the password used to authenticate the user.
+     *
+     * This should be the encoded password. On authentication, a plain-text
+     * password will be salted, encoded, and then compared to this value.
+     *
+     * @return string The password
+     */
+    public function getPassword()
+    {
+        return null;
+    }
+
+    /**
+     * Returns the salt that was originally used to encode the password.
+     *
+     * This can return null if the password was not encoded using a salt.
+     *
+     * @return string|null The salt
+     */
+    public function getSalt()
+    {
+        return null;
+    }
+
+    /**
+     * Returns the username used to authenticate the user.
+     *
+     * @return string The username
+     */
+    public function getUsername()
+    {
+        return $this->userEtudiant;
+    }
+
+    /**
+     * Removes sensitive data from the user.
+     *
+     * This is important if, at any given point, sensitive information like
+     * the plain-text password is stored on this object.
+     */
+    public function eraseCredentials() {}
 }

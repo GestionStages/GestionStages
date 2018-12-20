@@ -4,10 +4,19 @@
     <id name="id" type="integer" column="id">
       <generator strategy="AUTO"/>
     </id>
-    <field name="nomEtudiant" type="string" column="nomEtudiant" length="255"/>
-    <field name="prenomEtudiant" type="string" column="prenomEtudiant" length="255"/>
-    <field name="mailEtudiant" type="string" column="mailEtudiant" length="255"/>
-    <field name="telEtudiant" type="string" column="telEtudiant" length="10"/>
-    <one-to-one field="codeProposition" target-entity="Propositions" mapped-by="codeEtudiant" />
+    <field name="userEtudiant" type="string" column="userEtudiant" length="255" nullable="false" unique="true"/>
+    <field name="numEtudiant" type="string" column="numEtudiant" length="8"/>
+    <field name="nomEtudiant" type="string" column="nomEtudiant" length="255" nullable="false"/>
+    <field name="prenomEtudiant" type="string" column="prenomEtudiant" length="255" nullable="false"/>
+    <field name="mailEtudiant" type="string" column="mailEtudiant" length="255" nullable="false"/>
+    <field name="telEtudiant" type="string" column="telEtudiant" length="10" nullable="false"/>
+    <field name="addrEtudiant" type="string" column="addrEtudiant" length="1024" nullable="false"/>
+    <field name="dateEtudiant" type="date" column="dateEtudiant" nullable="false"/>
+    <field name="sexeEtudiant" type="string" column="sexeEtudiant" length="1" nullable="false"/>
+    <many-to-one target-entity="Classes" field="codeclasse" fetch="LAZY">
+      <join-columns>
+        <join-column name="codeClasseEtudiant" referenced-column-name="codeClasse" nullable="false"/>
+      </join-columns>
+    </many-to-one>
   </entity>
 </doctrine-mapping>
