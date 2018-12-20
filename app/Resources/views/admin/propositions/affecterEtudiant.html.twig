@@ -12,7 +12,7 @@
                     <label for="etudiants" class="title">Selectionnez un étudiant</label>
                     <select name="etudiant" >
                         {% for unEtudiant in etudiants %}
-                        <option value="{{ unEtudiant.id }}">{{ unEtudiant.nomEtudiant }} {{ unEtudaint.prenomEtudiant }}</option>
+                        <option value="{{ unEtudiant.id }}">{{ unEtudiant.nomEtudiant }} {{ unEtudiant.prenomEtudiant }}</option>
                         {% endfor %}
                     </select>
                 </div>
