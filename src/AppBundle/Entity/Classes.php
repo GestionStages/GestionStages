@@ -212,4 +212,33 @@ class Classes
     {
         return $this->dateFinStage;
     }
+    /**
+     * @var boolean
+     */
+    private $isLicence;
+
+
+    /**
+     * Set isLicence
+     *
+     * @param boolean $isLicence
+     *
+     * @return Classes
+     */
+    public function setIsLicence($isLicence)
+    {
+        $this->isLicence = $isLicence;
+
+        return $this;
+    }
+
+    /**
+     * Get isLicence
+     *
+     * @return boolean
+     */
+    public function getIsLicence()
+    {
+        return $this->isLicence;
+    }
 }

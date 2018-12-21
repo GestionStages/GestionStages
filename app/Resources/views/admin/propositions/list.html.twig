@@ -1,6 +1,6 @@
 {% extends "admin/base.html.twig" %}
 
-{% block title %}Propositions en attente{% endblock %}
+{% block title %}Lise des Propositions{% endblock %}
 {% block stylesheets %}<link rel="stylesheet" href="{{ asset('css/propositionsAdmin.css') }}">{% endblock %}
 
 {% block body %}
@@ -16,18 +16,19 @@
                     <th>Technologie(s)</th>
                     <th>Commentaire</th>
                     <th>Postée le</th>
+                    <th>Personne(s) affectée(s)</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
                 {% for uneProposition in propositions  %}
                     <tr>
-                        <td align="center">{{ uneProposition.codeEtat.nomEtat }}<br/><br/>
-                            {% if (uneProposition.codeEtat.codeEtat == 1) %}<div id="cercleAttente"></div>{% endif %}
-                            {% if (uneProposition.codeEtat.codeEtat == 2) %}<div id="cercleValid"></div>{% endif %}
-                            {% if (uneProposition.codeEtat.codeEtat == 3) %}<div id="cercleAffecte"></div>{% endif %}
-                            {% if (uneProposition.codeEtat.codeEtat == 4) %}<div id="cercleArchive"></div>{% endif %}
-                            {% if (uneProposition.codeEtat.codeEtat == 5) %}<div id="cercleRefuse"></div>{% endif %}
+                        <td align="center"><br/><br/>
+                            {% if (uneProposition.codeEtat.codeEtat == 1) %}<span class="label label-warning">{{ uneProposition.codeEtat.nomEtat }}</span> {% endif %}
+                            {% if (uneProposition.codeEtat.codeEtat == 2) %}<span class="label label-success">{{ uneProposition.codeEtat.nomEtat }}</span> {% endif %}
+                            {% if (uneProposition.codeEtat.codeEtat == 3) %}<span class="label label-info">{{ uneProposition.codeEtat.nomEtat }}</span> {% endif %}
+                            {% if (uneProposition.codeEtat.codeEtat == 4) %}<span class="label label-default">{{ uneProposition.codeEtat.nomEtat }}</span> {% endif %}
+                            {% if (uneProposition.codeEtat.codeEtat == 5) %}<span class="label label-danger">{{ uneProposition.codeEtat.nomEtat }}</span> {% endif %}
                         </td>
                         <td><a href="{{ path("afficherPropositionbyid", {'id': uneProposition.codeProposition}) }}">{{ uneProposition.titreproposition }}</a></td>
                         <td>{{ uneProposition.codeentreprise.nomentreprise }}</td>
@@ -43,19 +44,43 @@
                         </td>
                         <td>{{ uneProposition.commentaire }}</td>
                         <td>{{ uneProposition.dateajout|date("d/m/Y H:i") }}</td>
+                        <td><b>Etudiant :</b>
+                            {% if (uneProposition.codeEtudiant is not null) %}
+                                {{ uneProposition.codeEtudiant.prenomEtudiant }} {{ uneProposition.codeEtudiant.nomEtudiant }} ({{ uneProposition.codeEtudiant.codeClasse.nomClasse }})<br/><br/>
+                            {% else %}
+                                non affecté <br/><br/>
+                            {% endif %}
+
+                            <b>Professeur :</b>
+                            {% if (uneProposition.codeProfesseur is not null) %}
+                                {{ uneProposition.codeProfesseur.nomProf }} {{ uneProposition.codeProfesseur.prenomProf }}
+                            {% else %}
+                                non affecté
+                            {% endif %}
+                        </td>
                         <td>
                             <a href="{{ path('editPropositionAdmin', {'id': uneProposition.codeproposition}) }}" class="btn btn-primary"><i class="fa fa-edit" aria-hidden="true"></i> Editer</a><br/>
-                            {% if uneProposition.codeEtat.codeEtat != 3 %}
+                            {% if (uneProposition.codeEtat.codeEtat == 2 and uneProposition.codeEtudiant is not null) %}
+                                <a href="{{ path('desaffecterEtudiant', {'id': uneProposition.codeproposition}) }}" class="btn btn-adn"><i class="fa fa-remove" aria-hidden="true"></i> Etudiant</a><br/>
+                                {% if (uneProposition.codeProfesseur is null) %}
+                                    <a href="{{ path('affecterProfesseur', {'id': uneProposition.codeproposition}) }}" class="btn btn-tumblr"><i class="fa fa-plus" aria-hidden="true"></i> Tuteur</a><br/>
+                                {% else %}
+                                    <a href="{{ path('desaffecterProfesseur', {'id': uneProposition.codeproposition}) }}" class="btn btn-adn"><i class="fa fa-remove" aria-hidden="true"></i> Tuteur</a><br/>
+                                {% endif %}
+                            {% else %}
+
                                 {% if uneProposition.codeEtat.codeEtat != 2 %}
                                     <a href="{{ path('validProposition', {'id': uneProposition.codeproposition}) }}" class="btn btn-success"><i class="fa fa-check" aria-hidden="true"></i> Valider</a><br/>
+                                {% else %}
+                                    <a href="{{ path('affecterEtudiant', {'id': uneProposition.codeproposition}) }}" class="btn btn-tumblr"><i class="fa fa-plus" aria-hidden="true"></i> Etudiant</a><br/>
                                 {% endif %}
                                 {% if uneProposition.codeEtat.codeEtat != 5 %}
                                     <a href="{{ path('rejectProposition', {'id': uneProposition.codeproposition}) }}" class="btn btn-danger"><i class="fa fa-minus-circle" aria-hidden="true"></i> Refuser</a><br/>
                                 {% endif %}
                                 {% if uneProposition.codeEtat.codeEtat != 4 %}
-                                    <a href="{{ path('archiveProposition', {'id': uneProposition.codeproposition}) }}" class="btn btn-info"><i class="fa fa-archive" aria-hidden="true"></i> Archiver</a>
+                                    <a href="{{ path('archiveProposition', {'id': uneProposition.codeproposition}) }}" class="btn btn-info"><i class="fa fa-archive" aria-hidden="true"></i> Archiver</a><br/>
                                 {% endif %}
-                            {% endif %}
+                             {% endif %}
                         </td>
                     </tr>
                 {% endfor %}

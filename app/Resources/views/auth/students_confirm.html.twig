@@ -1,0 +1,57 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Terminer votre inscription{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Terminer votre inscription</h1>
+        {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+
+        <div class="form-group form-inline row">
+            {{ form_label(form.numEtudiant, "Numéro étudiant (*)", {'label_attr': {'class': "col-4"}}) }}
+            {{ form_widget(form.numEtudiant, {'attr': {'class': "form-control col-5", 'maxlength': "8"}}) }}
+            {{ form_errors(form.numEtudiant) }}
+        </div>
+
+        <div class="form-group form-inline row">
+            {{ form_label(form.telEtudiant, "Téléphone (*)", {'label_attr': {'class': "col-4"}}) }}
+            {{ form_widget(form.telEtudiant, {'attr': {'class': "form-control col-5", 'maxlength': "10"}}) }}
+            {{ form_errors(form.telEtudiant) }}
+        </div>
+
+        <div class="form-group form-inline row">
+            {{ form_label(form.addrEtudiant, "Addresse (*)", {'label_attr': {'class': "col-4"}}) }}
+            {{ form_widget(form.addrEtudiant, {'attr': {'class': "form-control col-5", 'maxlength': "1024"}}) }}
+            {{ form_errors(form.addrEtudiant) }}
+        </div>
+
+        <div class="form-group form-inline row">
+            {{ form_label(form.sexeEtudiant, "Sexe (*)", {'label_attr': {'class': "col-4"}}) }}
+            {% for sexe in form.sexeEtudiant %}
+                <div class="form-check form-check-inline">
+                    {{ form_widget(sexe, {'attr': {'class': "form-check-input"}}) }}
+                    {{ form_label(sexe, null, {'label_attr': {'class': "form-check-label"}}) }}
+                </div>
+            {% endfor %}
+            {{ form_errors(form.sexeEtudiant) }}
+        </div>
+
+        <div class="form-group form-inline row">
+            {{ form_label(form.dateEtudiant, "Date de naissance (*)", {'label_attr': {'class': "col-4"}}) }}
+            {{ form_widget(form.dateEtudiant, {'attr': {'class': "form-control col-5"}}) }}
+            {{ form_errors(form.dateEtudiant) }}
+        </div>
+
+        <div class="form-group form-inline row">
+            {{ form_label(form.codeclasse, "Classe (*)", {'label_attr': {'class': "col-4"}}) }}
+            {{ form_widget(form.codeclasse, {'attr': {'class': "form-control col-5"}}) }}
+            {{ form_errors(form.codeclasse) }}
+        </div>
+
+        <div class="btn-group" role="group" aria-label="...">
+            <button type="submit" class="btn btn-primary" >Envoyer</button>
+        </div>
+
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

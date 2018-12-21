@@ -3,6 +3,7 @@
 namespace AppBundle\Form;
 
 
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -21,7 +22,9 @@ class ClassesType extends AbstractType
                 ->add('dateDebStage', DateType::class, array(
                     'widget' => 'single_text'))
                 ->add('dateFinStage', DateType::class, array(
-                    'widget' => 'single_text'));
+                    'widget' => 'single_text'))
+                ->add('isLicence', ChoiceType::class, array(
+                    'choices' => array('OUI' => true, 'NON' => false)));
     }/**
      * {@inheritdoc}
      */
