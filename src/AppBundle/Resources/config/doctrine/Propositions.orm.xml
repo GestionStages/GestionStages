@@ -25,7 +25,7 @@
       </options>
     </field>
     <field name="file" type="string" length="1024" nullable="true"/>
-    <one-to-one field="codeEtudiant" target-entity="Etudiant" inversed-by="codeProposition">
+    <one-to-one field="codeEtudiant" target-entity="Etudiant">
       <join-columns>
         <join-column name="codeEtudiant" referenced-column-name="id" nullable="true"/>
       </join-columns>
