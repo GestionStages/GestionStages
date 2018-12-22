@@ -30,7 +30,7 @@
                             {% if (uneProposition.codeEtat.codeEtat == 4) %}<span class="label label-default">{{ uneProposition.codeEtat.nomEtat }}</span> {% endif %}
                             {% if (uneProposition.codeEtat.codeEtat == 5) %}<span class="label label-danger">{{ uneProposition.codeEtat.nomEtat }}</span> {% endif %}
                         </td>
-                        <td><a href="{{ path("afficherPropositionbyid", {'id': uneProposition.codeProposition}) }}">{{ uneProposition.titreproposition }}</a></td>
+                        <td><a href="{{ path("afficherPropositionbyid", {'id': uneProposition.codeproposition}) }}">{{ uneProposition.titreproposition }}</a></td>
                         <td>{{ uneProposition.codeentreprise.nomentreprise }}</td>
                         <td>
                             {% for classe in uneProposition.codeclasse %}
