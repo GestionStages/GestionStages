@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
@@ -23,7 +24,7 @@ class Etudiant implements UserInterface
     /**
      * @var string
      *
-     * @ORM\Column(name="nomEtudiant", type="string", length=255, nullable=false)     *
+     * @ORM\Column(name="nomEtudiant", type="string", length=255, nullable=false)
      */
     private $nomEtudiant;
 
@@ -45,10 +46,11 @@ class Etudiant implements UserInterface
      * @var string
      * @ORM\Column(name="telEtudiant", type="string", length=10, nullable=false)
      *
-     * @Assert\NotBlank(message="Le téléphone est obligatoire.")
-     * @Assert\Length(
-     *     max = 10,
-     *     maxMessage = "Le mail doit faire au maximum {{ limit }} caractères."
+     * @Assert\NotBlank(message="Le téléphone est obligatoire")
+     * @Assert\Regex(
+     *     pattern= "#^[0-9]{10,10}$#",
+     *     match=true,
+     *     message= "Le format du numéro n'est pas respecté."
      * )
      */
     private $telEtudiant;
@@ -175,19 +177,53 @@ class Etudiant implements UserInterface
 
     /**
      * @var \AppBundle\Entity\Classes
+     * @Assert\NotBlank(message="La classe est obligatoire")
      */
     private $codeclasse;
 
     /**
      * @var string
      * @ORM\Column(name="userEtudiant", type="string", length=255, nullable=false)
+     * @Assert\NotBlank(message="Le nom d'utilisateur est obligatoire")
+     * @Assert\Length(
+     *     max="255",
+     *     maxMessage="Le nom d'utilisateur doit faire maximum 255 caractères"
+     * )
      */
     private $userEtudiant;
 
     /**
      * @var string
+     * @ORM\Column(name="passEtudiant", type="string", length=255, nullable=false)
+     * @Assert\NotBlank(message="Le mot de passe est obligatoire")
+     * @Assert\Length(
+     *     max="255",
+     *     maxMessage="Le mot de passe doit faire maximum 255 caractères"
+     * )
+     */
+    private $passEtudiant;
+
+    /**
+     * @return string
+     */
+    public function getPassEtudiant()
+    {
+        return $this->passEtudiant;
+    }
+
+    /**
+     * @param string $passEtudiant
+     */
+    public function setPassEtudiant($passEtudiant)
+    {
+        $this->passEtudiant = $passEtudiant;
+    }
+
+    /**
+     * @var string
      * @ORM\Column(name="numEtudiant", type="string", length=8, nullable=false)
      *
+     * @Assert\NotBlank(message="Le numéro étudiant est obligatoire")
      * @Assert\Regex(
      *     pattern= "#^[0-9]{8,8}$#",
      *     match=true,
@@ -200,6 +236,7 @@ class Etudiant implements UserInterface
      * @var string
      * @ORM\Column(name="addrEtudiant", type="string", length=1024, nullable=false)
      *
+     * @Assert\NotBlank(message="L'addresse est obligatoire")
      * @Assert\Length(
      *     max="1024",
      *     maxMessage="L'addresse doit faire au maximum 1024 caractères"
@@ -209,6 +246,7 @@ class Etudiant implements UserInterface
 
     /**
      * @var \DateTime
+     * @Assert\NotBlank(message="La date de naissance est obligatoire")
      */
     private $dateEtudiant;
 
@@ -216,6 +254,7 @@ class Etudiant implements UserInterface
      * @var string
      * @ORM\Column(name="sexeEtudiant", type="string", length=1, nullable=false)
      *
+     * @Assert\NotBlank(message="Le sexe est obligatoire")
      * @Assert\Choice(
      *     choices={"h","f","o"},
      *     message="Vous devez sélectionner un genre valide"
@@ -333,7 +372,7 @@ class Etudiant implements UserInterface
      */
     public function getPassword()
     {
-        return null;
+        return $this->passEtudiant;
     }
 
     /**

@@ -1,11 +1,31 @@
 {% extends "base.html.twig" %}
 
-{% block title %}Terminer votre inscription{% endblock %}
+{% block title %}Inscription{% endblock %}
 
 {% block body %}
     <div class="container">
-        <h1>Terminer votre inscription</h1>
+        <h1>Inscription (Étudiant)</h1>
         {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+
+        <div class="form-group form-inline row">
+            {{ form_label(form.userEtudiant, "Nom d'utilisateur IUT (*)", {'label_attr': {'class': "col-4"}}) }}
+            {{ form_widget(form.userEtudiant, {'attr': {'class': "form-control col-5", 'maxlength': "255"}}) }}
+            {{ form_errors(form.userEtudiant) }}
+        </div>
+
+        <div class="form-group form-inline row">
+            {{ form_label(form.passEtudiant, "Mot de passe IUT (*)", {'label_attr': {'class': "col-4"}}) }}
+            {{ form_widget(form.passEtudiant, {'attr': {'class': "form-control col-5", 'maxlength': "255"}}) }}
+            {{ form_errors(form.passEtudiant) }}
+        </div>
+
+        <div class="form-group form-inline row">
+            {{ form_label(form.codeclasse, "Classe (*)", {'label_attr': {'class': "col-4"}}) }}
+            {{ form_widget(form.codeclasse, {'attr': {'class': "form-control col-5"}}) }}
+            {{ form_errors(form.codeclasse) }}
+        </div>
+
+        <hr>
 
         <div class="form-group form-inline row">
             {{ form_label(form.numEtudiant, "Numéro étudiant (*)", {'label_attr': {'class': "col-4"}}) }}
@@ -40,12 +60,6 @@
             {{ form_label(form.dateEtudiant, "Date de naissance (*)", {'label_attr': {'class': "col-4"}}) }}
             {{ form_widget(form.dateEtudiant, {'attr': {'class': "form-control col-5"}}) }}
             {{ form_errors(form.dateEtudiant) }}
-        </div>
-
-        <div class="form-group form-inline row">
-            {{ form_label(form.codeclasse, "Classe (*)", {'label_attr': {'class': "col-4"}}) }}
-            {{ form_widget(form.codeclasse, {'attr': {'class': "form-control col-5"}}) }}
-            {{ form_errors(form.codeclasse) }}
         </div>
 
         <div class="btn-group" role="group" aria-label="...">

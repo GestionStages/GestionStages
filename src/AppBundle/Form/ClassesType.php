@@ -3,6 +3,8 @@
 namespace AppBundle\Form;
 
 
+use AppBundle\Entity\GroupesLdap;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\AbstractType;
@@ -23,8 +25,10 @@ class ClassesType extends AbstractType
                     'widget' => 'single_text'))
                 ->add('dateFinStage', DateType::class, array(
                     'widget' => 'single_text'))
-                ->add('isLicence', ChoiceType::class, array(
-                    'choices' => array('OUI' => true, 'NON' => false)));
+                ->add('codegroupeldap', EntityType::class, array(
+                    'class' => 'AppBundle\Entity\GroupesLdap',
+                    'choice_label' => 'ldapSection',
+                ));
     }/**
      * {@inheritdoc}
      */

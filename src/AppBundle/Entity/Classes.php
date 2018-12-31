@@ -87,13 +87,14 @@ class Classes
     {
         return $this->description;
     }
+
     /**
- * Set nomclasse
- *
- * @param string $nomclasse
- *
- * @return Classes
- */
+     * Set nomclasse
+     *
+     * @param string $nomclasse
+     *
+     * @return Classes
+     */
     public function setNomclasse($nomclasse)
     {
         $this->nomclasse = $nomclasse;
@@ -156,11 +157,13 @@ class Classes
     }
     /**
      * @var \DateTime
+     * @ORM\Column(name="dateDebStage", type="date", nullable=true)
      */
     private $dateDebStage;
 
     /**
      * @var \DateTime
+     * @ORM\Column(name="dateFinStage", type="date", nullable=true)
      */
     private $dateFinStage;
 
@@ -212,33 +215,33 @@ class Classes
     {
         return $this->dateFinStage;
     }
-    /**
-     * @var boolean
-     */
-    private $isLicence;
-
 
     /**
-     * Set isLicence
-     *
-     * @param boolean $isLicence
-     *
-     * @return Classes
+     * @var \AppBundle\Entity\GroupesLdap
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\GroupesLdap")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="codeGroupe", referencedColumnName="codeGroupe", nullable=false)
+     * })
      */
-    public function setIsLicence($isLicence)
+    private $codegroupeldap;
+
+    /**
+     * Set codegroupeldap
+     *
+     * @param \AppBundle\Entity\GroupesLdap $codegroupeldap
+     */
+    public function setCodegroupeldap(\AppBundle\Entity\GroupesLdap $codegroupeldap = null)
     {
-        $this->isLicence = $isLicence;
-
-        return $this;
+        $this->codegroupeldap = $codegroupeldap;
     }
 
     /**
-     * Get isLicence
+     * Get codegroupeldap
      *
-     * @return boolean
+     * @return \AppBundle\Entity\GroupesLdap
      */
-    public function getIsLicence()
+    public function getCodegroupeldap()
     {
-        return $this->isLicence;
+        return $this->codegroupeldap;
     }
 }
