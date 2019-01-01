@@ -18,9 +18,20 @@ class ProfesseurType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('userProf', TextType::class)
-            ->add('passProf', PasswordType::class)
-            ->add('telProf', TelType::class);
+            ->add('userProf', TextType::class, [
+                'required' => true,
+                'label' => "Nom d'utilisateur IUT (*)",
+                'attr' => ['maxlength' => 255]
+            ])
+            ->add('passProf', PasswordType::class, [
+                'required' => true,
+                'label' => "Mot de passe IUT (*)"
+            ])
+            ->add('telProf', TelType::class, [
+                'required' => true,
+                'label' => "Numéro de téléphone (*)",
+                'attr' => ['maxlength' => 10]
+            ]);
     }
 
     /**

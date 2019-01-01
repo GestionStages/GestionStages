@@ -21,13 +21,38 @@ class EtudiantType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('userEtudiant', TextType::class)
-            ->add('passEtudiant', PasswordType::class)
-            ->add('numEtudiant', TextType::class)
-            ->add('telEtudiant', TelType::class)
-            ->add('addrEtudiant', TextType::class)
-            ->add('dateEtudiant', DateType::class, ['widget' => 'single_text'])
+            ->add('userEtudiant', TextType::class, [
+                'required' => true,
+                'label' => "Nom d'utilisateur IUT (*)",
+                'attr' => ['maxlength' => 255]
+            ])
+            ->add('passEtudiant', PasswordType::class, [
+                'required' => true,
+                'label' => "Mot de passe IUT (*)"
+            ])
+            ->add('numEtudiant', TextType::class, [
+                'required' => true,
+                'label' => "Numéro étudiant (*)",
+                'attr' => ['maxlength' => 8]
+            ])
+            ->add('telEtudiant', TelType::class, [
+                'required' => true,
+                'label' => "Numéro de téléphone (*)",
+                'attr' => ['maxlength' => 10]
+            ])
+            ->add('addrEtudiant', TextType::class, [
+                'required' => true,
+                'label' => "Addresse fixe (*)",
+                'attr' => ['maxlength' => 1024]
+            ])
+            ->add('dateEtudiant', DateType::class, [
+                'required' => true,
+                'label' => "Date de naissance (*)",
+                'widget' => 'single_text'
+            ])
             ->add('sexeEtudiant', ChoiceType::class, [
+                'required' => true,
+                'label' => "Sexe (*)",
                 'choices' => [
                     'Homme' => 'h',
                     'Femme' => 'f',
@@ -37,6 +62,8 @@ class EtudiantType extends AbstractType
                 'multiple' => false
             ])
             ->add('codeclasse', EntityType::class, array(
+                'required' => true,
+                'label' => "Classe (*)",
                 'class' => 'AppBundle:Classes',
                 'choice_label' => 'nomclasse',
                 'placeholder' => "Sélectionnez votre classe..."

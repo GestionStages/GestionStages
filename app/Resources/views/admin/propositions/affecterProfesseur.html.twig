@@ -7,19 +7,18 @@
     <div class="box">
         <div class="box-body">
             <form action="" method="post">
-                <h4>Proposition : {{ proposition.titreProposition }} ({{ proposition.codeEntreprise.nomEntreprise }})</h4><br/>
-                <div>
-                    <label for="etudiants" class="title">Selectionnez un Professeur</label>
+                <h4>Proposition : {{ proposition.titreProposition }} ({{ proposition.codeEntreprise.nomEntreprise }})</h4>
+
+                <div class="form-group">
+                    <label for="etudiants" class="title">Selectionnez un professeur</label><br/>
                     <select name="professeur" >
                         {% for unProf in professeurs %}
-                        <option value="{{ unProf.id }}">{{ unProf.nomProf }} {{ unProf.prenomProf }}</option>
+                        <option value="{{ unProf.id }}">{{ unProf.nomProf | upper }} {{ unProf.prenomProf | capitalize }}</option>
                         {% endfor %}
                     </select>
                 </div>
-                <br/>
-                <div class="btn-group" role="group" aria-label="...">
-                    <button type="submit" class="btn btn-primary" >Valider</button>
-                </div>
+
+                <button type="submit" class="btn btn-primary btn-block" >Valider</button>
             </form>
         </div>
     </div>

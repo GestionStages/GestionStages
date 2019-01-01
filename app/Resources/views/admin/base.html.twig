@@ -22,17 +22,16 @@
 
 <div class="wrapper">
     <header class="main-header">
-        <a href="{{ path('afficherProposition') }}" class="logo">
+        <a href="{{ path('homepage') }}" class="logo">
             <!-- mini logo for sidebar mini 50x50 pixels -->
-            <span class="logo-mini"><b>A</b>LT</span>
+            <span class="logo-mini"><i class="fa d-inline fa-lg fa-stop-circle"></i></span>
             <!-- logo for regular state and mobile devices -->
-            <span class="logo-lg"><b>Admin</b>LTE</span>
+            <span class="logo-lg"><i class="fa d-inline fa-lg fa-stop-circle"></i><b> GestStages</b></span>
         </a>
 
         <nav class="navbar navbar-static-top">
             <!-- Sidebar toggle button-->
             <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
-                <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
@@ -172,54 +171,34 @@
             </div>
 
             <ul class="sidebar-menu" data-widget="tree">
-                <li class="header">MAIN NAVIGATION</li>
+                <li class="header">NAVIGATION</li>
                 <li><a href="{{ path('showAdminHome') }}"><i class="fa fa-home"></i> <span>Accueil admin</span></a></li>
+                <li><a href="{{ path('showAdminListAll') }}"><i class="fa fa-dashboard"></i> <span>Gestion des offres</span></a></li>
                 <li class="treeview">
                     <a href="#">
-                        <i class="fa fa-dashboard"></i> <span>Gestion des offres</span>
+                        <i class="fa fa-building"></i> <span>Gestion des entreprises</span>
                         <span class="pull-right-container">
                             <i class="fa fa-angle-left pull-right"></i>
                         </span>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a href="{{ path('showAdminListAll') }}"><i class="fa fa-circle-o"></i> Toutes les offres</a></li>
-                    </ul>
-                </li>
-                <li class="treeview">
-                    <a href="#">
-                        <i class="fa fa-building"></i> <span>Gestion des Entreprises</span>
-                        <span class="pull-right-container">
-                            <i class="fa fa-angle-left pull-right"></i>
-                        </span>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li><a href="{{ path('showEntreprises') }}"><i class="fa fa-circle-o"></i> Entreprises </a></li>
-                        <li><a href="{{ path('showEntreprisesBlackList') }}"><i class="fa fa-circle-o"></i> Entreprises BlackList</a></li>
+                        <li><a href="{{ path('showEntreprises') }}"><i class="fa fa-circle-o"></i> Liste des entreprises</a></li>
+                        <li><a href="{{ path('showEntreprisesBlackList') }}"><i class="fa fa-circle-o"></i> Blacklist</a></li>
                         <li><a href="{{ path('showDomaineActivite') }}"><i class="fa fa-circle-o"></i> Domaines d'activité</a></li>
                     </ul>
                 </li>
+                <li><a href="{{ path('showClasses') }}"><i class="fa fa-mortar-board"></i> <span>Gestion des classes</span></a></li>
+                <li><a href="{{ path('editinfos') }}"><i class="fa fa-home"></i> <span>Gestion de l'accueil</span></a></li>
                 <li class="treeview">
                     <a href="#">
-                        <i class="fa fa-mortar-board"></i> <span>Gestion des Classes</span>
+                        <i class="fa fa-user"></i> <span>Gestion des utilisateurs</span>
                         <span class="pull-right-container">
                             <i class="fa fa-angle-left pull-right"></i>
                         </span>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a href="{{ path('showClasses') }}"><i class="fa fa-circle-o"></i> Classes </a></li>
-
-                    </ul>
-                </li>
-                <li class="treeview">
-                    <a href="#">
-                        <i class="fa fa-home"></i> <span>Gestion de l'Accueil</span>
-                        <span class="pull-right-container">
-                            <i class="fa fa-angle-left pull-right"></i>
-                        </span>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li><a href="{{ path('editinfos') }}"><i class="fa fa-circle-o"></i> Informations </a></li>
-
+                        <li><a href="{{ path('listEtudiants') }}"><i class="fa fa-circle-o"></i> Gérer les étudiants</a></li>
+                        <li><a href="{{ path('listProfs') }}"><i class="fa fa-circle-o"></i> Gérer les professeurs</a></li>
                     </ul>
                 </li>
             </ul>
@@ -242,6 +221,10 @@
         {% endfor %}
 
         <section class="content">
+            {% if form is defined %}
+                {% form_theme form 'bootstrap_3_layout.html.twig' %}
+            {% endif %}
+
             {% block body %} {% endblock %}
         </section>
     </div>

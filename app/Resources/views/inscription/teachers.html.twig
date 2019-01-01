@@ -7,29 +7,14 @@
         <h1>Inscription (Professeur)</h1>
         {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
         
-        <div class="form-group form-inline row">
-            {{ form_label(form.userProf, "Nom d'utilisateur IUT (*)", {'label_attr': {'class': "col-4"}}) }}
-            {{ form_widget(form.userProf, {'attr': {'class': "form-control col-5", 'maxlength': "255"}}) }}
-            {{ form_errors(form.userProf) }}
-        </div>
-
-        <div class="form-group form-inline row">
-            {{ form_label(form.passProf, "Mot de passe IUT (*)", {'label_attr': {'class': "col-4"}}) }}
-            {{ form_widget(form.passProf, {'attr': {'class': "form-control col-5", 'maxlength': "255"}}) }}
-            {{ form_errors(form.passProf) }}
-        </div>
+        {{ form_row(form.userProf) }}
+        {{ form_row(form.passProf) }}
 
         <hr>
 
-        <div class="form-group form-inline row">
-            {{ form_label(form.telProf, "Téléphone (*)", {'label_attr': {'class': "col-4"}}) }}
-            {{ form_widget(form.telProf, {'attr': {'class': "form-control col-5", 'maxlength': "10"}}) }}
-            {{ form_errors(form.telProf) }}
-        </div>
+        {{ form_row(form.telProf) }}
 
-        <div class="btn-group" role="group" aria-label="...">
-            <button type="submit" class="btn btn-primary" >Envoyer</button>
-        </div>
+        <button type="submit" class="btn btn-primary btn-block" >Envoyer</button>
 
         {{ form_end(form) }}
     </div>

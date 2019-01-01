@@ -222,6 +222,8 @@ class Classes
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="codeGroupe", referencedColumnName="codeGroupe", nullable=false)
      * })
+     *
+     * @Assert\NotBlank(message="La section est obligatoire")
      */
     private $codegroupeldap;
 

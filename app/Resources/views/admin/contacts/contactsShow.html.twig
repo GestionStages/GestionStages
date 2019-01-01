@@ -26,7 +26,7 @@
                 <tbody>
                 {% for unContact in contacts %}
                     <tr>
-                        <td><a href="mailto:{{ unContact.mailContact }}">{{ unContact.nomcontact}} {{ unContact.prenomcontact }}</a></td>
+                        <td><a href="mailto:{{ unContact.mailContact }}">{{ unContact.nomcontact | upper }} {{ unContact.prenomcontact | capitalize }}</a></td>
                         <td>{{ unContact.postecontact }}</td>
                         <td class="text-right">
                             <div class="item-actions">
