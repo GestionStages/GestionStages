@@ -64,6 +64,21 @@ class MembreController extends Controller
     }
 
     /**
+     * @Route("/admin/membres/etu/{id}/delete", name="deleteEtudiant", requirements={"id"="\d+"})
+     *
+     * @param Etudiant $etudiant
+     * @param ObjectManager $manager
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function deleteEtu(Etudiant $etudiant, ObjectManager $manager) {
+        $manager->remove($etudiant);
+        $manager->flush();
+
+        $this->get('session')->getFlashBag()->add('notice',"L'étudiant (".strtoupper($etudiant->getNomEtudiant())." ".ucfirst($etudiant->getPrenomEtudiant()).") est supprimé !");
+        return $this->redirectToRoute('listEtudiants');
+    }
+
+    /**
      * @Route("/admin/membres/prof", name="listProfs")
      *
      * @return \Symfony\Component\HttpFoundation\Response
