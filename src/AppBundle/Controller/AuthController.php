@@ -31,7 +31,7 @@ class AuthController extends Controller
      */
     public function inscriptionEtu(Request $request, ObjectManager $em, UserPasswordEncoderInterface $encoder) {
         $etudiant = new Etudiant();
-        $form = $this->createForm(EtudiantType::class, $etudiant);
+        $form = $this->createForm(EtudiantType::class, $etudiant, ['validation_groups' => ['inscription', 'Default']]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
