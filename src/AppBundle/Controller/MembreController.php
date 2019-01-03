@@ -122,4 +122,19 @@ class MembreController extends Controller
             'form' => $form->createView()
         ]);
     }
+
+    /**
+     * @Route("/admin/membres/prof/{id}/delete", name="deleteProf", requirements={"id"="\d+"})
+     *
+     * @param Professeur $professeur
+     * @param ObjectManager $manager
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function deleteProf(Professeur $professeur, ObjectManager $manager) {
+        $manager->remove($professeur);
+        $manager->flush();
+
+        $this->get('session')->getFlashBag()->add('notice',"Le professeur (".strtoupper($professeur->getNomProf())." ".ucfirst($professeur->getPrenomProf()).") est supprimé !");
+        return $this->redirectToRoute('listProfs');
+    }
 }
