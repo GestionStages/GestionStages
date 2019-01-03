@@ -34,6 +34,36 @@ class MembreController extends Controller
     }
 
     /**
+     * @Route("/admin/membres/etu/{id}/edit", name="editEtudiant", requirements={"id"="\d+"})
+     *
+     * @param Etudiant $etudiant
+     * @param Request $request
+     * @param ObjectManager $manager
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function editEtudiant(Etudiant $etudiant, Request $request, ObjectManager $manager) {
+        $oldPassword = $etudiant->getPassword();
+
+        $form = $this->createForm(EtudiantType::class, $etudiant, ['validation_groups' => ['edit', 'Default']]);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            if (empty($etudiant->getPassword())) {
+                $etudiant->setPassEtudiant($oldPassword);
+            }
+
+            $manager->persist($etudiant);
+            $manager->flush();
+
+            return $this->redirectToRoute('listEtudiants');
+        }
+
+        return $this->render('admin/membres/studentsEdit.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+
+    /**
      * @Route("/admin/membres/prof", name="listProfs")
      *
      * @return \Symfony\Component\HttpFoundation\Response

@@ -23,6 +23,7 @@ class EtudiantType extends AbstractType
         $builder
             ->add('userEtudiant', TextType::class, [
                 'required' => true,
+                'disabled' => (!is_null($options['data']->getId())),
                 'label' => "Nom d'utilisateur IUT (*)",
                 'attr' => ['maxlength' => 255]
             ])
@@ -68,6 +69,14 @@ class EtudiantType extends AbstractType
                 'choice_label' => 'nomclasse',
                 'placeholder' => "Sélectionnez votre classe..."
             ));
+
+        if (!is_null($options['data']->getId())) {
+            $builder
+                ->add('nomEtudiant', TextType::class)
+                ->add('prenomEtudiant', TextType::class)
+                ->add('mailEtudiant', EmailType::class)
+                ->add('confirmPassEtudiant', PasswordType::class);
+        }
     }/**
      * {@inheritdoc}
      */

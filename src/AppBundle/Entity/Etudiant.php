@@ -25,6 +25,12 @@ class Etudiant implements UserInterface
      * @var string
      *
      * @ORM\Column(name="nomEtudiant", type="string", length=255, nullable=false)
+     * @Assert\NotBlank(message="Le nom de famille est obligatoire", groups={"edit"})
+     * @Assert\Length(
+     *     max="255",
+     *     maxMessage="Le nom de famille doit faire au maximum 255 caractères",
+     *     groups={"edit"}
+     * )
      */
     private $nomEtudiant;
 
@@ -32,13 +38,25 @@ class Etudiant implements UserInterface
      * @var string
      *
      * @ORM\Column(name="prenomEtudiant", type="string", length=255, nullable=false)
+     * @Assert\NotBlank(message="Le prénom est obligatoire", groups={"edit"})
+     * @Assert\Length(
+     *     max="255",
+     *     maxMessage="Le prénom doit faire au maximum 255 caractères",
+     *     groups={"edit"}
+     * )
      */
     private $prenomEtudiant;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="mailEtudiant", type="string", length=255, nullable=false)
+     * @ORM\Column(name="mailEtudiant", type="string", length=1024, nullable=false)
+     * @Assert\NotBlank(message="L'email est obligatoire", groups={"edit"})
+     * @Assert\Length(
+     *     max="1024",
+     *     maxMessage="L'email doit faire au maximum 1024 caractères",
+     *     groups={"edit"}
+     * )
      */
     private $mailEtudiant;
 
@@ -196,13 +214,24 @@ class Etudiant implements UserInterface
     /**
      * @var string
      * @ORM\Column(name="passEtudiant", type="string", length=255, nullable=false)
-     * @Assert\NotBlank(message="Le mot de passe est obligatoire")
+     * @Assert\NotBlank(message="Le mot de passe est obligatoire", groups={"inscription"})
      * @Assert\Length(
      *     max="255",
-     *     maxMessage="Le mot de passe doit faire maximum 255 caractères"
+     *     maxMessage="Le mot de passe doit faire maximum 255 caractères",
+     *     groups={"inscription"}
      * )
      */
     private $passEtudiant;
+
+    /**
+     * @var string
+     * @Assert\EqualTo(
+     *     propertyPath="passEtudiant",
+     *     message="Vous devez saisir le même mot de passe",
+     *     groups={"edit"}
+     * )
+     */
+    private $confirmPassEtudiant;
 
     /**
      * @return string
@@ -405,4 +434,20 @@ class Etudiant implements UserInterface
      * the plain-text password is stored on this object.
      */
     public function eraseCredentials() {}
+
+    /**
+     * @return string
+     */
+    public function getConfirmPassEtudiant()
+    {
+        return $this->confirmPassEtudiant;
+    }
+
+    /**
+     * @param string $confirmPassEtudiant
+     */
+    public function setConfirmPassEtudiant($confirmPassEtudiant)
+    {
+        $this->confirmPassEtudiant = $confirmPassEtudiant;
+    }
 }
