@@ -6,6 +6,7 @@ use AppBundle\Entity\Etudiant;
 use AppBundle\Entity\Professeur;
 use AppBundle\Entity\Propositions;
 use AppBundle\Form\EtudiantType;
+use AppBundle\Form\ProfesseurType;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -84,10 +85,41 @@ class MembreController extends Controller
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function listProfs() {
+        /** @var Professeur[] $teachers */
         $teachers = $this->getDoctrine()->getRepository(Professeur::class)->findAll();
 
         return $this->render('admin/membres/teachers.html.twig', [
             'professeurs' => $teachers
+        ]);
+    }
+
+    /**
+     * @Route("/admin/membres/prof/{id}/edit", name="editProf", requirements={"id"="\d+"})
+     *
+     * @param Professeur $professeur
+     * @param Request $request
+     * @param ObjectManager $manager
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function editProf(Professeur $professeur, Request $request, ObjectManager $manager) {
+        $oldPassword = $professeur->getPassword();
+
+        $form = $this->createForm(ProfesseurType::class, $professeur, ['validation_groups' => ['edit', 'Default']]);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            if (empty($professeur->getPassword())) {
+                $professeur->setPassProf($oldPassword);
+            }
+
+            $manager->persist($professeur);
+            $manager->flush();
+
+            return $this->redirectToRoute('listProfs');
+        }
+
+        return $this->render('admin/membres/teachersEdit.html.twig', [
+            'form' => $form->createView()
         ]);
     }
 }

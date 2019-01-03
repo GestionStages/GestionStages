@@ -118,11 +118,13 @@
                             </td>
                             <td>{{ uneProposition.commentaire }}</td>
                             <td>{{ uneProposition.dateajout|date("d/m/Y H:i") }}</td>
-                            <td class="btn-group-vertical">
-                                <a href="{{ path('editPropositionAdmin', {'id': uneProposition.codeproposition}) }}" class="btn btn-primary"><i class="fa fa-edit" aria-hidden="true"></i> Editer</a>
-                                <a href="{{ path('validProposition', {'id': uneProposition.codeproposition}) }}" class="btn btn-success"><i class="fa fa-check" aria-hidden="true"></i> Valider</a>
-                                <a href="{{ path('rejectProposition', {'id': uneProposition.codeproposition}) }}" class="btn btn-danger"><i class="fa fa-minus-circle" aria-hidden="true"></i> Refuser</a>
-                                <a href="{{ path('archiveProposition', {'id': uneProposition.codeproposition}) }}" class="btn btn-info"><i class="fa fa-archive" aria-hidden="true"></i> Archiver</a>
+                            <td>
+                                <div class="btn-group-vertical">
+                                    <a href="{{ path('editPropositionAdmin', {'id': uneProposition.codeproposition}) }}" class="btn btn-primary"><i class="fa fa-edit" aria-hidden="true"></i> Editer</a>
+                                    <a href="{{ path('validProposition', {'id': uneProposition.codeproposition}) }}" class="btn btn-success"><i class="fa fa-check" aria-hidden="true"></i> Valider</a>
+                                    <a href="{{ path('rejectProposition', {'id': uneProposition.codeproposition}) }}" class="btn btn-danger"><i class="fa fa-minus-circle" aria-hidden="true"></i> Refuser</a>
+                                    <a href="{{ path('archiveProposition', {'id': uneProposition.codeproposition}) }}" class="btn btn-info"><i class="fa fa-archive" aria-hidden="true"></i> Archiver</a>
+                                </div>
                             </td>
                         </tr>
                     {% endfor %}

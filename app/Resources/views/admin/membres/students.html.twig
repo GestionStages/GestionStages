@@ -46,9 +46,11 @@
                                     <a href="{{ url('afficherPropositionbyid', {'id': etudiant.stage.codeProposition}) }}">{{ etudiant.stage.titreProposition }}</a>
                                 {% endif %}
                             </td>
-                            <td class="btn-group-vertical">
-                                <a href="{{ url('editEtudiant', {'id': etudiant.id}) }}" class="btn btn-primary"><i class="fa fa-edit" aria-hidden="true"></i> Editer</a>
-                                <a class="btn btn-danger" data-toggle="modal" data-target="#deleteEtudiantModal-{{ etudiant.id }}"><i class="fa fa-trash" aria-hidden="true"></i> Supprimer</a>
+                            <td>
+                                <div class="btn-group-vertical">
+                                    <a href="{{ url('editEtudiant', {'id': etudiant.id}) }}" class="btn btn-primary"><i class="fa fa-edit" aria-hidden="true"></i> Editer</a>
+                                    <a class="btn btn-danger" data-toggle="modal" data-target="#deleteEtudiantModal-{{ etudiant.id }}"><i class="fa fa-trash" aria-hidden="true"></i> Supprimer</a>
+                                </div>
                             </td>
                         </tr>
                         {% include 'admin/membres/modals/deleteEtudiantModal.html.twig' %}

@@ -23,18 +23,36 @@ class Professeur implements UserInterface
     /**
      * @var string
      * @ORM\Column(name="nomProf", type="string", length=255, nullable=false)
+     * @Assert\NotBlank(message="Le nom de famille est obligatoire", groups={"edit"})
+     * @Assert\Length(
+     *     max="255",
+     *     maxMessage="Le nom de famille doit faire au maximum 255 caractères",
+     *     groups={"edit"}
+     * )
      */
     private $nomProf;
 
     /**
      * @var string
      * @ORM\Column(name="prenomProf", type="string", length=255, nullable=false)
+     * @Assert\NotBlank(message="Le prénom est obligatoire", groups={"edit"})
+     * @Assert\Length(
+     *     max="255",
+     *     maxMessage="Le prénom doit faire au maximum 255 caractères",
+     *     groups={"edit"}
+     * )
      */
     private $prenomProf;
 
     /**
      * @var string
      * @ORM\Column(name="mailProf", type="string", length=255, nullable=false)
+     * @Assert\NotBlank(message="L'email est obligatoire", groups={"edit"})
+     * @Assert\Length(
+     *     max="1024",
+     *     maxMessage="L'email doit faire au maximum 1024 caractères",
+     *     groups={"edit"}
+     * )
      */
     private $mailProf;
 
@@ -81,13 +99,24 @@ class Professeur implements UserInterface
     /**
      * @var string
      * @ORM\Column(name="passProf", type="string", length=255, nullable=false)
-     * @Assert\NotBlank(message="Le mot de passe est obligatoire")
+     * @Assert\NotBlank(message="Le mot de passe est obligatoire", groups={"inscription"})
      * @Assert\Length(
      *     max="255",
-     *     maxMessage="Le mot de passe doit faire maximum 255 caractères"
+     *     maxMessage="Le mot de passe doit faire maximum 255 caractères",
+     *     groups={"inscription"}
      * )
      */
     private $passProf;
+
+    /**
+     * @var string
+     * @Assert\EqualTo(
+     *     propertyPath="passProf",
+     *     message="Vous devez saisir le même mot de passe",
+     *     groups={"edit"}
+     * )
+     */
+    private $confirmPassProf;
 
     /**
      * @return string
@@ -294,4 +323,20 @@ class Professeur implements UserInterface
      * the plain-text password is stored on this object.
      */
     public function eraseCredentials() {}
+
+    /**
+     * @return string
+     */
+    public function getConfirmPassProf()
+    {
+        return $this->confirmPassProf;
+    }
+
+    /**
+     * @param string $confirmPassProf
+     */
+    public function setConfirmPassProf($confirmPassProf)
+    {
+        $this->confirmPassProf = $confirmPassProf;
+    }
 }

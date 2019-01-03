@@ -3,6 +3,7 @@
 namespace AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -19,6 +20,7 @@ class ProfesseurType extends AbstractType
         $builder
             ->add('userProf', TextType::class, [
                 'required' => true,
+                'disabled' => (!is_null($options['data']->getId())),
                 'label' => "Nom d'utilisateur IUT (*)",
                 'attr' => ['maxlength' => 255]
             ])
@@ -31,6 +33,30 @@ class ProfesseurType extends AbstractType
                 'label' => "Numéro de téléphone (*)",
                 'attr' => ['maxlength' => 10]
             ]);
+
+        if (!is_null($options['data']->getId())) {
+            $builder
+                ->add('nomProf', TextType::class, [
+                    'required' => true,
+                    'label' => "Nom (*)",
+                    'attr' => ['maxlength' => 255]
+                ])
+                ->add('prenomProf', TextType::class, [
+                    'required' => true,
+                    'label' => "Prénom (*)",
+                    'attr' => ['maxlength' => 255]
+                ])
+                ->add('mailProf', EmailType::class, [
+                    'required' => true,
+                    'label' => "Email (*)",
+                    'attr' => ['maxlength' => 1024]
+                ])
+                ->add('confirmPassProf', PasswordType::class, [
+                    'required' => true,
+                    'label' => "Confirmez le mot de passe (*)",
+                    'attr' => ['maxlength' => 255]
+                ]);
+        }
     }
 
     /**

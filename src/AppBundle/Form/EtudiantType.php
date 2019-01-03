@@ -72,10 +72,26 @@ class EtudiantType extends AbstractType
 
         if (!is_null($options['data']->getId())) {
             $builder
-                ->add('nomEtudiant', TextType::class)
-                ->add('prenomEtudiant', TextType::class)
-                ->add('mailEtudiant', EmailType::class)
-                ->add('confirmPassEtudiant', PasswordType::class);
+                ->add('nomEtudiant', TextType::class, [
+                    'required' => true,
+                    'label' => "Nom (*)",
+                    'attr' => ['maxlength' => 255]
+                ])
+                ->add('prenomEtudiant', TextType::class, [
+                    'required' => true,
+                    'label' => "Prénom (*)",
+                    'attr' => ['maxlength' => 255]
+                ])
+                ->add('mailEtudiant', EmailType::class, [
+                    'required' => true,
+                    'label' => "Email (*)",
+                    'attr' => ['maxlength' => 1024]
+                ])
+                ->add('confirmPassEtudiant', PasswordType::class, [
+                    'required' => true,
+                    'label' => "Confirmez le mot de passe (*)",
+                    'attr' => ['maxlength' => 255]
+                ]);
         }
     }/**
      * {@inheritdoc}
