@@ -160,6 +160,7 @@ class Etudiant implements UserInterface
     {
         return $this->telEtudiant;
     }
+
     /**
      * @var integer
      */

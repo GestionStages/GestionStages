@@ -1,0 +1,46 @@
+{% extends "admin/base.html.twig" %}
+
+{% block title %}Liste des professeurs{% endblock %}
+
+{% block body %}
+    <div class="box">
+        <div class="box-body">
+            <h1 class="my-4">Gestion des professeurs</h1>
+            <table id="professeursTable" class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Téléphone</th>
+                    <th>Rôle</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                    {% for professeur in professeurs %}
+                        <tr>
+                            <td>
+                                <a href="mailto:{{ professeur.mailProf }}">{{ professeur.nomProf | upper }} {{ professeur.prenomProf | capitalize }}</a><br/>
+                                ({{ professeur.userProf }})
+                            </td>
+                            <td>{{ professeur.telProf }}</td>
+                            <td>{{ professeur.roleProf.titreRole }}</td>
+                            <td></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $(document).ready( function () {
+            $('#professeursTable').DataTable({
+                "language": {
+                    "url": "{{ asset('js/datatables-french.json') }}"
+                }
+            });
+        });
+    </script>
+{% endblock %}
