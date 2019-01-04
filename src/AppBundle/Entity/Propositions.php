@@ -360,7 +360,7 @@ class Propositions
         return $this->codeetat;
     }
     /**
-     * @var \AppBundle\Entity\Etudiants
+     * @var \AppBundle\Entity\Etudiant
      */
     private $codeEtudiant;
 
@@ -368,7 +368,7 @@ class Propositions
     /**
      * Set codeEtudiant
      *
-     * @param \AppBundle\Entity\Etudiants $codeEtudiant
+     * @param Etudiant $codeEtudiant
      *
      * @return Propositions
      */
@@ -382,7 +382,7 @@ class Propositions
     /**
      * Get codeEtudiant
      *
-     * @return \AppBundle\Entity\Etudiants
+     * @return Etudiant
      */
     public function getCodeEtudiant()
     {
