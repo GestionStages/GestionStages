@@ -275,8 +275,9 @@ class Professeur implements UserInterface
     public function getRoles()
     {
         $roles = ['ROLE_PROF'];
-
-        dump($this->roleProf);
+        if (!is_null($this->roleProf->getNomRole())) {
+            $roles[] = $this->roleProf->getNomRole();
+        }
 
         return $roles;
     }
