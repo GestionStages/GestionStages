@@ -11,7 +11,6 @@ use AppBundle\Entity\Professeur;
 use AppBundle\Entity\Propositions;
 use AppBundle\Entity\Technologies;
 use AppBundle\Form\PropositionsType;
-use AppBundle\Repository\ProfesseurRepository;
 use Carbon\Carbon;
 use Doctrine\ORM\EntityRepository;
 use Spipu\Html2Pdf\Exception\Html2PdfException;
@@ -38,6 +37,7 @@ class PropositionsController extends Controller
      *
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
+     * @throws \Exception
      */
     public function addAction(Request $request)
     {
@@ -345,9 +345,7 @@ class PropositionsController extends Controller
     /**
      * @Route("/propositions/{id}/convention", name="generateconvention", requirements={"id"="\d+"})
      * @param Propositions $proposition
-     * @param ProfesseurRepository $profRepo
      * @return string|\Symfony\Component\HttpFoundation\RedirectResponse
-     * @throws \Spipu\Html2Pdf\Exception\Html2PdfException
      */
     public function conventionaction(Propositions $proposition) {
         if (is_null($proposition->getCodeEtudiant())) {
