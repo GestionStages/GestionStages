@@ -10,6 +10,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Classes;
 use AppBundle\Form\ClassesType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,7 +21,7 @@ class ClassesController extends Controller
     /**
      *
      * @Route("/admin/classes/add", name="addClasse")
-     *
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
@@ -66,6 +67,7 @@ class ClassesController extends Controller
      * @param Classes $classe
      * @return Response
      * @Route("/admin/classes/{id}/edit", name="editClasse")
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
      */
     public function edit(Request $request, Classes $classe){
         $form = $this->createForm(ClassesType::class, $classe);
@@ -102,9 +104,8 @@ class ClassesController extends Controller
     * @param Classes $classe
     * @return Response
     * @Route("/admin/classes/{id}/delete", name="deleteClasse")
-    *
+    * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
     */
-
     public function delete(Classes $classe){
         $em = $this-> getDoctrine()->getManager();
         $em->remove($classe);
@@ -117,11 +118,9 @@ class ClassesController extends Controller
     }
 
     /**
-     *
      * @Route("/admin/classes/", name="showClasses")
-     *
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
      * @return Response
-     *
      */
     public function showClasses()
     {

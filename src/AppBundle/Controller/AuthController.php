@@ -8,6 +8,7 @@ use AppBundle\Form\EtudiantType;
 use AppBundle\Form\ProfesseurType;
 use AppBundle\Repository\EtudiantRepository;
 use Doctrine\Common\Persistence\ObjectManager;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,6 +29,10 @@ class AuthController extends Controller
      * @return Response
      */
     public function inscriptionEtu(Request $request, ObjectManager $em, UserPasswordEncoderInterface $encoder) {
+        if ($this->isGranted("IS_AUTHENTICATED_REMEMBERED")) {
+            return $this->redirectToRoute('homepage');
+        }
+
         $etudiant = new Etudiant();
         $form = $this->createForm(EtudiantType::class, $etudiant, ['validation_groups' => ['inscription', 'Default']]);
         $form->handleRequest($request);
@@ -81,6 +86,10 @@ class AuthController extends Controller
      * @return Response
      */
     public function inscriptionProf(Request $request, ObjectManager $em, UserPasswordEncoderInterface $encoder) {
+        if ($this->isGranted("IS_AUTHENTICATED_REMEMBERED")) {
+            return $this->redirectToRoute('homepage');
+        }
+
         $professeur = new Professeur();
         $form = $this->createForm(ProfesseurType::class, $professeur);
         $form->handleRequest($request);
@@ -135,6 +144,10 @@ class AuthController extends Controller
      * @return Response
      */
     public function loginEtu(Request $request, UserPasswordEncoderInterface $encoder) {
+        if ($this->isGranted("IS_AUTHENTICATED_REMEMBERED")) {
+            return $this->redirectToRoute('homepage');
+        }
+
         $username = "";
         $error = null;
 
@@ -176,6 +189,10 @@ class AuthController extends Controller
      * @return Response
      */
     public function loginProf(Request $request, UserPasswordEncoderInterface $encoder) {
+        if ($this->isGranted("IS_AUTHENTICATED_REMEMBERED")) {
+            return $this->redirectToRoute('homepage');
+        }
+
         $username = "";
         $error = null;
 
@@ -212,6 +229,7 @@ class AuthController extends Controller
 
     /**
      * @Route("/auth/logout", name="logout")
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
      */
     public function logout() {
         $this->get('security.token_storage')->setToken(null);

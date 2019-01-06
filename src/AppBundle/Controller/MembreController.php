@@ -8,6 +8,7 @@ use AppBundle\Entity\Propositions;
 use AppBundle\Form\EtudiantType;
 use AppBundle\Form\ProfesseurType;
 use Doctrine\Common\Persistence\ObjectManager;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,7 +17,7 @@ class MembreController extends Controller
 {
     /**
      * @Route("/admin/membres/etu", name="listEtudiants")
-     *
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function listEtudiants() {
@@ -36,7 +37,7 @@ class MembreController extends Controller
 
     /**
      * @Route("/admin/membres/etu/{id}/edit", name="editEtudiant", requirements={"id"="\d+"})
-     *
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
      * @param Etudiant $etudiant
      * @param Request $request
      * @param ObjectManager $manager
@@ -66,7 +67,7 @@ class MembreController extends Controller
 
     /**
      * @Route("/admin/membres/etu/{id}/delete", name="deleteEtudiant", requirements={"id"="\d+"})
-     *
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
      * @param Etudiant $etudiant
      * @param ObjectManager $manager
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
@@ -81,7 +82,7 @@ class MembreController extends Controller
 
     /**
      * @Route("/admin/membres/prof", name="listProfs")
-     *
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function listProfs() {
@@ -95,7 +96,7 @@ class MembreController extends Controller
 
     /**
      * @Route("/admin/membres/prof/{id}/edit", name="editProf", requirements={"id"="\d+"})
-     *
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
      * @param Professeur $professeur
      * @param Request $request
      * @param ObjectManager $manager
@@ -125,7 +126,7 @@ class MembreController extends Controller
 
     /**
      * @Route("/admin/membres/prof/{id}/delete", name="deleteProf", requirements={"id"="\d+"})
-     *
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
      * @param Professeur $professeur
      * @param ObjectManager $manager
      * @return \Symfony\Component\HttpFoundation\RedirectResponse

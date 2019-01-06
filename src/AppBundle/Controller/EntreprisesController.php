@@ -10,6 +10,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Entreprises;
 use AppBundle\Form\EntreprisesType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,9 +20,8 @@ class EntreprisesController extends Controller
 {
 
     /**
-     *
      * @Route("/admin/entreprises/add", name="addEntreprise")
-     *
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
@@ -61,6 +61,7 @@ class EntreprisesController extends Controller
      * @param Entreprises $entreprise
      * @return Response
      * @Route("/admin/entreprises/{id}/edit", name="editEntreprise")
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
      */
     public function edit(Request $request, Entreprises $entreprise){
         $form = $this->createForm(EntreprisesType::class, $entreprise);
@@ -92,9 +93,8 @@ class EntreprisesController extends Controller
      * @param Entreprises $entreprise
      * @return Response
      * @Route("/admin/entreprises/{id}/blacklist", name="blackListEntreprise")
-     *
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
      */
-
     public function blackListEntreprise(Entreprises $entreprise){
         //modification de l'attribut blacklist de l'objet
         $entreprise->setBlacklister(1);
@@ -109,9 +109,8 @@ class EntreprisesController extends Controller
      * @param Entreprises $entreprise
      * @return Response
      * @Route("/admin/entreprises/{id}/noblacklist", name="noBlackListEntreprise")
-     *
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
      */
-
     public function noblackListEntreprise(Entreprises $entreprise){
         //modification de l'attribut blacklist de l'objet
         $entreprise->setBlacklister(0);

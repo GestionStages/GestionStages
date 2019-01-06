@@ -13,6 +13,7 @@ use AppBundle\Entity\Technologies;
 use AppBundle\Form\PropositionsType;
 use Carbon\Carbon;
 use Doctrine\ORM\EntityRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Spipu\Html2Pdf\Exception\Html2PdfException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -34,7 +35,7 @@ class PropositionsController extends Controller
 
     /**
      * @Route("/propositions/add", name="addProposition")
-     *
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws \Exception
@@ -102,6 +103,7 @@ class PropositionsController extends Controller
 
     /**
      * @Route("/propositions/{id}", name="afficherPropositionbyid", requirements={"id"="\d+"})
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
      */
     public function showPropositionById($id)
     {
@@ -114,7 +116,7 @@ class PropositionsController extends Controller
 
     /**
      * @Route("/propositions/{id}/affecterEtudiant", name="affecterEtudiant", requirements={"id"="\d+"})
-     *
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
@@ -143,7 +145,8 @@ class PropositionsController extends Controller
 
     /**
      * @Route("/propositions/{id}/desaffecterEtudiant", name="desaffecterEtudiant", requirements={"id"="\d+"})
-     *  @param Request $request
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
+     * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
     public function desaffecterEtudiant(Request $request){
@@ -159,7 +162,7 @@ class PropositionsController extends Controller
 
     /**
      * @Route("/propositions/{id}/affecterProfesseur", name="affecterProfesseur", requirements={"id"="\d+"})
-     *
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
@@ -188,7 +191,8 @@ class PropositionsController extends Controller
 
     /**
      * @Route("/propositions/{id}/desaffecterProfesseur", name="desaffecterProfesseur", requirements={"id"="\d+"})
-     *  @param Request $request
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
+     * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
     public function desaffecterProfesseur(Request $request){
@@ -205,6 +209,7 @@ class PropositionsController extends Controller
      * @param Request $request
      * @param Propositions $proposition
      * @Route("/propositions/{id}/edit", name="editProposition", requirements={"id"="\d+"})
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
     public function edit(Request $request, Propositions $proposition)
@@ -260,6 +265,7 @@ class PropositionsController extends Controller
 
     /**
      * @Route("/propositions", name="afficherProposition")
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
      */
     public function showProposition(Request $request)
     {
@@ -319,7 +325,7 @@ class PropositionsController extends Controller
 
     /**
      * @Route("/propositions/{id}/deleteFile", name="deletepropositionfile", requirements={"id"="\d+"})
-     *
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
      * @param Request $request
      * @param Propositions $proposition
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
@@ -344,6 +350,7 @@ class PropositionsController extends Controller
 
     /**
      * @Route("/propositions/{id}/convention", name="generateconvention", requirements={"id"="\d+"})
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
      * @param Propositions $proposition
      * @return string|\Symfony\Component\HttpFoundation\RedirectResponse
      */
