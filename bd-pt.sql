@@ -276,7 +276,7 @@ CREATE TABLE `etudiant` (
 
 INSERT INTO `etudiant` (`id`, `nomEtudiant`, `prenomEtudiant`, `mailEtudiant`, `telEtudiant`, `codeClasse`, `userEtudiant`, `numEtudiant`, `addrEtudiant`, `dateEtudiant`, `sexeEtudiant`, `passEtudiant`) VALUES
 (1, 'Zétofrais', 'Mélanie', 'melanie.zetofrais@iutmtp.xp', '0123456789', 1, 'zetofraism', '00000001', 'Addresse de Zétofrais Mélanie', '2018-12-20', 'f', '$2y$10$wFwQML3/NWwFBI93IhlGyeLkUfYNP5q95T3Xq7/00gCDasho6FFO.'),
-(2, 'Bricolo', 'Léo', 'leo@mrbricolo30.fr', '0987654321', 1, 'bricotj', '00000027', 'Addresse de Léo Bricolo', '2018-11-09', 'o', '$2y$10$wFwQML3/NWwFBI93IhlGyeLkUfYNP5q95T3Xq7/00gCDasho6FFO.'),
+(2, 'Bricot', 'Judas', 'judas.bricot@iutmtp.xp', '0987654321', 1, 'bricotj', '00000027', 'Addresse de Judas Bricot', '2018-12-20', 'o', '$2y$10$wFwQML3/NWwFBI93IhlGyeLkUfYNP5q95T3Xq7/00gCDasho6FFO.'),
 (3, 'Zeblouse', 'Agathe', 'agathe.zeblouse@iutmtp.xp', '0123456789', 4, 'zeblousea', '00000003', 'Addresse de Zeblouse Agathe', '2018-12-20', 'h', '$2y$10$wFwQML3/NWwFBI93IhlGyeLkUfYNP5q95T3Xq7/00gCDasho6FFO.'),
 (4, 'Ouzy', 'Jacques', 'jacques.ouzy@iutmtp.xp', '0123456789', 1, 'ouzyj', '00000004', 'Addresse de Ouzy Jacques', '2018-12-20', 'h', '$2y$10$wFwQML3/NWwFBI93IhlGyeLkUfYNP5q95T3Xq7/00gCDasho6FFO.'),
 (5, 'Tarembois', 'Guy', 'guy.tarembois@iutmtp.xp', '0123456789', 2, 'taremboisg', '00000005', 'Addresse de Tarembois Guy', '2018-12-20', 'h', '$2y$10$wFwQML3/NWwFBI93IhlGyeLkUfYNP5q95T3Xq7/00gCDasho6FFO.'),
