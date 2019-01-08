@@ -75,19 +75,20 @@ class ClassesController extends Controller
         $form->handleRequest($request);
 
         //si le formulaire a été soumis
-
         if($form->isSubmitted() && $form->isValid()){
+            // on verifie que la dateFin ne soit pas inferieur a la dateDeb
+            if ($form->getData()->getDateFinStage() > $form->getData()->getDateDebStage()) {
+                //on enregistre la classe dans la bdd
+                $em = $this->getDoctrine()->getManager();
+                $em->flush();
 
-            //on enregistre la classe dans la bdd
-            $em = $this-> getDoctrine()->getManager();
-            $em->flush();
+                //Envoi un message de validation
+                $this->get('session')->getFlashBag()->add('notice',
+                    'Classe (' . $classe->getNomclasse() . ') modifiée !');
 
-            //Envoi un message de validation
-            $this->get('session')->getFlashBag()->add('notice','Classe ('.$classe->getNomclasse().') modifiée !');
-
-            // Retourne form de la liste des classes
-            return $this->redirect($this->generateUrl('showClasses'));
-
+                // Retourne form de la liste des classes
+                return $this->redirect($this->generateUrl('showClasses'));
+            }
         }
 
 
