@@ -172,14 +172,9 @@ class EntreprisesController extends Controller
 	 */
     public function searchEntreprise(Request $request)
     {
-        //TODO: A Déplacer dans repository EntrepriseRepository
     	$q = $request->query->get('term');
     	$results = $this->getDoctrine()->getRepository(Entreprises::class)
-            ->createQueryBuilder('e')
-            ->where('e.blacklister=0')
-            ->andWhere('e.nomentreprise LIKE ?1')
-            ->setParameter(1, "%".$q."%")
-            ->getQuery()->getResult();
+                        ->findLikeName($q);
 
     	return $this->render('entreprises/list.json.twig', ['results' => $results]);
     }

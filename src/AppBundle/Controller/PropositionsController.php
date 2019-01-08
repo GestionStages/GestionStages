@@ -170,7 +170,7 @@ class PropositionsController extends Controller
     {
         $proposition = $this->getDoctrine()->getRepository(Propositions::class)->find($request->get('id'));
         if(!$request->get('professeur')){
-            $professeurs = $this->getDoctrine()->getRepository(Professeur::class)->findAll();
+            $professeurs = $this->getDoctrine()->getRepository(Professeur::class)->findOrdered();
 
             return $this->render('/admin/propositions/affecterProfesseur.html.twig', ['professeurs' => $professeurs, 'proposition' => $proposition]);
         }
