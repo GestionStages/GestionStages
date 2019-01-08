@@ -91,7 +91,8 @@ class Propositions
      * @ORM\Column(name="file", type="string", length=1024, nullable=true)
      *
      * @Assert\File(
-     *     maxSizeMessage="Le fichier dépasse la taille maximale autorisée",
+     *     maxSize="2M",
+     *     maxSizeMessage="Le fichier dépasse la taille maximale autorisée ({{ limit }} {{ suffix }})",
      *     mimeTypes={ "application/pdf", "application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document" },
      *     mimeTypesMessage="Le format du fichier est invalide"
      * )

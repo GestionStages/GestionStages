@@ -53,7 +53,7 @@ class PropositionsType extends AbstractType
                 'label' => "Technologies demandées"
             ])
             ->add('file', FileType::class, [
-                'label' => 'Fiche de poste (DOC, DOCX, PDF)'
+                'label' => 'Fiche de poste (DOC, DOCX, PDF) (2MB max.)'
             ])
 	        ->add('commentaire',TextareaType::class, [
 	            'label' => "Commentaire privé"
