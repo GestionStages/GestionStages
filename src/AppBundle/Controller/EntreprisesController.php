@@ -10,6 +10,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Entreprises;
 use AppBundle\Form\EntreprisesType;
+use Doctrine\Common\Persistence\ObjectManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -122,11 +123,9 @@ class EntreprisesController extends Controller
     }
 
     /**
-     *
      * @Route("/admin/entreprises", name="showEntreprises")
-     *
      * @return Response
-     *
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
      */
     public function showEntreprises()
     {
@@ -144,11 +143,9 @@ class EntreprisesController extends Controller
     }
 
     /**
-     *
      * @Route("/admin/entreprisesBlackList", name="showEntreprisesBlackList")
-     *
      * @return Response
-     *
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
      */
     public function showEntreprisesBlackList()
     {
@@ -163,6 +160,21 @@ class EntreprisesController extends Controller
         $entreprises = $query->getResult();
 
         return $this->render('admin/entreprises/entreprisesShowBlackList.html.twig',['entreprises' => $entreprises]);
+    }
+
+    /**
+     * @Route("/admin/entreprises/{id}/delete", name="deleteEntreprise")
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
+     * @param Entreprises $entreprise
+     * @param ObjectManager $manager
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function deleteEntreprise(Entreprises $entreprise, ObjectManager $manager) {
+        $manager->remove($entreprise);
+        $manager->flush();
+
+        $this->get('session')->getFlashBag()->add('notice',"L'entreprise (".$entreprise->getNomEntreprise().") est supprimé !");
+        return $this->redirect($this->generateUrl('showEntreprises'));
     }
 
 	/**

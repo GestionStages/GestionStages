@@ -104,7 +104,7 @@ class Entreprises
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Contacts", inversedBy="codeentreprise")
      * @ORM\JoinTable(name="associerentreprisescontact",
      *   joinColumns={
-     *     @ORM\JoinColumn(name="codeEntreprise", referencedColumnName="codeEntreprise")
+     *     @ORM\JoinColumn(name="codeEntreprise", referencedColumnName="codeEntreprise", onDelete="CASCADE")
      *   },
      *   inverseJoinColumns={
      *     @ORM\JoinColumn(name="codeContact", referencedColumnName="codeContact")
@@ -293,7 +293,7 @@ class Entreprises
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Domaineactivite", inversedBy="codeentreprise")
      * @ORM\JoinTable(name="associerentreprisesdomaine",
      *   joinColumns={
-     *     @ORM\JoinColumn(name="codeEntreprise", referencedColumnName="codeEntreprise")
+     *     @ORM\JoinColumn(name="codeEntreprise", referencedColumnName="codeEntreprise", onDelete="CASCADE")
      *   },
      *   inverseJoinColumns={
      *     @ORM\JoinColumn(name="codeDomaine", referencedColumnName="codeDomaine")

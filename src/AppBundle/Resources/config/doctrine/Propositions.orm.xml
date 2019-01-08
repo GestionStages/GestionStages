@@ -32,7 +32,7 @@
     </one-to-one>
     <many-to-one field="codeentreprise" target-entity="Entreprises" fetch="LAZY">
       <join-columns>
-        <join-column name="codeEntreprise" referenced-column-name="codeEntreprise" nullable="false"/>
+        <join-column name="codeEntreprise" referenced-column-name="codeEntreprise" nullable="false" on-delete="CASCADE"/>
       </join-columns>
     </many-to-one>
     <many-to-one field="codeProfesseur" target-entity="Professeur" fetch="LAZY">
@@ -48,7 +48,7 @@
     <many-to-many field="codeclasse" target-entity="Classes" inversed-by="codeproposition" fetch="LAZY">
       <join-table name="associerclassespropositions">
         <join-columns>
-          <join-column name="codeProposition" referenced-column-name="codeProposition"/>
+          <join-column name="codeProposition" referenced-column-name="codeProposition" on-delete="CASCADE"/>
         </join-columns>
         <inverse-join-columns>
           <join-column name="codeClasse" referenced-column-name="codeClasse"/>
@@ -58,7 +58,7 @@
     <many-to-many field="codetechnologie" target-entity="Technologies" inversed-by="codeproposition" fetch="LAZY">
       <join-table name="associertechnologiespropositions">
         <join-columns>
-          <join-column name="codeProposition" referenced-column-name="codeProposition"/>
+          <join-column name="codeProposition" referenced-column-name="codeProposition" on-delete="CASCADE"/>
         </join-columns>
         <inverse-join-columns>
           <join-column name="codeTechnologie" referenced-column-name="codeTechnologie"/>

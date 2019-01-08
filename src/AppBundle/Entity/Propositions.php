@@ -50,7 +50,7 @@ class Propositions
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Entreprises")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="codeEntreprise", referencedColumnName="codeEntreprise", nullable=false)
+     *   @ORM\JoinColumn(name="codeEntreprise", referencedColumnName="codeEntreprise", nullable=false, onDelete="CASCADE")
      * })
      *
      * @Assert\NotBlank(message="L'entreprise est obligatoire.")
@@ -63,7 +63,7 @@ class Propositions
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Classes", inversedBy="codeproposition")
      * @ORM\JoinTable(name="associerclassespropositions",
      *   joinColumns={
-     *     @ORM\JoinColumn(name="codeProposition", referencedColumnName="codeProposition")
+     *     @ORM\JoinColumn(name="codeProposition", referencedColumnName="codeProposition", onDelete="CASCADE")
      *   },
      *   inverseJoinColumns={
      *     @ORM\JoinColumn(name="codeClasse", referencedColumnName="codeClasse")
@@ -78,7 +78,7 @@ class Propositions
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Technologies", mappedBy="codeproposition")
      * @ORM\JoinTable(name="associertechnologiespropositions",
      *   joinColumns={
-     *     @ORM\JoinColumn(name="codeProposition", referencedColumnName="codeProposition")
+     *     @ORM\JoinColumn(name="codeProposition", referencedColumnName="codeProposition", onDelete="CASCADE")
      *   },
      *   inverseJoinColumns={
      *     @ORM\JoinColumn(name="codeTechnologie", referencedColumnName="codeTechnologie")
