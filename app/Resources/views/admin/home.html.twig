@@ -98,13 +98,15 @@
                     {% for uneProposition in propositions %}
                         <tr>
                             <td align="center"><br/><br/>
-                                {% if (uneProposition.codeEtat.codeEtat == 1) %}<span class="label label-warning">{{ uneProposition.codeEtat.nomEtat }}</span> {% endif %}
-                                {% if (uneProposition.codeEtat.codeEtat == 2) %}<span class="label label-success">{{ uneProposition.codeEtat.nomEtat }}</span> {% endif %}
-                                {% if (uneProposition.codeEtat.codeEtat == 3) %}<span class="label label-info">{{ uneProposition.codeEtat.nomEtat }}</span> {% endif %}
-                                {% if (uneProposition.codeEtat.codeEtat == 4) %}<span class="label label-default">{{ uneProposition.codeEtat.nomEtat }}</span> {% endif %}
-                                {% if (uneProposition.codeEtat.codeEtat == 5) %}<span class="label label-danger">{{ uneProposition.codeEtat.nomEtat }}</span> {% endif %}
+                                <span class="label label-warning">{{ uneProposition.codeEtat.nomEtat }}</span>
                             </td>
-                            <td><a href="{{ path("afficherPropositionbyid", {'id': uneProposition.codeProposition}) }}">{{ uneProposition.titreproposition }}</a></td>
+                            <td><a href="{{ path("afficherPropositionbyid", {'id': uneProposition.codeProposition}) }}">
+                                {% if uneProposition.titreproposition|length > 15 %}
+                                    {{ uneProposition.titreproposition[:15] }}...
+                                {% else %}
+                                    {{ uneProposition.titreproposition }}
+                                {% endif %}
+                            </a></td>
                             <td>{{ uneProposition.codeentreprise.nomentreprise }}</td>
                             <td>
                                 {% for classe in uneProposition.codeclasse %}
