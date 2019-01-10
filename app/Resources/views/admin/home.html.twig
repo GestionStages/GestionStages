@@ -16,7 +16,7 @@
                 <div class="icon">
                     <span class="glyphicon glyphicon-time"></span>
                 </div>
-                <a href="" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                {#<a href="" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>#}
             </div>
         </div>
         <!-- ./col -->
@@ -31,7 +31,7 @@
                 <div class="icon">
                     <i class="glyphicon glyphicon-ok-circle"></i>
                 </div>
-                <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                {#<a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>#}
             </div>
         </div>
         <!-- ./col -->
@@ -46,7 +46,7 @@
                 <div class="icon">
                     <i class="glyphicon glyphicon-remove-circle"></i>
                 </div>
-                <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                {#<a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>#}
             </div>
         </div>
         <!-- ./col -->
@@ -61,7 +61,7 @@
                 <div class="icon">
                     <i class="glyphicon glyphicon-bookmark"></i>
                 </div>
-                <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                {#<a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>#}
             </div>
         </div>
         <!-- ./col -->
@@ -98,13 +98,15 @@
                     {% for uneProposition in propositions %}
                         <tr>
                             <td align="center"><br/><br/>
-                                {% if (uneProposition.codeEtat.codeEtat == 1) %}<span class="label label-warning">{{ uneProposition.codeEtat.nomEtat }}</span> {% endif %}
-                                {% if (uneProposition.codeEtat.codeEtat == 2) %}<span class="label label-success">{{ uneProposition.codeEtat.nomEtat }}</span> {% endif %}
-                                {% if (uneProposition.codeEtat.codeEtat == 3) %}<span class="label label-info">{{ uneProposition.codeEtat.nomEtat }}</span> {% endif %}
-                                {% if (uneProposition.codeEtat.codeEtat == 4) %}<span class="label label-default">{{ uneProposition.codeEtat.nomEtat }}</span> {% endif %}
-                                {% if (uneProposition.codeEtat.codeEtat == 5) %}<span class="label label-danger">{{ uneProposition.codeEtat.nomEtat }}</span> {% endif %}
+                                <span class="label label-warning">{{ uneProposition.codeEtat.nomEtat }}</span>
                             </td>
-                            <td><a href="{{ path("afficherPropositionbyid", {'id': uneProposition.codeProposition}) }}">{{ uneProposition.titreproposition }}</a></td>
+                            <td><a href="{{ path("afficherPropositionbyid", {'id': uneProposition.codeProposition}) }}">
+                                {% if uneProposition.titreproposition|length > 15 %}
+                                    {{ uneProposition.titreproposition[:15] }}...
+                                {% else %}
+                                    {{ uneProposition.titreproposition }}
+                                {% endif %}
+                            </a></td>
                             <td>{{ uneProposition.codeentreprise.nomentreprise }}</td>
                             <td>
                                 {% for classe in uneProposition.codeclasse %}
@@ -119,18 +121,12 @@
                             <td>{{ uneProposition.commentaire }}</td>
                             <td>{{ uneProposition.dateajout|date("d/m/Y H:i") }}</td>
                             <td>
-                                <a href="{{ path('editPropositionAdmin', {'id': uneProposition.codeproposition}) }}" class="btn btn-primary"><i class="fa fa-edit" aria-hidden="true"></i> Editer</a><br/>
-                                {% if uneProposition.codeEtat.codeEtat != 3 %}
-                                    {% if uneProposition.codeEtat.codeEtat != 2 %}
-                                        <a href="{{ path('validProposition', {'id': uneProposition.codeproposition}) }}" class="btn btn-success"><i class="fa fa-check" aria-hidden="true"></i> Valider</a><br/>
-                                    {% endif %}
-                                    {% if uneProposition.codeEtat.codeEtat != 5 %}
-                                        <a href="{{ path('rejectProposition', {'id': uneProposition.codeproposition}) }}" class="btn btn-danger"><i class="fa fa-minus-circle" aria-hidden="true"></i> Refuser</a><br/>
-                                    {% endif %}
-                                    {% if uneProposition.codeEtat.codeEtat != 4 %}
-                                        <a href="{{ path('archiveProposition', {'id': uneProposition.codeproposition}) }}" class="btn btn-info"><i class="fa fa-archive" aria-hidden="true"></i> Archiver</a>
-                                    {% endif %}
-                                {% endif %}
+                                <div class="btn-group-vertical">
+                                    <a href="{{ path('editPropositionAdmin', {'id': uneProposition.codeproposition}) }}" class="btn btn-primary"><i class="fa fa-edit" aria-hidden="true"></i> Editer</a>
+                                    <a href="{{ path('validProposition', {'id': uneProposition.codeproposition}) }}" class="btn btn-success"><i class="fa fa-check" aria-hidden="true"></i> Valider</a>
+                                    <a href="{{ path('rejectProposition', {'id': uneProposition.codeproposition}) }}" class="btn btn-danger"><i class="fa fa-minus-circle" aria-hidden="true"></i> Refuser</a>
+                                    <a href="{{ path('archiveProposition', {'id': uneProposition.codeproposition}) }}" class="btn btn-info"><i class="fa fa-archive" aria-hidden="true"></i> Archiver</a>
+                                </div>
                             </td>
                         </tr>
                     {% endfor %}
@@ -141,7 +137,6 @@
         </div>
         <!-- /.box-body -->
         <div class="box-footer clearfix">
-            <a href="javascript:void(0)" class="btn btn-sm btn-info btn-flat pull-left">Place New Order</a>
             <a href="{{ path('showAdminListAll') }}" class="btn btn-sm btn-default btn-flat pull-right">Voir toutes les propositions</a>
         </div>
         <!-- /.box-footer -->

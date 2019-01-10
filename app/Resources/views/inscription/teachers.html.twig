@@ -1,0 +1,21 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Inscription{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Inscription (Professeur)</h1>
+        {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+        
+        {{ form_row(form.userProf) }}
+        {{ form_row(form.passProf) }}
+
+        <hr>
+
+        {{ form_row(form.telProf) }}
+
+        <button type="submit" class="btn btn-primary btn-block" >Envoyer</button>
+
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

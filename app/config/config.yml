@@ -37,6 +37,7 @@ framework:
 twig:
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
+    form_themes: ['bootstrap_4_layout.html.twig']
 
 # Doctrine Configuration
 doctrine:
@@ -71,3 +72,11 @@ swiftmailer:
 sensio_framework_extra:
    router:
         annotations: false
+
+ensepar_html2pdf:
+    orientation: P
+    format: A4
+    lang: fr
+    unicode: true
+    encoding: UTF-8
+    margin: [15,10,15,10]

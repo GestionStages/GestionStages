@@ -11,7 +11,10 @@ use AppBundle\Entity\Professeur;
 use AppBundle\Entity\Propositions;
 use AppBundle\Entity\Technologies;
 use AppBundle\Form\PropositionsType;
+use Carbon\Carbon;
 use Doctrine\ORM\EntityRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Spipu\Html2Pdf\Exception\Html2PdfException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -32,9 +35,10 @@ class PropositionsController extends Controller
 
     /**
      * @Route("/propositions/add", name="addProposition")
-     *
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
+     * @throws \Exception
      */
     public function addAction(Request $request)
     {
@@ -99,6 +103,7 @@ class PropositionsController extends Controller
 
     /**
      * @Route("/propositions/{id}", name="afficherPropositionbyid", requirements={"id"="\d+"})
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
      */
     public function showPropositionById($id)
     {
@@ -111,7 +116,7 @@ class PropositionsController extends Controller
 
     /**
      * @Route("/propositions/{id}/affecterEtudiant", name="affecterEtudiant", requirements={"id"="\d+"})
-     *
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
@@ -140,7 +145,8 @@ class PropositionsController extends Controller
 
     /**
      * @Route("/propositions/{id}/desaffecterEtudiant", name="desaffecterEtudiant", requirements={"id"="\d+"})
-     *  @param Request $request
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
+     * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
     public function desaffecterEtudiant(Request $request){
@@ -156,7 +162,7 @@ class PropositionsController extends Controller
 
     /**
      * @Route("/propositions/{id}/affecterProfesseur", name="affecterProfesseur", requirements={"id"="\d+"})
-     *
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
@@ -164,7 +170,7 @@ class PropositionsController extends Controller
     {
         $proposition = $this->getDoctrine()->getRepository(Propositions::class)->find($request->get('id'));
         if(!$request->get('professeur')){
-            $professeurs = $this->getDoctrine()->getRepository(Professeur::class)->findAll();
+            $professeurs = $this->getDoctrine()->getRepository(Professeur::class)->findOrdered();
 
             return $this->render('/admin/propositions/affecterProfesseur.html.twig', ['professeurs' => $professeurs, 'proposition' => $proposition]);
         }
@@ -185,7 +191,8 @@ class PropositionsController extends Controller
 
     /**
      * @Route("/propositions/{id}/desaffecterProfesseur", name="desaffecterProfesseur", requirements={"id"="\d+"})
-     *  @param Request $request
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
+     * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
     public function desaffecterProfesseur(Request $request){
@@ -202,6 +209,7 @@ class PropositionsController extends Controller
      * @param Request $request
      * @param Propositions $proposition
      * @Route("/propositions/{id}/edit", name="editProposition", requirements={"id"="\d+"})
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
     public function edit(Request $request, Propositions $proposition)
@@ -257,6 +265,7 @@ class PropositionsController extends Controller
 
     /**
      * @Route("/propositions", name="afficherProposition")
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
      */
     public function showProposition(Request $request)
     {
@@ -316,7 +325,7 @@ class PropositionsController extends Controller
 
     /**
      * @Route("/propositions/{id}/deleteFile", name="deletepropositionfile", requirements={"id"="\d+"})
-     *
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
      * @param Request $request
      * @param Propositions $proposition
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
@@ -339,5 +348,62 @@ class PropositionsController extends Controller
         return $this->redirect($this->generateUrl('afficherPropositionbyid',['id' => $proposition->getCodeproposition()]));
     }
 
+    /**
+     * @Route("/propositions/{id}/convention", name="generateconvention", requirements={"id"="\d+"})
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
+     * @param Propositions $proposition
+     * @return string|\Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function conventionaction(Propositions $proposition) {
+        if (is_null($proposition->getCodeEtudiant())) {
+            $this->get('session')->getFlashBag()->add('error', "Cette proposition n'as pas d'étudiant affecté");
+            return $this->redirectToRoute('homepage');
+        }
 
+        $profRepo = $this->getDoctrine()->getRepository(Professeur::class);
+
+        $annee = Carbon::now()->subMonths(9)->year;
+
+        /** @var Professeur $chef_dep */
+        $chef_dep = $profRepo->findOneByRoleProf(3);
+
+        /** @var Professeur $resp_stages */
+        $resp_stages = $profRepo->findOneByRoleProf(2);
+
+        $entrep = $proposition->getCodeentreprise();
+
+        $etudiant = $proposition->getCodeEtudiant();
+        $etudiant->getCodeclasse()->diffDates = Carbon::instance($etudiant->getCodeclasse()->getDateDebStage())
+                 ->diffInWeeks(Carbon::instance($etudiant->getCodeclasse()->getDateFinStage()));
+
+        switch ($etudiant->getSexeEtudiant()) {
+            case 'h':
+                $etudiant->setSexeEtudiant("Homme");
+                break;
+
+            case 'f':
+                $etudiant->setSexeEtudiant("Femme");
+                break;
+
+            default:
+                $etudiant->setSexeEtudiant("N/A");
+                break;
+        }
+
+        $html2pdf = $this->get('html2pdf_factory')->create();
+        $html2pdf->writeHTML($this->renderView('stages/convention.html.twig', [
+            'annee_str' => $annee."/".($annee+1),
+            'chef_dep' => $chef_dep,
+            'resp_stages' => $resp_stages,
+            'entreprise' => $entrep,
+            'etudiant' => $etudiant
+        ]));
+
+        try {
+            return $html2pdf->output('convention.pdf');
+        } catch (Html2PdfException $e) {
+            $this->get('session')->getFlashBag()->add('error', "Une erreur est survenue lors de la génération du PDF");
+            return $this->redirectToRoute('homepage');
+        }
+    }
 }

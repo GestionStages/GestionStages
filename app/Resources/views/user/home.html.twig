@@ -1,0 +1,34 @@
+{% extends 'user/base.html.twig' %}
+
+{% block title %}Accueil Utilisateur{% endblock %}
+
+{% block body %}
+    <div class="col-md-3">
+    <!-- Profile Image -->
+{% include 'user/profil.html.twig' %}
+    </div>
+    <div class="col-md-9">
+        <div class="box box-warning">
+            <div class="box-header with-border">
+                <h3 class="box-title">Mes accès</h3>
+
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                    </button>
+                </div>
+                <!-- /.box-tools -->
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <ul data-widget="tree">
+                    <li class="header">Gérer mon stage</li>
+                    <li><a href="{{ path('showUserHome') }}"><i class="fa fa-home"></i> <span>Valider mon stage</span></a></li>
+                    <li><a href="{{ path('showUserHome') }}"><i class="fa fa-home"></i> <span>Editer ma convention</span></a></li>
+                </ul>
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+    </div>
+    <!-- /.col -->
+{% endblock %}

@@ -50,7 +50,7 @@ class Propositions
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Entreprises")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="codeEntreprise", referencedColumnName="codeEntreprise", nullable=false)
+     *   @ORM\JoinColumn(name="codeEntreprise", referencedColumnName="codeEntreprise", nullable=false, onDelete="CASCADE")
      * })
      *
      * @Assert\NotBlank(message="L'entreprise est obligatoire.")
@@ -63,7 +63,7 @@ class Propositions
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Classes", inversedBy="codeproposition")
      * @ORM\JoinTable(name="associerclassespropositions",
      *   joinColumns={
-     *     @ORM\JoinColumn(name="codeProposition", referencedColumnName="codeProposition")
+     *     @ORM\JoinColumn(name="codeProposition", referencedColumnName="codeProposition", onDelete="CASCADE")
      *   },
      *   inverseJoinColumns={
      *     @ORM\JoinColumn(name="codeClasse", referencedColumnName="codeClasse")
@@ -78,7 +78,7 @@ class Propositions
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Technologies", mappedBy="codeproposition")
      * @ORM\JoinTable(name="associertechnologiespropositions",
      *   joinColumns={
-     *     @ORM\JoinColumn(name="codeProposition", referencedColumnName="codeProposition")
+     *     @ORM\JoinColumn(name="codeProposition", referencedColumnName="codeProposition", onDelete="CASCADE")
      *   },
      *   inverseJoinColumns={
      *     @ORM\JoinColumn(name="codeTechnologie", referencedColumnName="codeTechnologie")
@@ -91,7 +91,8 @@ class Propositions
      * @ORM\Column(name="file", type="string", length=1024, nullable=true)
      *
      * @Assert\File(
-     *     maxSizeMessage="Le fichier dépasse la taille maximale autorisée",
+     *     maxSize="2M",
+     *     maxSizeMessage="Le fichier dépasse la taille maximale autorisée ({{ limit }} {{ suffix }})",
      *     mimeTypes={ "application/pdf", "application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document" },
      *     mimeTypesMessage="Le format du fichier est invalide"
      * )
@@ -360,7 +361,7 @@ class Propositions
         return $this->codeetat;
     }
     /**
-     * @var \AppBundle\Entity\Etudiants
+     * @var \AppBundle\Entity\Etudiant
      */
     private $codeEtudiant;
 
@@ -368,7 +369,7 @@ class Propositions
     /**
      * Set codeEtudiant
      *
-     * @param \AppBundle\Entity\Etudiants $codeEtudiant
+     * @param Etudiant $codeEtudiant
      *
      * @return Propositions
      */
@@ -382,7 +383,7 @@ class Propositions
     /**
      * Get codeEtudiant
      *
-     * @return \AppBundle\Entity\Etudiants
+     * @return Etudiant
      */
     public function getCodeEtudiant()
     {

@@ -15,7 +15,11 @@ class DomaineactiviteType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('nomdomaine', TextType::class);
+            ->add('nomdomaine', TextType::class, [
+                'required' => true,
+                'label' => "Nom du domaine d'activité (*)",
+                'attr' => ['maxlength' => 255]
+            ]);
     }/**
      * {@inheritdoc}
      */

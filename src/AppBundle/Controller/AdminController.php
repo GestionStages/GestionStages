@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Propositions;
 use AppBundle\Entity\Etat;
 use AppBundle\Form\PropositionsType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -14,6 +15,7 @@ class AdminController extends Controller
 {
     /**
      * @Route("/admin", name="showAdminHome")
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
      */
     public function showHome()
     {
@@ -34,6 +36,7 @@ class AdminController extends Controller
 
     /**
      * @Route("/admin/offres", name="showAdminListAll")
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
      */
     public function showListAll()
     {
@@ -50,6 +53,7 @@ class AdminController extends Controller
     }
     /**
      * @Route("/admin/stat", name="statAdmin")
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
      */
     public function statAdmin()
     {
@@ -64,6 +68,7 @@ class AdminController extends Controller
      * @param Request $request
      * @param Propositions $proposition
      * @Route("/admin/propositions/{id}/edit", name="editPropositionAdmin", requirements={"id"="\d+"})
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
     public function edit(Request $request, Propositions $proposition)
@@ -96,6 +101,7 @@ class AdminController extends Controller
 
     /**
      * @Route("/admin/offres/{id}/valid", name="validProposition", requirements={"id"="\d+"})
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
      */
     public function approve($id)
     {
@@ -116,6 +122,7 @@ class AdminController extends Controller
 
     /**
      * @Route("/admin/offres/{id}/reject", name="rejectProposition", requirements={"id"="\d+"})
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
      */
     public function reject($id)
     {
@@ -136,6 +143,7 @@ class AdminController extends Controller
 
     /**
      * @Route("/admin/offres/{id}/archive", name="archiveProposition", requirements={"id"="\d+"})
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
      */
     public function archive($id)
     {
@@ -156,6 +164,7 @@ class AdminController extends Controller
 
     /**
      * @Route("/admin/accueil/edit", name="editinfos")
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */

@@ -27,7 +27,13 @@
                     <tbody>
                     {% for uneProposition in propositions  %}
                         <tr>
-                            <td>{{ uneProposition.titreproposition }}</td>
+                            <td>
+                                {% if uneProposition.titreproposition|length > 15 %}
+                                    {{ uneProposition.titreproposition[:15] }}...
+                                {% else %}
+                                    {{ uneProposition.titreproposition }}
+                                {% endif %}
+                            </td>
                             <td>{{ uneProposition.codeentreprise.nomentreprise }}</td>
                             <td>{% for unDomaine in uneProposition.codeEntreprise.codeDomaine %}
                                     {{  unDomaine.nomDomaine }}

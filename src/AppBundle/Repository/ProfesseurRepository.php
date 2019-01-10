@@ -10,4 +10,7 @@ namespace AppBundle\Repository;
  */
 class ProfesseurRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function findOrdered() {
+        return $this->findBy([], ['nomProf' => 'ASC', 'prenomProf' => 'ASC']);
+    }
 }

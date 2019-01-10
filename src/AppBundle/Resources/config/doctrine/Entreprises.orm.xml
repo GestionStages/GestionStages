@@ -37,7 +37,7 @@
     <many-to-many field="codecontact" target-entity="Contacts" inversed-by="codeentreprise" fetch="LAZY">
       <join-table name="associerentreprisescontact">
         <join-columns>
-          <join-column name="codeEntreprise" referenced-column-name="codeEntreprise"/>
+          <join-column name="codeEntreprise" referenced-column-name="codeEntreprise" on-delete="CASCADE"/>
         </join-columns>
         <inverse-join-columns>
           <join-column name="codeContact" referenced-column-name="codeContact"/>
@@ -47,7 +47,7 @@
     <many-to-many field="codedomaine" target-entity="Domaineactivite" inversed-by="codeentreprise" fetch="LAZY">
       <join-table name="associerentreprisesdomaine">
         <join-columns>
-          <join-column name="codeEntreprise" referenced-column-name="codeEntreprise"/>
+          <join-column name="codeEntreprise" referenced-column-name="codeEntreprise" on-delete="CASCADE"/>
         </join-columns>
         <inverse-join-columns>
           <join-column name="codeDomaine" referenced-column-name="codeDomaine"/>

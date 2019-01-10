@@ -1,7 +1,6 @@
 {% extends "admin/base.html.twig" %}
 
-{% block title %}Lise des Propositions{% endblock %}
-{% block stylesheets %}<link rel="stylesheet" href="{{ asset('css/propositionsAdmin.css') }}">{% endblock %}
+{% block title %}Liste des propositions{% endblock %}
 
 {% block body %}
     <div class="box">
@@ -30,7 +29,13 @@
                             {% if (uneProposition.codeEtat.codeEtat == 4) %}<span class="label label-default">{{ uneProposition.codeEtat.nomEtat }}</span> {% endif %}
                             {% if (uneProposition.codeEtat.codeEtat == 5) %}<span class="label label-danger">{{ uneProposition.codeEtat.nomEtat }}</span> {% endif %}
                         </td>
-                        <td><a href="{{ path("afficherPropositionbyid", {'id': uneProposition.codeProposition}) }}">{{ uneProposition.titreproposition }}</a></td>
+                        <td><a href="{{ path("afficherPropositionbyid", {'id': uneProposition.codeproposition}) }}">
+                            {% if uneProposition.titreproposition|length > 15 %}
+                                {{ uneProposition.titreproposition[:15] }}...
+                            {% else %}
+                                {{ uneProposition.titreproposition }}
+                            {% endif %}
+                        </a></td>
                         <td>{{ uneProposition.codeentreprise.nomentreprise }}</td>
                         <td>
                             {% for classe in uneProposition.codeclasse %}
@@ -59,28 +64,29 @@
                             {% endif %}
                         </td>
                         <td>
-                            <a href="{{ path('editPropositionAdmin', {'id': uneProposition.codeproposition}) }}" class="btn btn-primary"><i class="fa fa-edit" aria-hidden="true"></i> Editer</a><br/>
-                            {% if (uneProposition.codeEtat.codeEtat == 2 and uneProposition.codeEtudiant is not null) %}
-                                <a href="{{ path('desaffecterEtudiant', {'id': uneProposition.codeproposition}) }}" class="btn btn-adn"><i class="fa fa-remove" aria-hidden="true"></i> Etudiant</a><br/>
-                                {% if (uneProposition.codeProfesseur is null) %}
-                                    <a href="{{ path('affecterProfesseur', {'id': uneProposition.codeproposition}) }}" class="btn btn-tumblr"><i class="fa fa-plus" aria-hidden="true"></i> Tuteur</a><br/>
+                            <div class="btn-group-vertical">
+                                <a href="{{ path('editPropositionAdmin', {'id': uneProposition.codeproposition}) }}" class="btn btn-primary"><i class="fa fa-edit" aria-hidden="true"></i> Editer</a>
+                                {% if (uneProposition.codeEtat.codeEtat == 2 and uneProposition.codeEtudiant is not null) %}
+                                    <a href="{{ path('desaffecterEtudiant', {'id': uneProposition.codeproposition}) }}" class="btn btn-adn"><i class="fa fa-remove" aria-hidden="true"></i> Etudiant</a>
+                                    {% if (uneProposition.codeProfesseur is null) %}
+                                        <a href="{{ path('affecterProfesseur', {'id': uneProposition.codeproposition}) }}" class="btn btn-tumblr"><i class="fa fa-plus" aria-hidden="true"></i> Tuteur</a>
+                                    {% else %}
+                                        <a href="{{ path('desaffecterProfesseur', {'id': uneProposition.codeproposition}) }}" class="btn btn-adn"><i class="fa fa-remove" aria-hidden="true"></i> Tuteur</a>
+                                    {% endif %}
                                 {% else %}
-                                    <a href="{{ path('desaffecterProfesseur', {'id': uneProposition.codeproposition}) }}" class="btn btn-adn"><i class="fa fa-remove" aria-hidden="true"></i> Tuteur</a><br/>
+                                    {% if uneProposition.codeEtat.codeEtat != 2 %}
+                                        <a href="{{ path('validProposition', {'id': uneProposition.codeproposition}) }}" class="btn btn-success"><i class="fa fa-check" aria-hidden="true"></i> Valider</a>
+                                    {% else %}
+                                        <a href="{{ path('affecterEtudiant', {'id': uneProposition.codeproposition}) }}" class="btn btn-tumblr"><i class="fa fa-plus" aria-hidden="true"></i> Etudiant</a>
+                                    {% endif %}
+                                    {% if uneProposition.codeEtat.codeEtat != 5 %}
+                                        <a href="{{ path('rejectProposition', {'id': uneProposition.codeproposition}) }}" class="btn btn-danger"><i class="fa fa-minus-circle" aria-hidden="true"></i> Refuser</a>
+                                    {% endif %}
+                                    {% if uneProposition.codeEtat.codeEtat != 4 %}
+                                        <a href="{{ path('archiveProposition', {'id': uneProposition.codeproposition}) }}" class="btn btn-info"><i class="fa fa-archive" aria-hidden="true"></i> Archiver</a>
+                                    {% endif %}
                                 {% endif %}
-                            {% else %}
-
-                                {% if uneProposition.codeEtat.codeEtat != 2 %}
-                                    <a href="{{ path('validProposition', {'id': uneProposition.codeproposition}) }}" class="btn btn-success"><i class="fa fa-check" aria-hidden="true"></i> Valider</a><br/>
-                                {% else %}
-                                    <a href="{{ path('affecterEtudiant', {'id': uneProposition.codeproposition}) }}" class="btn btn-tumblr"><i class="fa fa-plus" aria-hidden="true"></i> Etudiant</a><br/>
-                                {% endif %}
-                                {% if uneProposition.codeEtat.codeEtat != 5 %}
-                                    <a href="{{ path('rejectProposition', {'id': uneProposition.codeproposition}) }}" class="btn btn-danger"><i class="fa fa-minus-circle" aria-hidden="true"></i> Refuser</a><br/>
-                                {% endif %}
-                                {% if uneProposition.codeEtat.codeEtat != 4 %}
-                                    <a href="{{ path('archiveProposition', {'id': uneProposition.codeproposition}) }}" class="btn btn-info"><i class="fa fa-archive" aria-hidden="true"></i> Archiver</a><br/>
-                                {% endif %}
-                             {% endif %}
+                            </div>
                         </td>
                     </tr>
                 {% endfor %}

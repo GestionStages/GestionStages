@@ -14,13 +14,13 @@
         <option name="fixed"/>
       </options>
     </field>
-    <field name="isLicence" type="boolean" column="isLicence" nullable="false">
-      <options>
-        <option name="fixed"/>
-      </options>
-    </field>
     <field name="dateDebStage" type="date" column="dateDebStage" nullable="true"/>
     <field name="dateFinStage" type="date" column="dateFinStage" nullable="true"/>
+    <many-to-one field="codegroupeldap" target-entity="GroupesLdap" fetch="LAZY">
+      <join-columns>
+        <join-column name="codeGroupe" referenced-column-name="codeGroupe" nullable="false"/>
+      </join-columns>
+    </many-to-one>
     <many-to-many field="codeproposition" target-entity="Propositions" mapped-by="codeclasse" fetch="LAZY"/>
   </entity>
 </doctrine-mapping>

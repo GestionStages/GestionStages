@@ -19,6 +19,8 @@ class EtudiantRepository extends EntityRepository
         $qb->leftJoin('AppBundle:Propositions','p', 'WITH', 'e.id = p.codeEtudiant');
         $qb->addSelect('p');
         $qb->where('p.codeEtudiant IS NULL');
+        $qb->addOrderBy('e.nomEtudiant', 'ASC');
+        $qb->addOrderBy('e.prenomEtudiant', 'ASC');
         $query = $qb->getQuery();
         $etudiants = $query->getResult();
 

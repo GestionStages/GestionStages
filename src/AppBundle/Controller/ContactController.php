@@ -12,6 +12,7 @@ use AppBundle\Entity\Contacts;
 use AppBundle\Entity\Entreprises;
 use AppBundle\Form\ContactsType;
 use AppBundle\Form\EntreprisesType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,12 +26,12 @@ class ContactController extends Controller
     /**
      *
      * @Route("/admin/contact/add", name="addContact")
-     *
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
      * @param Request $request
      * @param SessionInterface $session
      * @return \Symfony\Component\HttpFoundation\Response
+     * @throws \Doctrine\ORM\NonUniqueResultException
      */
-
     public function addAction(Request $request,SessionInterface $session)
     {
 
@@ -105,6 +106,8 @@ class ContactController extends Controller
      * @param SessionInterface $session
      * @return Response
      * @Route("/admin/contacts/{id}/edit", name="editContact")
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
+     * @throws \Doctrine\ORM\NonUniqueResultException
      */
     public function edit(Request $request, Contacts $contact, SessionInterface $session){
 
@@ -152,7 +155,9 @@ class ContactController extends Controller
      * @param Contacts $contact
      * @param SessionInterface $session
      * @return Response
+     * @throws \Doctrine\ORM\NonUniqueResultException
      * @Route("/admin/contacts/{id}/deleteContact", name="deleteContact")
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
      */
 
     public function delete(Contacts $contact, SessionInterface $session){
@@ -181,8 +186,8 @@ class ContactController extends Controller
     }
 
     /**
-     *
      * @Route("/entreprises/{id}/contacts", name="showContacts")
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
      * @param Entreprises $entreprise
      * @param SessionInterface $session
      * @return Response

@@ -2,9 +2,9 @@
 
 {% block title %}
     {% if form.vars.value.codecontact is null %}
-        Nouveau Contact
+        Nouveau contact ({{ entreprise.nomentreprise }})
     {% else %}
-        Modification du Contact
+        Modification du contact {{ form.vars.value.nomcontact | upper }} {{ form.vars.value.prenomcontact | capitalize }} ({{ entreprise.nomentreprise }})
     {% endif %}
 {% endblock %}
 
@@ -13,50 +13,19 @@
         <div class="box-body">
             {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
 
-            <a href="{{ path('showContacts', {'id':entreprise.codeentreprise}) }}" class="btn btn-sm btn-success">
-                <i class="fa fa-mail-reply" aria-hidden="true"></i> Retour
-            </a>
-
-            {% if form.vars.value.codecontact is null %}
-                <h1>Nouveau Contact ({{ entreprise.nomentreprise }})</h1>
-            {% else %}
-                <h1>Modification du Contact ({{ entreprise.nomentreprise }})</h1>
-            {% endif %}
-
             <div class="form-group">
-                {{ form_label(form.nomcontact, "Nom (*)", {'label_attr': {'class': "col-4"}}) }}
-                {{ form_widget(form.nomcontact, {'attr': {'class': "form-control col-5", 'maxlength': "255"}}) }}
-                {{ form_errors(form.nomcontact) }}
+                <a href="{{ path('showContacts', {'id':entreprise.codeentreprise}) }}" class="btn btn-sm btn-success">
+                    <i class="fa fa-mail-reply" aria-hidden="true"></i> Retour
+                </a>
             </div>
 
-            <div class="form-group">
-                {{ form_label(form.prenomcontact, "Prénom (*)", {'label_attr': {'class': "col-4"}}) }}
-                {{ form_widget(form.prenomcontact, {'attr': {'class': "form-control col-5", 'maxlength': "255"}}) }}
-                {{ form_errors(form.prenomcontact) }}
-            </div>
+            {{ form_row(form.nomcontact) }}
+            {{ form_row(form.prenomcontact) }}
+            {{ form_row(form.postecontact) }}
+            {{ form_row(form.mailcontact) }}
+            {{ form_row(form.telcontact) }}
 
-            <div class="form-group">
-                {{ form_label(form.postecontact, "Poste dans l'entreprise (*)", {'label_attr': {'class': "col-4"}}) }}
-                {{ form_widget(form.postecontact, {'attr': {'class': "form-control col-5", 'maxlength': "1024"}}) }}
-                {{ form_errors(form.postecontact) }}
-            </div>
-
-            <div class="form-group">
-                {{ form_label(form.mailcontact, "Mail (*)", {'label_attr': {'class': "col-4"}}) }}
-                {{ form_widget(form.mailcontact, {'attr': {'class': "form-control col-5", 'maxlength': "1024"}}) }}
-                {{ form_errors(form.mailcontact) }}
-            </div>
-
-            <div class="form-group">
-                {{ form_label(form.telcontact, "Téléphone (*)", {'label_attr': {'class': "col-4"}}) }}
-                {{ form_widget(form.telcontact, {'attr': {'class': "form-control col-5"}}) }}
-                {{ form_errors(form.telcontact) }}
-            </div>
-
-            <br/><br/>
-            <div class="btn-group" role="group" aria-label="...">
-                <button type="submit" class="btn btn-primary" >Valider</button>
-            </div>
+            <button type="submit" class="btn btn-primary btn-block" >Valider</button>
 
             {{ form_end(form) }}
         </div>
