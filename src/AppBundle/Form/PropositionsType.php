@@ -2,6 +2,10 @@
 
 namespace AppBundle\Form;
 
+use AppBundle\Controller\TechnologiesController;
+use AppBundle\Entity\Technologies;
+use Doctrine\ORM\EntityManager;
+use Monolog\Logger;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -9,6 +13,9 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
+
 
 class PropositionsType extends AbstractType
 {
@@ -17,6 +24,8 @@ class PropositionsType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+    	$doctrine = $options['doctrine'];
+
         $builder
             ->add('titreproposition', TextType::class, [
                 'required' => true,
@@ -52,7 +61,30 @@ class PropositionsType extends AbstractType
             ])
 	        ->add('commentaire',TextareaType::class, [
 	            'label' => "Commentaire privé"
-            ]);
+            ])
+            ->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) use(&$doctrine) {
+
+            	$data = $event->getData();
+				$form = $event->getForm();
+
+				if(isset($data['codetechnologie'])) {
+					foreach($data['codetechnologie'] as $techno) {
+
+						// TODO : debugguer ça
+						// Si une des technologies n'existe pas, on la créée
+						$matches = $doctrine->getRepository(Technologies::class)->findAll($techno);
+						if(count($matches) > 0) {
+							$t = new Technologies();
+							$t->setNomtechnologie($techno);
+
+							$doctrine->getEntityManager()->persist($t);
+							$doctrine->getEntityManager()->flush();
+						}
+
+						// TODO : assignation de la bonne entité (la nouvelle)
+					}
+				}
+            });
     }/**
      * {@inheritdoc}
      */
@@ -61,6 +93,7 @@ class PropositionsType extends AbstractType
         $resolver->setDefaults(array(
             'data_class' => 'AppBundle\Entity\Propositions'
         ));
+        $resolver->setRequired('doctrine');
     }
 
     /**

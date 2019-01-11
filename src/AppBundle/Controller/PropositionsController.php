@@ -47,7 +47,7 @@ class PropositionsController extends Controller
         $proposition = new Propositions();
 
         //On récupère le form
-        $form = $this->createForm(PropositionsType::class, $proposition);
+        $form = $this->createForm(PropositionsType::class, $proposition, array('doctrine' => $this->getDoctrine()));
         $form->handleRequest($request);
 
         //si le formulaire a été soumis et qu'il est valide
@@ -214,9 +214,10 @@ class PropositionsController extends Controller
      */
     public function edit(Request $request, Propositions $proposition)
     {
-        $form = $this->createForm(PropositionsType::class, $proposition);
+	    $form = $this->createForm(PropositionsType::class, $proposition, array('doctrine' => $this->getDoctrine()));
 
-        $form->handleRequest($request);
+
+	    $form->handleRequest($request);
 
         //si le formulaire a été soumis
         if($form->isSubmitted() && $form->isValid()){
