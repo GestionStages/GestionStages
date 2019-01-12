@@ -29,6 +29,12 @@ class ContactsType extends AbstractType
                 'label' => "Prénom (*)",
                 'attr' => ['maxlength' => 255]
             ])
+            ->add('userContact', TextType::class, [
+                'disabled' => (!is_null($options['data']->getcodecontact())), //Desactive si on edite le contact
+                'required' => true,
+                'label' => "Nom d'utilisateur (*)",
+                'attr' => ['maxlength' => 255]
+            ])
             ->add('mailcontact', EmailType::class, [
                 'required' => true,
                 'label' => "Addresse email (*)",
