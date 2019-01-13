@@ -70,10 +70,9 @@ class PropositionsType extends AbstractType
 				if(isset($data['codetechnologie'])) {
 					foreach($data['codetechnologie'] as $techno) {
 
-						// TODO : debugguer ça
 						// Si une des technologies n'existe pas, on la créée
-						$matches = $doctrine->getRepository(Technologies::class)->findAll($techno);
-						if(count($matches) > 0) {
+						$matches = $doctrine->getRepository(Technologies::class)->findExactName($techno);
+						if(empty($matches)) {
 							$t = new Technologies();
 							$t->setNomtechnologie($techno);
 
