@@ -27,13 +27,13 @@
                     <tr>
                         <td>{{ unCommentaire.prof.nomProf | upper }} {{ unCommentaire.prof.prenomProf | capitalize }}</td>
                         <td>{{ unCommentaire.date | date('d/m/Y H:i') }}</td>
-                        <td>
+                        <td><a href="#" data-toggle="modal" data-target="#showProfCommentModal-{{ unCommentaire.id }}">
                             {% if unCommentaire.comment|length > 15 %}
                                 {{ unCommentaire.comment[:15] }}...
                             {% else %}
                                 {{ unCommentaire.comment }}
                             {% endif %}
-                        </td>
+                        </a></td>
                         <td class="text-right">
                             <div class="item-actions">
                                 <a href="{{ path('editProfComment', {'id': unCommentaire.id }) }}" class="btn btn-sm btn-primary">
@@ -46,6 +46,7 @@
                             </div>
                         </td>
                         {% include 'admin/profComments/modals/deleteProfCommentModal.html.twig' %}
+                        {% include 'admin/profComments/modals/showProfCommentModal.html.twig' %}
                     </tr>
                 {% endfor %}
                 </tbody>
