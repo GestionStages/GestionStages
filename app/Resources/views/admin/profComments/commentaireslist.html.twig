@@ -17,7 +17,7 @@
                 <thead>
                 <tr>
                     <th scope="col">Professeur</th>
-                    <th scope="col">Date</th>
+                    <th scope="col">Dernière modification</th>
                     <th scope="col">Résumé</th>
                     <th scope="col" class="text-right"><i class="fa fa-cogs" aria-hidden="true"></i> Actions</th>
                 </tr>
@@ -36,7 +36,7 @@
                         </td>
                         <td class="text-right">
                             <div class="item-actions">
-                                <a href="#" class="btn btn-sm btn-primary">
+                                <a href="{{ path('editProfComment', {'id': unCommentaire.id }) }}" class="btn btn-sm btn-primary">
                                     <i class="fa fa-edit" aria-hidden="true"></i> Éditer
                                 </a>
                             </div>
