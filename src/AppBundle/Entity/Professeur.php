@@ -16,6 +16,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Professeur implements UserInterface
 {
+
+
     /**
      * @var int
      */
@@ -348,11 +350,17 @@ class Professeur implements UserInterface
     private $propositions;
 
     /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\CommentProf", mappedBy="prof")
+     */
+    private $commentaires;
+
+    /**
      * Professeur constructor.
      */
     public function __construct()
     {
         $this->propositions = new ArrayCollection();
+        $this->commentaires = new ArrayCollection();
     }
 
     /**
@@ -372,5 +380,24 @@ class Professeur implements UserInterface
 
     public function removeProposition(Propositions $proposition) {
         $this->propositions->removeElement($proposition);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCommentaires()
+    {
+        return $this->commentaires;
+    }
+
+    /**
+     * @param Propositions $proposition
+     */
+    public function addCommentaire(CommentProf $commentaire) {
+        $this->commentaires[] = $commentaire;
+    }
+
+    public function removeCommentaire(CommentProf $commentaire) {
+        $this->commentaires->removeElement($commentaire);
     }
 }

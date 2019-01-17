@@ -24,7 +24,7 @@ class CommentProf
     /**
      * @var int
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Professeur")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Professeur", inversedBy="commentaires")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="prof", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      * })
@@ -34,7 +34,7 @@ class CommentProf
     /**
      * @var int
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Propositions")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Propositions", inversedBy="commentaires")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="proposition", referencedColumnName="codeProposition", nullable=false, onDelete="CASCADE")
      * })
