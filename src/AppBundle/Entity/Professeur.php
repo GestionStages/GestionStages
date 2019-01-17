@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -339,5 +340,37 @@ class Professeur implements UserInterface
     public function setConfirmPassProf($confirmPassProf)
     {
         $this->confirmPassProf = $confirmPassProf;
+    }
+
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Propositions", mappedBy="codeProfesseur")
+     */
+    private $propositions;
+
+    /**
+     * Professeur constructor.
+     */
+    public function __construct()
+    {
+        $this->propositions = new ArrayCollection();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPropositions()
+    {
+        return $this->propositions;
+    }
+
+    /**
+     * @param Propositions $proposition
+     */
+    public function addProposition(Propositions $proposition) {
+        $this->propositions[] = $proposition;
+    }
+
+    public function removeProposition(Propositions $proposition) {
+        $this->propositions->removeElement($proposition);
     }
 }

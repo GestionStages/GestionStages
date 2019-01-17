@@ -161,7 +161,18 @@
             <ul class="sidebar-menu" data-widget="tree">
                 <li class="header">NAVIGATION</li>
                 <li><a href="{{ path('showAdminHome') }}"><i class="fa fa-home"></i> <span>Accueil admin</span></a></li>
-                <li><a href="{{ path('showAdminListAll') }}"><i class="fa fa-dashboard"></i> <span>Gestion des offres</span></a></li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-dashboard"></i> <span>Gestion des offres</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="{{ path('showAdminListAll') }}"><i class="fa fa-circle-o"></i> Toutes les offres</a></li>
+                        <li><a href="{{ path('indexProfPropositions') }}"><i class="fa fa-circle-o"></i> Mes offres</a></li>
+                    </ul>
+                </li>
                 <li class="treeview">
                     <a href="#">
                         <i class="fa fa-building"></i> <span>Gestion des entreprises</span>

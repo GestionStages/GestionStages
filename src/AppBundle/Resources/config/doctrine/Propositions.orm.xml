@@ -35,7 +35,7 @@
         <join-column name="codeEntreprise" referenced-column-name="codeEntreprise" nullable="false" on-delete="CASCADE"/>
       </join-columns>
     </many-to-one>
-    <many-to-one field="codeProfesseur" target-entity="Professeur" fetch="LAZY">
+    <many-to-one field="codeProfesseur" target-entity="Professeur" fetch="LAZY" inversed-by="propositions">
       <join-columns>
         <join-column name="codeProfesseur" referenced-column-name="id" nullable="true"/>
       </join-columns>
