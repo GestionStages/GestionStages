@@ -51,7 +51,7 @@
           <join-column name="codeProposition" referenced-column-name="codeProposition" on-delete="CASCADE"/>
         </join-columns>
         <inverse-join-columns>
-          <join-column name="codeClasse" referenced-column-name="codeClasse"/>
+          <join-column name="codeClasse" referenced-column-name="codeClasse" on-delete="CASCADE"/>
         </inverse-join-columns>
       </join-table>
     </many-to-many>
@@ -61,7 +61,7 @@
           <join-column name="codeProposition" referenced-column-name="codeProposition" on-delete="CASCADE"/>
         </join-columns>
         <inverse-join-columns>
-          <join-column name="codeTechnologie" referenced-column-name="codeTechnologie"/>
+          <join-column name="codeTechnologie" referenced-column-name="codeTechnologie" on-delete="CASCADE"/>
         </inverse-join-columns>
       </join-table>
     </many-to-many>

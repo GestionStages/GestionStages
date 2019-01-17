@@ -40,7 +40,7 @@
           <join-column name="codeEntreprise" referenced-column-name="codeEntreprise" on-delete="CASCADE"/>
         </join-columns>
         <inverse-join-columns>
-          <join-column name="codeContact" referenced-column-name="codeContact"/>
+          <join-column name="codeContact" referenced-column-name="codeContact" on-delete="CASCADE"/>
         </inverse-join-columns>
       </join-table>
     </many-to-many>
@@ -50,7 +50,7 @@
           <join-column name="codeEntreprise" referenced-column-name="codeEntreprise" on-delete="CASCADE"/>
         </join-columns>
         <inverse-join-columns>
-          <join-column name="codeDomaine" referenced-column-name="codeDomaine"/>
+          <join-column name="codeDomaine" referenced-column-name="codeDomaine" on-delete="CASCADE"/>
         </inverse-join-columns>
       </join-table>
     </many-to-many>

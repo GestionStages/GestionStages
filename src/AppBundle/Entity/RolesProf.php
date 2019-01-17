@@ -75,4 +75,3 @@ class RolesProf
         $this->nomRole = $nomRole;
     }
 }
-

@@ -107,7 +107,7 @@ class Entreprises
      *     @ORM\JoinColumn(name="codeEntreprise", referencedColumnName="codeEntreprise", onDelete="CASCADE")
      *   },
      *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="codeContact", referencedColumnName="codeContact")
+     *     @ORM\JoinColumn(name="codeContact", referencedColumnName="codeContact", onDelete="CASCADE")
      *   }
      * )
      */
@@ -296,7 +296,7 @@ class Entreprises
      *     @ORM\JoinColumn(name="codeEntreprise", referencedColumnName="codeEntreprise", onDelete="CASCADE")
      *   },
      *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="codeDomaine", referencedColumnName="codeDomaine")
+     *     @ORM\JoinColumn(name="codeDomaine", referencedColumnName="codeDomaine", onDelete="CASCADE")
      *   }
      * )
      */

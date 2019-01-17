@@ -66,7 +66,7 @@ class Propositions
      *     @ORM\JoinColumn(name="codeProposition", referencedColumnName="codeProposition", onDelete="CASCADE")
      *   },
      *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="codeClasse", referencedColumnName="codeClasse")
+     *     @ORM\JoinColumn(name="codeClasse", referencedColumnName="codeClasse", onDelete="CASCADE")
      *   }
      * )
      */
@@ -81,7 +81,7 @@ class Propositions
      *     @ORM\JoinColumn(name="codeProposition", referencedColumnName="codeProposition", onDelete="CASCADE")
      *   },
      *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="codeTechnologie", referencedColumnName="codeTechnologie")
+     *     @ORM\JoinColumn(name="codeTechnologie", referencedColumnName="codeTechnologie", onDelete="CASCADE")
      *   }
      * )
      */
