@@ -6,6 +6,8 @@ security:
             algorithm: bcrypt
         AppBundle\Entity\Professeur:
             algorithm: bcrypt
+        AppBundle\Entity\Contacts:
+            algorithm: bcrypt
 
     # https://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
     providers:
@@ -19,6 +21,10 @@ security:
             entity:
                 class: AppBundle\Entity\Professeur
                 property: userProf
+        contact_db:
+            entity:
+                class: AppBundle\Entity\Contacts
+                property: userContact
 
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs

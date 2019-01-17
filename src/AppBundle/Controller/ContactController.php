@@ -18,9 +18,10 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+
 
 class ContactController extends Controller
-
 {
     /**
      *
@@ -28,10 +29,11 @@ class ContactController extends Controller
      * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
      * @param Request $request
      * @param SessionInterface $session
+     * @param \Swift_Mailer $mailer
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function addAction(Request $request,SessionInterface $session)
+    public function addAction(Request $request, SessionInterface $session, \Swift_Mailer $mailer)
     {
 
         $repository = $this->getDoctrine()
@@ -48,9 +50,9 @@ class ContactController extends Controller
 
         //On crée un nouveau contact
         $contact = new Contacts();
+
         // On affecte l'entreprise au contact
         $entreprise->addCodeContact($contact);
-
 
         //On récupère le form
         $form = $this->createForm(ContactsType::class, $contact);
@@ -58,8 +60,17 @@ class ContactController extends Controller
         $form->handleRequest($request);
 
         //si le formulaire a été soumis
-
         if($form->isSubmitted() && $form->isValid()){
+            $message = \Swift_Message::newInstance()
+                ->setSubject('Demande d\'inscription sur la plateforme de l\'IUT de Montpellier')
+                ->setFrom('stages-iutms@umontpellier.fr')
+                ->setTo($contact->getMailcontact())
+                ->setBody(
+                    $this->renderView('admin/contacts/registrationMail.html.twig', ['contact' => $contact]),
+                    'text/html'
+                );
+
+            $mailer->send($message);
 
             //on enregistre le contact dans la bdd
             $em = $this-> getDoctrine()->getManager();
@@ -70,17 +81,14 @@ class ContactController extends Controller
             $this->get('session')->getFlashBag()->add('notice','Le contact ('.$contact->getNomcontact(). " " . $contact->getPrenomcontact() . ') est ajouté !');
 
             //Retourne form de la liste des contacts de l'entreprise
-            return $this->redirectToRoute('showContacts',['id' => $entreprise->getCodeEntreprise()]);
-
+            return $this->redirectToRoute('showContacts', ['id' => $entreprise->getCodeEntreprise()]);
         }
-
 
         //On génére le fichier final
         $formView = $form->createView();
 
         //on rend la vue
         return $this->render('admin/contacts/contactAdd.html.twig', array('form'=>$formView,'entreprise'=> $entreprise));
-
     }
 
     /**
@@ -93,9 +101,7 @@ class ContactController extends Controller
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
     public function edit(Request $request, Contacts $contact, SessionInterface $session){
-
-
-            $form = $this->createForm(ContactsType::class, $contact);
+        $form = $this->createForm(ContactsType::class, $contact);
 
             $form->handleRequest($request);
 
@@ -110,22 +116,18 @@ class ContactController extends Controller
             // Cette ligne permet de récupérer directement l'objet et non un tableau avec l'objet à l'interieur
             ->getOneOrNullResult();
 
-            //si le formulaire a été soumis
-
-            if($form->isSubmitted() && $form->isValid()){
-
-                //on enregistre l'entreprise dans la bdd
-                $em = $this-> getDoctrine()->getManager();
-                $em->flush();
+        //si le formulaire a été soumis
+        if($form->isSubmitted() && $form->isValid()){
+            //on enregistre l'entreprise dans la bdd
+            $em = $this-> getDoctrine()->getManager();
+            $em->flush();
 
                 //Envoi un message de validation
                 $this->get('session')->getFlashBag()->add('notice','Contact ('.$contact->getNomcontact() . " " . $contact->getPrenomcontact() .') modifié !');
 
-                // Retourne form de la liste des contacts de l'entreprise
-                return $this->redirectToRoute('showContacts',['id' => $entreprise->getCodeEntreprise()]);
-
-            }
-
+            // Retourne form de la liste des contacts de l'entreprise
+            return $this->redirectToRoute('showContacts',['id' => $entreprise->getCodeEntreprise()]);
+        }
 
             //On génére le fichier final
             $formView = $form->createView();
@@ -142,7 +144,6 @@ class ContactController extends Controller
      * @Route("/admin/contacts/{id}/deleteContact", name="deleteContact")
      * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
      */
-
     public function delete(Contacts $contact, SessionInterface $session){
         //TODO: A Déplacer dans repository EntrepriseRepository
         $repository = $this->getDoctrine()
@@ -191,6 +192,45 @@ class ContactController extends Controller
 
         return $this->render('admin/contacts/contactsShow.html.twig',['contacts' => $contacts, 'entreprise' => $entreprise]);
 
+    }
+
+    /**
+     * @param Request $request
+     * @param UserPasswordEncoderInterface $encoder
+     * @return Response
+     * @Route("/contacts/{id}/inscrire", name="inscrireContact")
+     */
+    public function inscrire(Request $request, UserPasswordEncoderInterface $encoder){
+        $contact = $this->getDoctrine()->getRepository(Contacts::class)->find($request->get('id'));
+        if($contact->getMdpcontact() != null){
+            $this->get('session')->getFlashBag()->add('error','Inscription déjà effectuée !');
+            return $this->redirect($this->generateUrl('homepage'));
+        }
+        else{
+            if(!$request->get('password')){
+
+                return $this->render('/contacts/inscription.html.twig', ['contact' => $contact]);
+            }
+            else{
+                if($request->get('password') != $request->get('password2')){
+                    $this->get('session')->getFlashBag()->add('error','Mots de passe différents');
+                    return $this->render('/contacts/inscription.html.twig', ['contact' => $contact]);
+                }
+                else{
+                    //On encrypte le mot de passe
+                    $hash = $encoder->encodePassword($contact, $request->get('password'));
+                    $contact->setMdpcontact($hash);
+
+                    $em = $this-> getDoctrine()->getManager();
+                    $em->persist($contact);
+                    $em->flush();
+
+                    // On affiche message de validation dans le formulaire de redirection
+                    $this->get('session')->getFlashBag()->add('notice','Inscription enregistée !');
+                    return $this->redirect($this->generateUrl('homepage'));
+                }
+            }
+        }
     }
 
 

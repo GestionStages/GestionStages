@@ -14,6 +14,11 @@
         <option name="fixed"/>
       </options>
     </field>
+    <field name="userContact" type="string" column="userContact" length="255" nullable="false">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
     <field name="postecontact" type="string" column="posteContact" length="255" nullable="false">
       <options>
         <option name="fixed"/>
@@ -27,6 +32,11 @@
     <field name="telcontact" type="string" column="telContact" length="10" nullable="false">
       <options>
         <option name="fixed">1</option>
+      </options>
+    </field>
+    <field name="mdpcontact" type="string" column="mdpContact" length="255" nullable="true">
+      <options>
+        <option name="fixed"/>
       </options>
     </field>
     <many-to-many field="codeentreprise" target-entity="Entreprises" mapped-by="codecontact" fetch="LAZY"/>

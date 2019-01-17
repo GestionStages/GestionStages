@@ -2,11 +2,12 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Contacts;
 use AppBundle\Entity\Etudiant;
 use AppBundle\Entity\Professeur;
+use AppBundle\Entity\RolesProf;
 use AppBundle\Form\EtudiantType;
 use AppBundle\Form\ProfesseurType;
-use AppBundle\Repository\EtudiantRepository;
 use Doctrine\Common\Persistence\ObjectManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -176,7 +177,7 @@ class AuthController extends Controller
             }
         }
 
-        return $this->render('login/iut.html.twig', [
+        return $this->render('login/login.html.twig', [
             'error' => $error,
             'last_username' => $username
         ]);
@@ -221,7 +222,52 @@ class AuthController extends Controller
             }
         }
 
-        return $this->render('login/iut.html.twig', [
+        return $this->render('login/login.html.twig', [
+            'error' => $error,
+            'last_username' => $username
+        ]);
+    }
+
+    /**
+     * @Route("/auth/entreprise/connexion", name="connectEntrep")
+     * @param Request $request
+     * @param UserPasswordEncoderInterface $encoder
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     */
+    public function loginEntrep(Request $request, UserPasswordEncoderInterface $encoder) {
+        if ($this->isGranted("IS_AUTHENTICATED_REMEMBERED")) {
+            return $this->redirectToRoute('homepage');
+        }
+
+        $username = "";
+        $error = null;
+
+        // Si le formulaire est transmit
+        if ($request->request->count()) {
+            try {
+                $username = $request->request->get('_username');
+                $password = $request->request->get('_password');
+
+                /** @var Contacts $contact */
+                $contact = $this->getDoctrine()->getRepository(Contacts::class)
+                                ->findOneByUserContact($username);
+
+                if (is_null($contact)) {
+                    throw new AuthenticationException();
+                }
+
+                if (!$encoder->isPasswordValid($contact, $password)) {
+                    throw new AuthenticationException();
+                }
+
+                $this->manualLogin($request, $contact);
+                return $this->redirectToRoute('homepage');
+            } catch (AuthenticationException $exception) {
+                $error = "Informations de connexion incorrectes";
+            }
+        }
+
+        return $this->render('login/login.html.twig', [
             'error' => $error,
             'last_username' => $username
         ]);
