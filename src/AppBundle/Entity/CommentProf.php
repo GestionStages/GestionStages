@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * CommentProf
@@ -45,6 +46,7 @@ class CommentProf
      * @var string
      *
      * @ORM\Column(name="comment", type="text")
+     * @Assert\NotBlank(message="Le commentaire ne doit pas être vide")
      */
     private $comment;
 
