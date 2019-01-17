@@ -32,7 +32,7 @@ class CommentProf
     private $prof;
 
     /**
-     * @var int
+     * @var Propositions
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Propositions", inversedBy="commentaires")
      * @ORM\JoinColumns({
@@ -93,7 +93,7 @@ class CommentProf
     /**
      * Set proposition
      *
-     * @param integer $proposition
+     * @param Propositions $proposition
      *
      * @return CommentProf
      */
@@ -107,7 +107,7 @@ class CommentProf
     /**
      * Get proposition
      *
-     * @return int
+     * @return Propositions
      */
     public function getProposition()
     {

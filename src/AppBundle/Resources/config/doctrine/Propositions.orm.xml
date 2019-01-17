@@ -30,6 +30,7 @@
         <join-column name="codeEtudiant" referenced-column-name="id" nullable="true"/>
       </join-columns>
     </one-to-one>
+    <one-to-many target-entity="AppBundle\Entity\CommentProf" mapped-by="proposition" field="commentaires"/>
     <many-to-one field="codeentreprise" target-entity="Entreprises" fetch="LAZY">
       <join-columns>
         <join-column name="codeEntreprise" referenced-column-name="codeEntreprise" nullable="false" on-delete="CASCADE"/>
