@@ -18,6 +18,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 
 class ContactController extends Controller
@@ -195,10 +196,11 @@ class ContactController extends Controller
 
     /**
      * @param Request $request
+     * @param UserPasswordEncoderInterface $encoder
      * @return Response
      * @Route("/contacts/{id}/inscrire", name="inscrireContact")
      */
-    public function inscrire(Request $request){
+    public function inscrire(Request $request, UserPasswordEncoderInterface $encoder){
         $contact = $this->getDoctrine()->getRepository(Contacts::class)->find($request->get('id'));
         if($contact->getMdpcontact() != null){
             $this->get('session')->getFlashBag()->add('error','Inscription déjà effectuée !');
@@ -215,7 +217,9 @@ class ContactController extends Controller
                     return $this->render('/contacts/inscription.html.twig', ['contact' => $contact]);
                 }
                 else{
-                    $contact->setMdpContact($request->get('password'));
+                    //On encrypte le mot de passe
+                    $hash = $encoder->encodePassword($contact, $request->get('password'));
+                    $contact->setMdpcontact($hash);
 
                     $em = $this-> getDoctrine()->getManager();
                     $em->persist($contact);
