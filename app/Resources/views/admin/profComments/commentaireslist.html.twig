@@ -39,8 +39,13 @@
                                 <a href="{{ path('editProfComment', {'id': unCommentaire.id }) }}" class="btn btn-sm btn-primary">
                                     <i class="fa fa-edit" aria-hidden="true"></i> Éditer
                                 </a>
+
+                                <a href="#" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#deleteProfCommentModal-{{ unCommentaire.id }}">
+                                    <i class="fa fa-trash" aria-hidden="true"></i> Supprimer
+                                </a>
                             </div>
                         </td>
+                        {% include 'admin/profComments/modals/deleteProfCommentModal.html.twig' %}
                     </tr>
                 {% endfor %}
                 </tbody>

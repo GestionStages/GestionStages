@@ -124,4 +124,26 @@ class CommentProfController extends Controller
             'form' => $formview
         ]);
     }
+
+    /**
+     * @Route("/prof/commentaires/{id}/suppr", name="supprProfComment")
+     * @IsGranted("ROLE_PROF")
+     * @param CommentProf $commentaire
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function supprComment(CommentProf $commentaire) {
+        $user = $this->getUser();
+
+        if ($user->getId() != $commentaire->getProposition()->getCodeProfesseur()->getId()) {
+            $this->get('session')->getFlashBag()->add('error',"Cette proposition ne vous est pas affectée !");
+            return $this->redirect($this->generateUrl('indexProfPropositions'));
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($commentaire);
+        $em->flush();
+
+        $this->get('session')->getFlashBag()->add('notice','Le commentaire à été supprimé !');
+        return $this->redirectToRoute('commentairesProposition', ['id' => $commentaire->getProposition()->getCodeproposition()]);
+    }
 }
