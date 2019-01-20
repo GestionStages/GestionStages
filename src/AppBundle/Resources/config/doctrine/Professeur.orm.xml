@@ -4,20 +4,41 @@
     <id name="id" type="integer" column="id">
       <generator strategy="IDENTITY"/>
     </id>
-    <field name="nomProf" type="string" column="nomProf" length="255">
+    <field name="nomProf" type="string" column="nomProf" length="255" nullable="false">
       <options>
         <option name="fixed"/>
       </options>
     </field>
-    <field name="prenomProf" type="string" column="prenomProf" length="255">
+    <field name="prenomProf" type="string" column="prenomProf" length="255" nullable="false">
       <options>
         <option name="fixed"/>
       </options>
     </field>
-    <field name="mailProf" type="string" column="mailProf" length="255">
+    <field name="mailProf" type="string" column="mailProf" length="1024" nullable="false">
       <options>
         <option name="fixed"/>
       </options>
     </field>
+    <field name="telProf" type="string" column="telProf" length="255" nullable="false">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="userProf" type="string" column="userProf" length="255" nullable="false" unique="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="passProf" type="string" column="passProf" length="255" nullable="false">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <one-to-many target-entity="AppBundle\Entity\Propositions" mapped-by="codeProfesseur" field="propositions"/>
+    <many-to-one field="roleProf" target-entity="RolesProf" fetch="LAZY">
+      <join-columns>
+        <join-column name="roleProf" referenced-column-name="codeRole" nullable="false"/>
+      </join-columns>
+    </many-to-one>
   </entity>
 </doctrine-mapping>

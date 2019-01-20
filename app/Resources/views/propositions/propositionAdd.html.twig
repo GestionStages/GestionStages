@@ -1,63 +1,32 @@
 {% extends "base.html.twig" %}
 
 {% block title %}Poster une offre{% endblock %}
-{% block stylesheets %}<link rel="stylesheet" href="{{ asset('css/propositionsAdd.css') }}">{% endblock %}
 
 {% block body %}
     <div class="container">
         <h1>Poster une offre</h1>
         {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
-        <div class="form-group form-inline row">
-            {{ form_label(form.titreproposition, "Nom de la proposition (*)", {'label_attr': {'class': "col-4"}}) }}
-            {{ form_widget(form.titreproposition, {'attr': {'class': "form-control col-5", 'maxlength': "255"}}) }}
-            {{ form_errors(form.titreproposition) }}
-        </div>
 
+        {{ form_row(form.titreproposition) }}
+        {{ form_row(form.descriptionproposition) }}
+        {{ form_row(form.codeentreprise) }}
+        {{ form_row(form.titreproposition) }}
+        {{ form_row(form.titreproposition) }}
 
-        <div class="form-group form-inline row">
-            {{ form_label(form.descriptionproposition, "Description de la proposition (*)", {'label_attr': {'class': "col-4"}}) }}
-            {{ form_widget(form.descriptionproposition, {'attr': {'class': "form-control col-5"}}) }}
-            {{ form_errors(form.descriptionproposition) }}
-        </div>
-
-        <div class="form-group form-inline row">
-            {{ form_label(form.codeentreprise, "Entreprise (*)", {'label_attr': {'class': "col-4"}}) }}
-            {{ form_widget(form.codeentreprise, {'attr': {'class': "form-control col-5"}}) }}
-            {{ form_errors(form.codeentreprise) }}
-        </div>
-
-        <div class="form-group form-inline row">
-            {{ form_label(form.codeclasse, "Classe(s) concernée(s)", {'label_attr': {'class': "col-4"}}) }}
+        <div class="form-group form-inline">
+            {{ form_label(form.codeclasse, "Classe(s) concernée(s)") }}
             {% for classe in form.codeclasse %}
                 <div class="form-check form-check-inline">
-                    {{ form_widget(classe, {'attr': {'class': "form-check-input"}}) }}
-                    {{ form_label(classe, null, {'label_attr': {'class': "form-check-label"}}) }}
+                    {{ form_row(classe) }}
                 </div>
             {% endfor %}
-            {{ form_errors(form.codeclasse) }}
         </div>
 
-        <div class="form-group form-inline row checkbox-inline">
-            {{ form_label(form.codetechnologie, "Technologie(s) utilisée(s)", {'label_attr': {'class': "col-4"}}) }}
-            {{ form_widget(form.codetechnologie, {'attr': {'class': "form-control col-5"}}) }}
-            {{ form_errors(form.codetechnologie) }}
-        </div>
+        {{ form_row(form.codetechnologie) }}
+        {{ form_row(form.file) }}
+        {{ form_row(form.commentaire) }}
 
-        <div class="form-group form-inline row">
-            {{ form_label(form.file, "Fiche de poste ",{'label_attr': {'class': "col-4"}}) }}
-            {{ form_widget(form.file)}}
-            {{ form_errors(form.file) }}
-        </div>
-
-        <div id="commentaire" class="form-group form-inline row">
-            {{ form_label(form.commentaire, "Commentaire sur la proposition", {'label_attr': {'class': "col-4"}}) }}
-            {{ form_widget(form.commentaire, {'attr': {'class': "form-control col-5"}}) }}
-            {{ form_errors(form.commentaire) }}
-        </div>
-
-        <div class="btn-group" role="group" aria-label="...">
-            <button type="submit" class="btn btn-primary" >Envoyer</button>
-        </div>
+        <button type="submit" class="btn btn-primary btn-block" >Envoyer</button>
 
         {{ form_end(form) }}
     </div>

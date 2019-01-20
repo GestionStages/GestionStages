@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -11,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="contacts")
  * @ORM\Entity
  */
-class Contacts
+class Contacts implements UserInterface
 {
     /**
      * @var string
@@ -265,5 +266,121 @@ class Contacts
     public function getPostecontact()
     {
         return $this->postecontact;
+    }
+    /**
+     * @var string
+     * @ORM\Column(name="mdpContact", type="string", length=255, nullable=true)
+     *
+     */
+    private $mdpcontact;
+
+
+    /**
+     * Set mdpcontact
+     *
+     * @param string $mdpcontact
+     *
+     * @return Contacts
+     */
+    public function setMdpcontact($mdpcontact)
+    {
+        $this->mdpcontact = $mdpcontact;
+
+        return $this;
+    }
+
+    /**
+     * Get mdpcontact
+     *
+     * @return string
+     */
+    public function getMdpcontact()
+    {
+        return $this->mdpcontact;
+    }
+
+    /**
+     * @var string
+     * @ORM\Column(name="userContact", type="string", length=255, nullable=false)
+     */
+    private $userContact;
+
+    /**
+     * Returns the roles granted to the user.
+     *
+     *     public function getRoles()
+     *     {
+     *         return array('ROLE_USER');
+     *     }
+     *
+     * Alternatively, the roles might be stored on a ``roles`` property,
+     * and populated in any number of different ways when the user object
+     * is created.
+     *
+     * @return (Role|string)[] The user roles
+     */
+    public function getRoles()
+    {
+        return ['ROLE_ENTREPRISE'];
+    }
+
+    /**
+     * Returns the password used to authenticate the user.
+     *
+     * This should be the encoded password. On authentication, a plain-text
+     * password will be salted, encoded, and then compared to this value.
+     *
+     * @return string The password
+     */
+    public function getPassword()
+    {
+        return $this->getMdpcontact();
+    }
+
+    /**
+     * Returns the salt that was originally used to encode the password.
+     *
+     * This can return null if the password was not encoded using a salt.
+     *
+     * @return string|null The salt
+     */
+    public function getSalt()
+    {
+        return null;
+    }
+
+    /**
+     * Removes sensitive data from the user.
+     *
+     * This is important if, at any given point, sensitive information like
+     * the plain-text password is stored on this object.
+     */
+    public function eraseCredentials() {}
+
+    /**
+     * @return mixed
+     */
+    public function getUserContact()
+    {
+        return $this->userContact;
+    }
+
+    /**
+     * @param mixed $userContact
+     */
+    public function setUserContact($userContact)
+    {
+        $this->userContact = $userContact;
+    }
+
+
+    /**
+     * Returns the username used to authenticate the user.
+     *
+     * @return string The username
+     */
+    public function getUsername()
+    {
+        return $this->getUserContact();
     }
 }

@@ -1,0 +1,10 @@
+{% extends 'error_base.html.twig' %}
+
+{% block error_icon %}fa fa-search{% endblock %}
+{% block title %}Page introuvable{% endblock %}
+
+{% block error_text %}La page que vous demandez est introuvable{% endblock %}
+{% block error_body %}
+    - Vérifiez l'addresse dans votre navigateur<br/>
+    - Assurez-vous que la ressource demandée existe existe toujours
+{% endblock %}

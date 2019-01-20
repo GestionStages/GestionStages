@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-12 mb-3">
+                <i class="{% block error_icon %}{% endblock %}" style="font-size: 150px; margin: auto"></i>
+            </div>
+            <div class="col-12 mb-3">
+                <h3>{{ block('title') }} !</h3>
+                <h5>{% block error_text %}{% endblock %}</h5>
+            </div>
+            <div class="col-12">
+                {% block error_body %}{% endblock %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

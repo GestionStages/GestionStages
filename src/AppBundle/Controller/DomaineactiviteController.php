@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Domaineactivite;
 use AppBundle\Form\DomaineactiviteType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,14 +14,12 @@ class DomaineactiviteController extends Controller
 
 {
     /**
-     *
      * @Route("/admin/domaineactivite/add", name="addDomaineActivite")
-     *
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      *
      */
-
     public function addAction(Request $request)
     {
         //On crée un nouveau domaine d'activité
@@ -58,9 +57,8 @@ class DomaineactiviteController extends Controller
     }
 
     /**
-     *
      * @Route("/admin/domaineactivite/show", name="showDomaineActivite")
-     *
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
      */
     public function showDomaineActivite(){
         $domainesActivites = $this->getDoctrine()->getRepository('AppBundle:Domaineactivite')->findAll();
@@ -73,7 +71,7 @@ class DomaineactiviteController extends Controller
      * @param Request $request
      * @return Response
      * @Route("/admin/domaineactivite/{id}/edit", name="editDomaineActivite")
-     *
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
      */
     public function edit(Request $request, Domaineactivite $domaineactivite){
         $form = $this->createForm(DomaineactiviteType::class, $domaineactivite);
@@ -108,10 +106,8 @@ class DomaineactiviteController extends Controller
      * @param Domaineactivite $domaineactivite
      * @return Response
      * @Route("/admin/domaineactivite/{id}/delete", name="deleteDomaineActivite")
-     *
-     *
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
      */
-
     public function delete(Domaineactivite $domaineactivite){
         $em = $this-> getDoctrine()->getManager();
         $em->remove($domaineactivite);

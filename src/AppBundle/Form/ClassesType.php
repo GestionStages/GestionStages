@@ -3,6 +3,8 @@
 namespace AppBundle\Form;
 
 
+use AppBundle\Entity\GroupesLdap;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\AbstractType;
@@ -17,14 +19,32 @@ class ClassesType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('nomclasse', TextType::class)
-                ->add('description', TextareaType::class)
-                ->add('dateDebStage', DateType::class, array(
-                    'widget' => 'single_text'))
-                ->add('dateFinStage', DateType::class, array(
-                    'widget' => 'single_text'))
-                ->add('isLicence', ChoiceType::class, array(
-                    'choices' => array('OUI' => true, 'NON' => false)));
+        $builder
+            ->add('nomclasse', TextType::class, [
+                'required' => true,
+                'label' => "Nom (*)",
+                'attr' => ['maxlength' => 255]
+            ])
+            ->add('description', TextareaType::class, [
+                'required' => true,
+                'label' => "Description (*)",
+                'attr' => ['maxlength' => 1024]
+            ])
+            ->add('dateDebStage', DateType::class, [
+                'label' => "Date début stage",
+                'widget' => 'single_text'
+            ])
+            ->add('dateFinStage', DateType::class, [
+                'label' => "Date fin stage",
+                'widget' => 'single_text'
+            ])
+            ->add('codegroupeldap', EntityType::class, [
+                'required' => true,
+                'label' => "Section sur l'annuaire LDAP (*)",
+                'placeholder' => "Sélectionnez une section...",
+                'class' => 'AppBundle\Entity\GroupesLdap',
+                'choice_label' => 'ldapSection'
+            ]);
     }/**
      * {@inheritdoc}
      */

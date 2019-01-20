@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <entity name="AppBundle\Entity\CommentProf" table="comment_prof" repository-class="AppBundle\Repository\CommentProfRepository">
+        <id name="id" type="integer" column="id">
+            <generator strategy="IDENTITY"/>
+        </id>
+        <field name="comment" type="text" column="comment" nullable="false">
+            <options>
+                <option name="fixed"/>
+            </options>
+        </field>
+        <field name="date" type="datetime" column="date" nullable="false">
+            <options>
+                <option name="fixed"/>
+            </options>
+        </field>
+        <many-to-one field="prof" target-entity="Professeur" fetch="LAZY">
+            <join-columns>
+                <join-column name="prof" referenced-column-name="id" nullable="false" on-delete="CASCADE"/>
+            </join-columns>
+        </many-to-one>
+        <many-to-one field="proposition" target-entity="Propositions" fetch="LAZY">
+            <join-columns>
+                <join-column name="proposition" referenced-column-name="codeProposition" nullable="false" on-delete="CASCADE"/>
+            </join-columns>
+        </many-to-one>
+    </entity>
+</doctrine-mapping>

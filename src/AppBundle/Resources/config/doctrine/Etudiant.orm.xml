@@ -5,6 +5,7 @@
       <generator strategy="IDENTITY"/>
     </id>
     <field name="userEtudiant" type="string" column="userEtudiant" length="255" nullable="false" unique="true"/>
+    <field name="passEtudiant" type="string" column="passEtudiant" length="255" nullable="false"/>
     <field name="numEtudiant" type="string" column="numEtudiant" length="8" nullable="false"/>
     <field name="nomEtudiant" type="string" column="nomEtudiant" length="255" nullable="false">
       <options>
@@ -16,7 +17,7 @@
         <option name="fixed"/>
       </options>
     </field>
-    <field name="mailEtudiant" type="string" column="mailEtudiant" length="255" nullable="false">
+    <field name="mailEtudiant" type="string" column="mailEtudiant" length="1024" nullable="false">
       <options>
         <option name="fixed"/>
       </options>

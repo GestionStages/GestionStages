@@ -1,0 +1,33 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Inscription{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Inscription (Étudiant)</h1>
+        {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+
+        {{ form_row(form.userEtudiant) }}
+        {{ form_row(form.passEtudiant) }}
+        {{ form_row(form.codeclasse) }}
+        <hr/>
+        {{ form_row(form.numEtudiant) }}
+        {{ form_row(form.telEtudiant) }}
+        {{ form_row(form.addrEtudiant) }}
+
+        <div class="form-group form-inline">
+            {{ form_label(form.sexeEtudiant, "Sexe (*)") }}
+            {% for sexe in form.sexeEtudiant %}
+                <div class="form-check form-check-inline">
+                    {{ form_row(sexe) }}
+                </div>
+            {% endfor %}
+        </div>
+
+        {{ form_row(form.dateEtudiant) }}
+
+        <button type="submit" class="btn btn-primary btn-block" >Envoyer</button>
+
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

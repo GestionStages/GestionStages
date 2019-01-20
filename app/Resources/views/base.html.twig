@@ -11,19 +11,50 @@
     </head>
     <body>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark" >
-            <div class="container"> <a class="navbar-brand" href="{{ path('homepage') }}">
+            <div class="container">
+                <a class="navbar-brand" href="{{ path('homepage') }}">
                     <i class="fa d-inline fa-lg fa-stop-circle"></i>
                     <b> GestStages</b>
-                </a> <button class="navbar-toggler navbar-toggler-right border-0" type="button" data-toggle="collapse" data-target="#navbar10">
+                </a>
+                <button class="navbar-toggler navbar-toggler-right border-0" type="button" data-toggle="collapse" data-target="#navbar10">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbar10">
                     <ul class="navbar-nav ml-auto">
-                        <li class="nav-item"> <a class="nav-link" href="{{ path('addProposition') }}">Ajouter une proposition</a> </li>
-                        <li class="nav-item"> <a class="nav-link" href="{{ path('showAdminHome') }}">Admin</a> </li>
-                        <!--<li class="nav-item"> <a class="nav-link" href="#">About</a> </li>-->
-                        <!--<li class="nav-item"> <a class="nav-link" href="#">FAQ</a> </li>-->
-                    </ul> <a class="btn navbar-btn ml-md-2 btn-light text-dark" href="">Connexion</a>
+                        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                                <li class="nav-item">
+                                    <a href="{{ path('addProposition') }}" class="nav-link">Ajouter une proposition</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ path('showAdminHome') }}" class="nav-link">Admin</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ path('logout') }}" class="btn navbar-btn ml-md-2 btn-light text-dark" type="button" aria-haspopup="true" aria-expanded="false">Déconnexion</a>
+                                </li>
+                        {% else %}
+                            <li class="nav-item dropdown">
+                                <button class="btn navbar-btn ml-md-2 btn-light text-dark dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Connexion
+                                </button>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="{{ path('connectEtu') }}">Étudiant</a>
+                                    <a class="dropdown-item" href="{{ path('connectProf') }}">Enseignant</a>
+                                    <a class="dropdown-item" href="{{ path('connectEntrep') }}">Entreprise</a>
+                                </div>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <button class="btn navbar-btn ml-md-2 btn-light text-dark dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Inscription
+                                </button>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="{{ url('inscriptEtu') }}">Étudiant</a>
+                                    <a class="dropdown-item" href="{{ url('inscriptProf') }}">Enseignant</a>
+                                    <a class="dropdown-item" href="#">Entreprise</a>
+                                </div>
+                            </li>
+                        {% endif %}
+
+                    </ul>
                 </div>
             </div>
         </nav>

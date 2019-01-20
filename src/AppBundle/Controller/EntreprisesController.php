@@ -10,6 +10,8 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Entreprises;
 use AppBundle\Form\EntreprisesType;
+use Doctrine\Common\Persistence\ObjectManager;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,9 +21,8 @@ class EntreprisesController extends Controller
 {
 
     /**
-     *
      * @Route("/admin/entreprises/add", name="addEntreprise")
-     *
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
@@ -61,6 +62,7 @@ class EntreprisesController extends Controller
      * @param Entreprises $entreprise
      * @return Response
      * @Route("/admin/entreprises/{id}/edit", name="editEntreprise")
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
      */
     public function edit(Request $request, Entreprises $entreprise){
         $form = $this->createForm(EntreprisesType::class, $entreprise);
@@ -92,9 +94,8 @@ class EntreprisesController extends Controller
      * @param Entreprises $entreprise
      * @return Response
      * @Route("/admin/entreprises/{id}/blacklist", name="blackListEntreprise")
-     *
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
      */
-
     public function blackListEntreprise(Entreprises $entreprise){
         //modification de l'attribut blacklist de l'objet
         $entreprise->setBlacklister(1);
@@ -109,9 +110,8 @@ class EntreprisesController extends Controller
      * @param Entreprises $entreprise
      * @return Response
      * @Route("/admin/entreprises/{id}/noblacklist", name="noBlackListEntreprise")
-     *
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
      */
-
     public function noblackListEntreprise(Entreprises $entreprise){
         //modification de l'attribut blacklist de l'objet
         $entreprise->setBlacklister(0);
@@ -123,11 +123,9 @@ class EntreprisesController extends Controller
     }
 
     /**
-     *
      * @Route("/admin/entreprises", name="showEntreprises")
-     *
      * @return Response
-     *
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
      */
     public function showEntreprises()
     {
@@ -145,11 +143,9 @@ class EntreprisesController extends Controller
     }
 
     /**
-     *
      * @Route("/admin/entreprisesBlackList", name="showEntreprisesBlackList")
-     *
      * @return Response
-     *
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
      */
     public function showEntreprisesBlackList()
     {
@@ -166,6 +162,21 @@ class EntreprisesController extends Controller
         return $this->render('admin/entreprises/entreprisesShowBlackList.html.twig',['entreprises' => $entreprises]);
     }
 
+    /**
+     * @Route("/admin/entreprises/{id}/delete", name="deleteEntreprise")
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
+     * @param Entreprises $entreprise
+     * @param ObjectManager $manager
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function deleteEntreprise(Entreprises $entreprise, ObjectManager $manager) {
+        $manager->remove($entreprise);
+        $manager->flush();
+
+        $this->get('session')->getFlashBag()->add('notice',"L'entreprise (".$entreprise->getNomEntreprise().") est supprimé !");
+        return $this->redirect($this->generateUrl('showEntreprises'));
+    }
+
 	/**
 	 * @Route("/entreprises/search")
 	 * @param Request $request
@@ -173,14 +184,9 @@ class EntreprisesController extends Controller
 	 */
     public function searchEntreprise(Request $request)
     {
-        //TODO: A Déplacer dans repository EntrepriseRepository
     	$q = $request->query->get('term');
     	$results = $this->getDoctrine()->getRepository(Entreprises::class)
-            ->createQueryBuilder('e')
-            ->where('e.blacklister=0')
-            ->andWhere('e.nomentreprise LIKE ?1')
-            ->setParameter(1, "%".$q."%")
-            ->getQuery()->getResult();
+                        ->findLikeName($q);
 
     	return $this->render('entreprises/list.json.twig', ['results' => $results]);
     }

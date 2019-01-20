@@ -103,19 +103,19 @@
                     <tr>
                         <td style="width: 35%">Nom : {{ etudiant.nomEtudiant | upper }}</td>
                         <td style="width: 35%">Prénom : {{ etudiant.prenomEtudiant | capitalize }}</td>
-                        <td style="width: 30%">N° étudiant :</td>
+                        <td style="width: 30%">N° étudiant : {{ etudiant.numEtudiant }}</td>
                     </tr>
                 </table>
-                Sexe :<br/>
-                Né(e) le :<br/>
-                Adresse :<br/>
+                Sexe : {{ etudiant.sexeEtudiant }}<br/>
+                Né(e) le : {{ etudiant.dateEtudiant | date('d/m/Y') }}<br/>
+                Adresse : {{ etudiant.addrEtudiant }}<br/>
                 <table class="no-border">
                     <tr>
                         <td style="width: 50%;">Téléphone : {{ etudiant.telEtudiant }}</td>
                         <td style="width: 50%;">Courriel : {{ etudiant.mailEtudiant }}</td>
                     </tr>
                 </table>
-                <strong>{{ etudiant.codeClasseEtudiant.nomClasse }}</strong>
+                <strong>{{ etudiant.codeClasse.nomClasse }}</strong>
             </td>
         </tr>
     </table>
@@ -124,7 +124,7 @@
             <td style="width: 100%;">
                 <b><u>SUJET DE STAGE :</u></b><br/>
                 <br/>
-                Dates du {{ etudiant.codeClasseEtudiant.dateDebStageStr }} au {{ etudiant.codeClasseEtudiant.dateFinStageStr }} - Représentant une durée totale de : {{ etudiant.codeClasseEtudiant.diffDates }} semaines<br/>
+                Dates du {{ etudiant.codeClasse.dateDebStage | date('d/m/Y') }} au {{ etudiant.codeClasse.dateFinStage | date('d/m/Y') }} - Représentant une durée totale de : {{ etudiant.codeClasse.diffDates }} semaines<br/>
                 Et correspondant à _____ jours de présence dans l’organisme d’accueil.<br/>
                 <strong>NATURE DU STAGE :</strong><br/>
                 <br/>
@@ -138,8 +138,8 @@
                 <b><u>ENCADREMENT DU STAGIAIRE PAR L’ETABLISSEMENT D’ENSEIGNEMENT :</u></b><br/>
                 Nom et prénom de l’enseignant référent : {{ resp_stages.nomProf | upper }} {{ resp_stages.prenomProf | capitalize }}<br/>
                 Fonction ou discipline : Responsable des stages<br/>
-                Téléphone :<br/>
-                Courriel :
+                Téléphone : {{ resp_stages.telProf }}<br/>
+                Courriel : {{ resp_stages.mailProf }}
             </td>
             <td style="width: 50%;">
                 <b><u>ENCADREMENT DU STAGIAIRE PAR L’ORGANISME D’ACCUEIL :</u></b><br/>
@@ -203,25 +203,25 @@
                         <td style="width: 20%">Nbre jours</td>
                         <td style="width: 35%;">Montant gratification €</td>
                     </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                    <tr style="font-size: 4px">
+                        <td><br/></td>
+                        <td><br/></td>
+                        <td><br/></td>
                     </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                    <tr style="font-size: 4px">
+                        <td><br/></td>
+                        <td><br/></td>
+                        <td><br/></td>
                     </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                    <tr style="font-size: 4px">
+                        <td><br/></td>
+                        <td><br/></td>
+                        <td><br/></td>
                     </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                    <tr style="font-size: 4px">
+                        <td><br/></td>
+                        <td><br/></td>
+                        <td><br/></td>
                     </tr>
                 </table>
             </td>
@@ -371,9 +371,9 @@
     <table class="bordered">
         <tr>
             <td style="width: 100%; font-weight: bold">
-                Nom ou dénomination sociale :<br/>
-                Adresse :<br/>
-                Tél :
+                Nom ou dénomination sociale : {{ entreprise.nomentreprise }}<br/>
+                Adresse : {{ entreprise.adresseentreprise }}<br/>
+                Tél : {{ entreprise.telentreprise }}
             </td>
         </tr>
         <tr>
@@ -386,8 +386,8 @@
                     <tr>
                         <td style="width: 25%">Nom : {{ etudiant.nomEtudiant | upper }}</td>
                         <td style="width: 25%">Prénom : {{ etudiant.prenomEtudiant | capitalize }}</td>
-                        <td style="width: 25%">Sexe :</td>
-                        <td style="width: 25%">Né(e) le :</td>
+                        <td style="width: 25%">Sexe : {{ etudiant.sexeEtudiant }}</td>
+                        <td style="width: 25%">Né(e) le : {{ etudiant.dateEtudiant | date('d/m/Y') }}</td>
                     </tr>
                 </table>
                 Adresse :<br/>
@@ -400,10 +400,10 @@
                 </table>
 
                 ÉTUDIANT(E) EN (intitulé de la formation ou du cursus de l'enseignement supérieur suivi par le ou la stagiaire) :<br/>
-                {{ etudiant.codeClasseEtudiant.nomClasse }}<br/>
+                {{ etudiant.codeClasse.nomClasse }}<br/>
                 <br/>
                 AU SEIN DE (nom de l'établissement d'enseignement supérieur ou de l'organisme de formation) :<br/>
-                IUT de Montpellier-Sète, composante de l'UNIVERSITE DE MONTEPLLIER
+                IUT de Montpellier-Sète, composante de l'UNIVERSITE DE MONTPELLIER
             </td>
         </tr>
     </table>

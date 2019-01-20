@@ -8,16 +8,11 @@ class TechnologiesRepository extends EntityRepository {
 
 	public function findLikeName($name)
 	{
-		$technologies = $this->getEntityManager()
-			->createQuery('
-					SELECT t
-					FROM AppBundle:Technologies t
-					WHERE t.nomtechnologie LIKE :name
-					')
-			->setParameter('name', '%'.$name.'%')
-			->getResult();
-
-		return $technologies;
+        return $this->createQueryBuilder('t')
+            ->where('t.nomtechnologie LIKE ?1')
+            ->addOrderBy('t.nomtechnologie', 'ASC')
+            ->setParameter(1, "%".$name."%")
+            ->getQuery()->getResult();
 	}
 
 }

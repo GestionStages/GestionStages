@@ -16,26 +16,40 @@ class ContactsType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        // si on edit le contact
-        if ($options['data']->getcodecontact() != null){
-            $builder
-                ->add('nomcontact', TextType::class, array('disabled' => true))
-                ->add('prenomcontact',TextType::class, array('disabled' => true))
-                ->add('mailcontact', EmailType::class)
-                ->add('telcontact', TelType::class)
-                ->add('postecontact',TextType::class);
-        }
-        //si on ajoute un contact
-        else
-        {
-            $builder
-                ->add('nomcontact', TextType::class)
-                ->add('prenomcontact',TextType::class)
-                ->add('mailcontact', EmailType::class)
-                ->add('telcontact', TelType::class)
-                ->add('postecontact',TextType::class);
-        }
-
+        $builder
+            ->add('nomcontact', TextType::class, [
+                'disabled' => (!is_null($options['data']->getcodecontact())), //Desactive si on edite le contact
+                'required' => true,
+                'label' => "Nom (*)",
+                'attr' => ['maxlength' => 255]
+            ])
+            ->add('prenomcontact',TextType::class, [
+                'disabled' => (!is_null($options['data']->getcodecontact())), //Desactive si on edite le contact
+                'required' => true,
+                'label' => "Prénom (*)",
+                'attr' => ['maxlength' => 255]
+            ])
+            ->add('userContact', TextType::class, [
+                'disabled' => (!is_null($options['data']->getcodecontact())), //Desactive si on edite le contact
+                'required' => true,
+                'label' => "Nom d'utilisateur (*)",
+                'attr' => ['maxlength' => 255]
+            ])
+            ->add('mailcontact', EmailType::class, [
+                'required' => true,
+                'label' => "Addresse email (*)",
+                'attr' => ['maxlength' => 1024]
+            ])
+            ->add('telcontact', TelType::class, [
+                'required' => true,
+                'label' => "Numéro de téléphone (*)",
+                'attr' => ['maxlength' => 10]
+            ])
+            ->add('postecontact',TextType::class, [
+                'required' => true,
+                'label' => "Poste dans l'entreprise (*)",
+                'attr' => ['maxlength' => 255]
+            ]);
     }/**
      * {@inheritdoc}
      */

@@ -1,0 +1,26 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}
+    {% if form.vars.value.id is null %}
+        Ajouter un commentaire à une proposition
+    {% else %}
+        Modifier un commentaire
+    {% endif %}
+{% endblock %}
+
+{% block body %}
+    <div class="box">
+        <div class="box-body">
+            <a href="{{ path('indexProfPropositions') }}" class="btn btn-sm btn-success">
+                <i class="fa fa-mail-reply" aria-hidden="true"></i> Retour à la liste des commentaires
+            </a><br/><br/>
+
+            {{ form_start(form) }}
+
+            {{ form_row(form.comment) }}
+            <button type="submit" class="btn btn-primary btn-block" >Envoyer</button>
+
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}

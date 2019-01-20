@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -50,7 +51,7 @@ class Propositions
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Entreprises")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="codeEntreprise", referencedColumnName="codeEntreprise", nullable=false)
+     *   @ORM\JoinColumn(name="codeEntreprise", referencedColumnName="codeEntreprise", nullable=false, onDelete="CASCADE")
      * })
      *
      * @Assert\NotBlank(message="L'entreprise est obligatoire.")
@@ -63,10 +64,10 @@ class Propositions
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Classes", inversedBy="codeproposition")
      * @ORM\JoinTable(name="associerclassespropositions",
      *   joinColumns={
-     *     @ORM\JoinColumn(name="codeProposition", referencedColumnName="codeProposition")
+     *     @ORM\JoinColumn(name="codeProposition", referencedColumnName="codeProposition", onDelete="CASCADE")
      *   },
      *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="codeClasse", referencedColumnName="codeClasse")
+     *     @ORM\JoinColumn(name="codeClasse", referencedColumnName="codeClasse", onDelete="CASCADE")
      *   }
      * )
      */
@@ -78,10 +79,10 @@ class Propositions
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Technologies", mappedBy="codeproposition")
      * @ORM\JoinTable(name="associertechnologiespropositions",
      *   joinColumns={
-     *     @ORM\JoinColumn(name="codeProposition", referencedColumnName="codeProposition")
+     *     @ORM\JoinColumn(name="codeProposition", referencedColumnName="codeProposition", onDelete="CASCADE")
      *   },
      *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="codeTechnologie", referencedColumnName="codeTechnologie")
+     *     @ORM\JoinColumn(name="codeTechnologie", referencedColumnName="codeTechnologie", onDelete="CASCADE")
      *   }
      * )
      */
@@ -91,7 +92,8 @@ class Propositions
      * @ORM\Column(name="file", type="string", length=1024, nullable=true)
      *
      * @Assert\File(
-     *     maxSizeMessage="Le fichier dépasse la taille maximale autorisée",
+     *     maxSize="2M",
+     *     maxSizeMessage="Le fichier dépasse la taille maximale autorisée ({{ limit }} {{ suffix }})",
      *     mimeTypes={ "application/pdf", "application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document" },
      *     mimeTypesMessage="Le format du fichier est invalide"
      * )
@@ -115,6 +117,7 @@ class Propositions
     {
         $this->codeclasse = new \Doctrine\Common\Collections\ArrayCollection();
         $this->codetechnologie = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->commentaires = new ArrayCollection();
     }
 
 
@@ -359,8 +362,9 @@ class Propositions
     {
         return $this->codeetat;
     }
+
     /**
-     * @var \AppBundle\Entity\Etudiants
+     * @var \AppBundle\Entity\Etudiant
      */
     private $codeEtudiant;
 
@@ -368,7 +372,7 @@ class Propositions
     /**
      * Set codeEtudiant
      *
-     * @param \AppBundle\Entity\Etudiants $codeEtudiant
+     * @param Etudiant $codeEtudiant
      *
      * @return Propositions
      */
@@ -382,7 +386,7 @@ class Propositions
     /**
      * Get codeEtudiant
      *
-     * @return \AppBundle\Entity\Etudiants
+     * @return Etudiant
      */
     public function getCodeEtudiant()
     {
@@ -416,5 +420,31 @@ class Propositions
     public function getCodeProfesseur()
     {
         return $this->codeProfesseur;
+    }
+
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\CommentProf", mappedBy="proposition")
+     */
+    private $commentaires;
+
+    /**
+     * @return mixed
+     */
+    public function getCommentaires() {
+        return $this->commentaires;
+    }
+
+    /**
+     * @param CommentProf $commentaire
+     */
+    public function addCommentaire(CommentProf $commentaire) {
+        $this->commentaires[] = $commentaire;
+    }
+
+    /**
+     * @param CommentProf $commentaire
+     */
+    public function removeCommentaire(CommentProf $commentaire) {
+        $this->commentaires->removeElement($commentaire);
     }
 }

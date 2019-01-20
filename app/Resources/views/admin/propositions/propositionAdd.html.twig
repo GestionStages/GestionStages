@@ -5,59 +5,17 @@
 {% block body %}
     <div class="box">
         <div class="box-body">
-            <h1>Modifier Offre</h1>
             {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
-            <div class="form-group">
-                {{ form_label(form.titreproposition, "Nom de la proposition (*)") }}
-                {{ form_widget(form.titreproposition, {'attr': {'class': "form-control"}}) }}
-                {{ form_errors(form.titreproposition) }}
-            </div>
 
-            <div class="form-group">
-                {{ form_label(form.descriptionproposition, "Description de la proposition (*)") }}
-                {{ form_widget(form.descriptionproposition, {'attr': {'class': "form-control"}}) }}
-                {{ form_errors(form.descriptionproposition) }}
-            </div>
+            {{ form_row(form.titreproposition) }}
+            {{ form_row(form.descriptionproposition) }}
+            {{ form_row(form.codeentreprise) }}
+            {{ form_row(form.codeclasse) }}
+            {{ form_row(form.codetechnologie) }}
+            {{ form_row(form.file) }}
+            {{ form_row(form.commentaire) }}
 
-            <div class="form-group">
-                {{ form_label(form.codeentreprise, "Entreprise (*)") }}
-                {{ form_widget(form.codeentreprise, {'attr': {'class': "form-control"}}) }}
-                {{ form_errors(form.codeentreprise) }}
-            </div>
-
-            <div id="classes" class="form-group">
-                {{ form_label(form.codeclasse, "Classe(s) concernée(s) (*)") }}
-                {% for classe in form.codeclasse %}
-                    <div class="form-check">
-                        <label class="checkbox-inline" for="{{ classe.vars.id }}">
-                            {{ form_widget(classe) }} {{ classe.vars.label }}
-                        </label>
-                    </div>
-                {% endfor %}
-                {{ form_errors(form.codeclasse) }}
-            </div>
-
-            <div class="form-group">
-                {{ form_label(form.codetechnologie, "Technologie(s) utilisée(s) (*)") }}
-                {{ form_widget(form.codetechnologie, {'attr': {'class': "form-control"}}) }}
-                {{ form_errors(form.codetechnologie) }}
-            </div>
-
-            <div class="form-group">
-                {{ form_label(form.file, "Fiche de poste ") }}
-                {{ form_widget(form.file)}}
-                {{ form_errors(form.file) }}
-            </div>
-
-            <div class="form-group">
-                {{ form_label(form.commentaire, "Commentaire sur la proposition") }}
-                {{ form_widget(form.commentaire, {'attr': {'class': "form-control"}}) }}
-                {{ form_errors(form.commentaire) }}
-            </div>
-
-            <div class="btn-group" role="group" aria-label="...">
-                <button type="submit" class="btn btn-primary" >Envoyer</button>
-            </div>
+            <button type="submit" class="btn btn-primary btn-block" >Envoyer</button>
 
             {{ form_end(form) }}
         </div>

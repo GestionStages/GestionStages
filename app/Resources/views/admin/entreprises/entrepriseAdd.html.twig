@@ -1,59 +1,38 @@
 {% extends "admin/base.html.twig" %}
 
-{% block title %}Ajouter une Entreprise{% endblock %}
+{% block title %}
+    {% if form.vars.value.codeentreprise is null %}
+        Ajouter une Entreprise
+    {% else %}
+        Modification de l'entreprise {{ form.vars.value.nomentreprise }}
+    {% endif %}
+{% endblock %}
 
 {% block body %}
     <div class="box">
         <div class="box-body">
-            <h1>Ajouter une Entreprise</h1>
             {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
-            <div class="form-group">
-                {{ form_label(form.nomentreprise, "Nom (*)") }}
-                {{ form_widget(form.nomentreprise, {'attr': {'class': "form-control", 'maxlength': "255"}}) }}
-                {{ form_errors(form.nomentreprise) }}
-            </div>
 
-            <div class="form-group">
-                {{ form_label(form.adresseentreprise, "Adresse (*)") }}
-                {{ form_widget(form.adresseentreprise, {'attr': {'class': "form-control", 'maxlength': "1024"}}) }}
-                {{ form_errors(form.adresseentreprise) }}
-            </div>
-
-            <div class="form-group">
-                {{ form_label(form.villeentreprise, "Ville (*)") }}
-                {{ form_widget(form.villeentreprise, {'attr': {'class': "form-control", 'maxlength': "255"}}) }}
-                {{ form_errors(form.villeentreprise) }}
-            </div>
-
-            <div class="form-group">
-                {{ form_label(form.codepostalentreprise, "Code Postal (*)") }}
-                {{ form_widget(form.codepostalentreprise, {'attr': {'class': "form-control", 'maxlength': "5"}}) }}
-                {{ form_errors(form.codepostalentreprise) }}
-            </div>
-
-            <div class="form-group">
-                {{ form_label(form.telentreprise, "Télephone (*)") }}
-                {{ form_widget(form.telentreprise, {'attr': {'class': "form-control"}}) }}
-                {{ form_errors(form.telentreprise) }}
-            </div>
+            {{ form_row(form.nomentreprise) }}
+            {{ form_row(form.adresseentreprise) }}
+            {{ form_row(form.villeentreprise) }}
+            {{ form_row(form.codepostalentreprise) }}
+            {{ form_row(form.telentreprise) }}
+            {{ form_row(form.nomentreprise) }}
 
             <div class="form-check">
-                {{ form_label(form.codedomaine, "Domaine(s) d'activité (*)") }}<br/>
+                {{ form_label(form.codedomaine) }}<br/>
 
                 {% for domaine in form.codedomaine %}
                     <div class="checkbox-inline">
-                        {{ form_widget(domaine, {'attr': {'class': "form-check-input"}}) }}
-                        {{ form_label(domaine, null, {'label_attr': {'class': "form-check-label"}}) }}
+                        {{ form_row(domaine) }}
                     </div>
                 {% endfor %}
 
                 {{ form_errors(form.codedomaine) }}
             </div>
 
-            <br/><br/>
-            <div class="btn-group" role="group" aria-label="...">
-                <button type="submit" class="btn btn-primary" >Valider</button>
-            </div>
+            <button type="submit" class="btn btn-primary btn-block" >Valider</button>
 
             {{ form_end(form) }}
         </div>

@@ -19,17 +19,38 @@ class EntreprisesType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('nomentreprise', TextType::class)
-            ->add('adresseentreprise', TextType::class)
-            ->add('villeentreprise', TextType::class)
-            ->add('codepostalentreprise', TextType::class)
-            ->add('telentreprise',TelType::class)
-            ->add('codedomaine',EntityType::class, array(
+            ->add('nomentreprise', TextType::class, [
+                'required' => true,
+                'label' => "Nom (*)",
+                'attr' => ['maxlength' => 255]
+            ])
+            ->add('adresseentreprise', TextType::class, [
+                'required' => true,
+                'label' => "Addresse (*)",
+                'attr' => ['maxlength' => 1024]
+            ])
+            ->add('villeentreprise', TextType::class, [
+                'required' => true,
+                'label' => "Ville (*)",
+                'attr' => ['maxlength' => 255]
+            ])
+            ->add('codepostalentreprise', TextType::class, [
+                'required' => true,
+                'label' => "Code postal (*)",
+                'attr' => ['maxlength' => 5]
+            ])
+            ->add('telentreprise',TelType::class, [
+                'required' => true,
+                'label' => "Téléphone (*)",
+                'attr' => ['maxlength' => 10]
+            ])
+            ->add('codedomaine',EntityType::class, [
                 'class' => 'AppBundle:Domaineactivite',
                 'choice_label' => 'nomdomaine',
                 'multiple' => true,
                 'expanded' => true,
-            ));
+                'label' => "Domaines d'activité"
+            ]);
     }/**
      * {@inheritdoc}
      */
