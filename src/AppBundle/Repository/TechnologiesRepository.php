@@ -15,13 +15,4 @@ class TechnologiesRepository extends EntityRepository {
             ->getQuery()->getResult();
 	}
 
-	public function findExactName($name)
-	{
-		return $this->createQueryBuilder('t')
-			->where('t.nomtechnologie = ?1')
-			->addOrderBy('t.nomtechnologie', 'ASC')
-			->setParameter(1, $name)
-			->getQuery()->getResult();
-	}
-
 }

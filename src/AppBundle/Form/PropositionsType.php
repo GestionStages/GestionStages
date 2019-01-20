@@ -68,20 +68,25 @@ class PropositionsType extends AbstractType
 				$form = $event->getForm();
 
 				if(isset($data['codetechnologie'])) {
-					foreach($data['codetechnologie'] as $techno) {
+					foreach($data['codetechnologie'] as $key => $techno) {
 
 						// Si une des technologies n'existe pas, on la créée
-						$matches = $doctrine->getRepository(Technologies::class)->findExactName($techno);
-						if(empty($matches)) {
+						$match = $doctrine->getRepository(Technologies::class)->findOneBy(['codetechnologie' => $techno]);
+
+						if(empty($match)) {
 							$t = new Technologies();
 							$t->setNomtechnologie($techno);
-
 							$doctrine->getEntityManager()->persist($t);
 							$doctrine->getEntityManager()->flush();
-						}
 
-						// TODO : assignation de la bonne entité (la nouvelle)
+							$data['codetechnologie'][$key] = $t->getCodetechnologie();
+						}
+						else {
+							$data['codetechnologie'][$key] = $match->getCodetechnologie();
+						}
 					}
+
+					$event->setData($data);
 				}
             });
     }/**
