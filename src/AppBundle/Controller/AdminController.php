@@ -73,9 +73,10 @@ class AdminController extends Controller
      */
     public function edit(Request $request, Propositions $proposition)
     {
-        $form = $this->createForm(PropositionsType::class, $proposition);
+    	$form = $this->createForm(PropositionsType::class, $proposition, array('doctrine' => $this->getDoctrine()));
 
-        $form->handleRequest($request);
+
+	    $form->handleRequest($request);
 
         //si le formulaire a été soumis
 
