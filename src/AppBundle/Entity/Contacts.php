@@ -3,7 +3,6 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -382,5 +381,25 @@ class Contacts implements UserInterface
     public function getUsername()
     {
         return $this->getUserContact();
+    }
+
+    public function getNom()
+    {
+        return $this->nomcontact;
+    }
+
+    public function getPrenom()
+    {
+        return $this->prenomcontact;
+    }
+
+    public function getMail()
+    {
+        return $this->mailcontact;
+    }
+
+    public function getTel()
+    {
+        return $this->telcontact;
     }
 }

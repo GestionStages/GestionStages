@@ -2,8 +2,6 @@
 
 namespace AppBundle\Entity;
 
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -449,5 +447,25 @@ class Etudiant implements UserInterface
     public function setConfirmPassEtudiant($confirmPassEtudiant)
     {
         $this->confirmPassEtudiant = $confirmPassEtudiant;
+    }
+
+    public function getNom()
+    {
+        return $this->nomEtudiant;
+    }
+
+    public function getPrenom()
+    {
+        return $this->prenomEtudiant;
+    }
+
+    public function getMail()
+    {
+        return $this->mailEtudiant;
+    }
+
+    public function getTel()
+    {
+        return $this->telEtudiant;
     }
 }

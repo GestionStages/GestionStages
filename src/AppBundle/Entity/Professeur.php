@@ -3,8 +3,6 @@
 namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -16,8 +14,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Professeur implements UserInterface
 {
-
-
     /**
      * @var int
      */
@@ -399,5 +395,25 @@ class Professeur implements UserInterface
 
     public function removeCommentaire(CommentProf $commentaire) {
         $this->commentaires->removeElement($commentaire);
+    }
+
+    public function getNom()
+    {
+        return $this->nomProf;
+    }
+
+    public function getPrenom()
+    {
+        return $this->prenomProf;
+    }
+
+    public function getMail()
+    {
+        return $this->mailProf;
+    }
+
+    public function getTel()
+    {
+        return $this->telProf;
     }
 }
