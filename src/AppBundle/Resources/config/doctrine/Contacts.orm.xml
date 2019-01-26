@@ -39,6 +39,11 @@
         <option name="fixed"/>
       </options>
     </field>
+    <field name="codeInscription" type="string" column="codeInscription" length="200" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
     <many-to-many field="codeentreprise" target-entity="Entreprises" mapped-by="codecontact" fetch="LAZY"/>
   </entity>
 </doctrine-mapping>

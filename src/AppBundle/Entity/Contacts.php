@@ -383,4 +383,35 @@ class Contacts implements UserInterface
     {
         return $this->getUserContact();
     }
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="codeInscription", type="string", length=200, nullable=true)
+     */
+    private $codeInscription;
+
+
+    /**
+     * Set codeInscription
+     *
+     * @param string $codeInscription
+     *
+     * @return Contacts
+     */
+    public function setCodeInscription($codeInscription)
+    {
+        $this->codeInscription = $codeInscription;
+
+        return $this;
+    }
+
+    /**
+     * Get codeInscription
+     *
+     * @return string
+     */
+    public function getCodeInscription()
+    {
+        return $this->codeInscription;
+    }
 }

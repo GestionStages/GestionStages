@@ -56,7 +56,6 @@ class ContactController extends Controller
 
         //On récupère le form
         $form = $this->createForm(ContactsType::class, $contact);
-
         $form->handleRequest($request);
 
         //si le formulaire a été soumis
@@ -64,6 +63,7 @@ class ContactController extends Controller
 
             //on enregistre le contact dans la bdd
             $em = $this-> getDoctrine()->getManager();
+            $contact->setCodeInscription(sha1($contact->getMailcontact()));
             $em->persist($contact);
             $em->flush();
 
@@ -199,10 +199,17 @@ class ContactController extends Controller
      * @param Request $request
      * @param UserPasswordEncoderInterface $encoder
      * @return Response
-     * @Route("/contacts/{id}/inscrire", name="inscrireContact")
+     * @Route("/contacts/inscrire/{codeInscription}", name="inscrireContact")
      */
     public function inscrire(Request $request, UserPasswordEncoderInterface $encoder){
-        $contact = $this->getDoctrine()->getRepository(Contacts::class)->find($request->get('id'));
+        $repository = $this->getDoctrine()
+            ->getRepository(Contacts::class);
+        $contact = $repository->createQueryBuilder('c')
+            ->where('c.codeInscription = :codeInscription')
+            ->setParameter('codeInscription', $request->get('codeInscription') )
+            ->getQuery()
+            ->getOneOrNullResult();
+
         if($contact->getMdpcontact() != null){
             $this->get('session')->getFlashBag()->add('error','Inscription déjà effectuée !');
             return $this->redirect($this->generateUrl('homepage'));
