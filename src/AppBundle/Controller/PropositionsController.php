@@ -353,7 +353,7 @@ class PropositionsController extends Controller
                 break;
 
             default:
-                $etudiant->setSexeEtudiant("N/A");
+                $etudiant->setSexeEtudiant("Autre");
                 break;
         }
 

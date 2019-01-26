@@ -29,11 +29,11 @@
                             <td>{{ etudiant.codeClasse.nomClasse }}</td>
                             <td>
                                 {% if etudiant.sexeEtudiant == 'h' %}
-                                    {{ "Homme" }}
+                                    Homme
                                 {% elseif etudiant.sexeEtudiant == 'f' %}
-                                    {{ "Femme" }}
+                                    Femme
                                 {% else %}
-                                    {{ "N/A" }}
+                                    Autre
                                 {% endif %}
                             </td>
                             <td>{{ etudiant.dateEtudiant | date('d/m/Y') }}</td>

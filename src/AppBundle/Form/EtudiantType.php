@@ -57,7 +57,7 @@ class EtudiantType extends AbstractType
                 'choices' => [
                     'Homme' => 'h',
                     'Femme' => 'f',
-                    'N/A' => 'o'
+                    'Autre' => 'o'
                 ],
                 'expanded' => true,
                 'multiple' => false
