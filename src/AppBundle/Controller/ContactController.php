@@ -61,6 +61,12 @@ class ContactController extends Controller
 
         //si le formulaire a été soumis
         if($form->isSubmitted() && $form->isValid()){
+
+            //on enregistre le contact dans la bdd
+            $em = $this-> getDoctrine()->getManager();
+            $em->persist($contact);
+            $em->flush();
+
             $message = \Swift_Message::newInstance()
                 ->setSubject('Demande d\'inscription sur la plateforme de l\'IUT de Montpellier')
                 ->setFrom('stages-iutms@umontpellier.fr')
@@ -71,11 +77,6 @@ class ContactController extends Controller
                 );
 
             $mailer->send($message);
-
-            //on enregistre le contact dans la bdd
-            $em = $this-> getDoctrine()->getManager();
-            $em->persist($contact);
-            $em->flush();
 
             // On affiche message de validation dans le formulaire de redirection
             $this->get('session')->getFlashBag()->add('notice','Le contact ('.$contact->getNomcontact(). " " . $contact->getPrenomcontact() . ') est ajouté !');
