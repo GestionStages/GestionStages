@@ -43,7 +43,7 @@ class EtudiantType extends AbstractType
             ])
             ->add('addrEtudiant', TextType::class, [
                 'required' => true,
-                'label' => "Addresse fixe (*)",
+                'label' => "Adresse fixe (*)",
                 'attr' => ['maxlength' => 1024]
             ])
             ->add('dateEtudiant', DateType::class, [

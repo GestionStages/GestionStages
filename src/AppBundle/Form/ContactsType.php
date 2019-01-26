@@ -37,7 +37,7 @@ class ContactsType extends AbstractType
             ])
             ->add('mailcontact', EmailType::class, [
                 'required' => true,
-                'label' => "Addresse email (*)",
+                'label' => "Adresse email (*)",
                 'attr' => ['maxlength' => 1024]
             ])
             ->add('telcontact', TelType::class, [

@@ -26,7 +26,7 @@ class EntreprisesType extends AbstractType
             ])
             ->add('adresseentreprise', TextType::class, [
                 'required' => true,
-                'label' => "Addresse (*)",
+                'label' => "Adresse (*)",
                 'attr' => ['maxlength' => 1024]
             ])
             ->add('villeentreprise', TextType::class, [

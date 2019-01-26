@@ -264,10 +264,10 @@ class Etudiant implements UserInterface
      * @var string
      * @ORM\Column(name="addrEtudiant", type="string", length=1024, nullable=false)
      *
-     * @Assert\NotBlank(message="L'addresse est obligatoire")
+     * @Assert\NotBlank(message="L'adresse est obligatoire")
      * @Assert\Length(
      *     max="1024",
-     *     maxMessage="L'addresse doit faire au maximum 1024 caractères"
+     *     maxMessage="L'adresse doit faire au maximum 1024 caractères"
      * )
      */
     private $addrEtudiant;
