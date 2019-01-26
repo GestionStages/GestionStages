@@ -16,9 +16,11 @@ class EntreprisesRepository extends EntityRepository {
                     ->getQuery()->getResult();
 	}
 
-    public function findNonBlacklisted() {
+    public function findBlacklisted($blacklisted = true) {
         return $this->createQueryBuilder('e')
-                    ->where('e.blacklister=0')
-                    ->addOrderBy('e.nomentreprise', 'ASC');
+                    ->where('e.blacklister=?1')
+                    ->setParameter(1, intval($blacklisted))
+                    ->addOrderBy('e.nomentreprise', 'ASC')
+                    ->getQuery()->getResult();
     }
 }

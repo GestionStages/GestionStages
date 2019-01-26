@@ -129,15 +129,10 @@ class EntreprisesController extends Controller
      */
     public function showEntreprises()
     {
-        //TODO: A Déplacer dans repository EntrepriseRepository
         $repository = $this->getDoctrine()
             ->getRepository(Entreprises::class);
 
-        $query = $repository->createQueryBuilder('e')
-            ->where('e.blacklister = 0')
-            ->getQuery();
-
-        $entreprises = $query->getResult();
+        $entreprises = $repository->findBlacklisted(false);
 
         return $this->render('admin/entreprises/entreprisesShow.html.twig',['entreprises' => $entreprises]);
     }
@@ -149,15 +144,10 @@ class EntreprisesController extends Controller
      */
     public function showEntreprisesBlackList()
     {
-        //TODO: A Déplacer dans repository EntrepriseRepository
         $repository = $this->getDoctrine()
             ->getRepository(Entreprises::class);
 
-        $query = $repository->createQueryBuilder('e')
-            ->where('e.blacklister = 1')
-            ->getQuery();
-
-        $entreprises = $query->getResult();
+        $entreprises = $repository->findBlacklisted(true);
 
         return $this->render('admin/entreprises/entreprisesShowBlackList.html.twig',['entreprises' => $entreprises]);
     }

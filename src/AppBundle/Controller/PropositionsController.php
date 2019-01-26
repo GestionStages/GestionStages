@@ -12,7 +12,6 @@ use AppBundle\Entity\Propositions;
 use AppBundle\Entity\Technologies;
 use AppBundle\Form\PropositionsType;
 use Carbon\Carbon;
-use Doctrine\ORM\EntityRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Spipu\Html2Pdf\Exception\Html2PdfException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -42,7 +41,6 @@ class PropositionsController extends Controller
      */
     public function addAction(Request $request)
     {
-
         //On crée une nouvelle proposition
         $proposition = new Propositions();
 
@@ -52,16 +50,9 @@ class PropositionsController extends Controller
 
         //si le formulaire a été soumis et qu'il est valide
         if($form->isSubmitted() && $form->isValid()){
-            $repository = $this->getDoctrine()
-                ->getRepository(Etat::class);
-
-//TODO: A Déplacer dans repository PropositionsRepository
-            //recuperation de l'entreprise par l'id passer en session
-            $etat = $repository->createQueryBuilder('e')
-                ->where('e.codeetat = 1')
-                ->getQuery()
-                // Cette ligne permet de récupérer directement l'objet et non un tableau avec l'objet à l'interieur
-                ->getOneOrNullResult();
+            /** @var Etat $etat */
+            $etat = $this->getDoctrine()->getRepository(Etat::class)
+                         ->find(1);
 
             //on enregistre la proposition dans la bdd
             $em = $this-> getDoctrine()->getManager();
@@ -270,7 +261,6 @@ class PropositionsController extends Controller
      */
     public function showProposition(Request $request)
     {
-        /** @var EntityRepository $repository */
         $repository = $this->getDoctrine()
             ->getRepository(Propositions::class);
 
@@ -286,32 +276,8 @@ class PropositionsController extends Controller
         $checkedClasses = $request->get('classes');
         $checkedDomaines = $request->get('domaines');
         $checkedTechnos = $request->get('technos');
-//TODO: A Déplacer dans repository PropositionsRepository
-        $query = $repository->createQueryBuilder('p')
-                            ->where('p.codeetat = 2');
 
-        if (!is_null($checkedClasses)) {
-            $query->innerJoin('p.codeclasse','c')
-                ->andWhere('c.codeclasse IN (:classes)')
-                ->setParameter('classes',$checkedClasses);
-        }
-
-        if (!is_null($checkedDomaines)) {
-            $query->join('p.codeentreprise', 'e', 'WITH', 'p.codeentreprise=e.codeentreprise')
-                ->innerJoin('e.codedomaine','d')
-                ->andWhere('d.codedomaine IN (:domaines)')
-                ->setParameter('domaines', $checkedDomaines);
-        }
-
-        if (!is_null($checkedTechnos)) {
-            $query->innerJoin('p.codetechnologie','t')
-                ->andWhere('t.codetechnologie IN (:technologies)')
-                ->setParameter('technologies',$checkedTechnos);
-        }
-
-        $propositions = $query->orderBy('p.dateajout', 'DESC')
-            ->getQuery()
-            ->getResult();
+        $propositions = $repository->filter($checkedClasses, $checkedDomaines, $checkedTechnos);
 
         return $this->render('propositions/propositionsShow.html.twig',[
             'propositions' => $propositions,

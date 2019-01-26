@@ -38,15 +38,9 @@ class ContactController extends Controller
 
         $repository = $this->getDoctrine()
             ->getRepository(Entreprises::class);
-//TODO: A Déplacer dans repository EntrepriseRepository
-        //recuperation de l'entreprise par l'id passer en session
-        $entreprise = $repository->createQueryBuilder('e')
-            ->where('e.codeentreprise = :entreprise')
-            ->setParameter('entreprise', $session->get('entreprise'))
-            ->getQuery()
-            // Cette ligne permet de récupérer directement l'objet et non un tableau avec l'objet à l'interieur
-            ->getOneOrNullResult();
 
+        //recuperation de l'entreprise par l'id passer en session
+        $entreprise = $repository->find($session->get('entreprise'));
 
         //On crée un nouveau contact
         $contact = new Contacts();
@@ -109,13 +103,7 @@ class ContactController extends Controller
         $repository = $this->getDoctrine()
             ->getRepository(Entreprises::class);
 
-//TODO: A Déplacer dans repository EntrepriseRepository
-        $entreprise = $repository->createQueryBuilder('e')
-            ->where('e.codeentreprise = :entreprise')
-            ->setParameter('entreprise', $session->get('entreprise'))
-            ->getQuery()
-            // Cette ligne permet de récupérer directement l'objet et non un tableau avec l'objet à l'interieur
-            ->getOneOrNullResult();
+        $entreprise = $repository->find($session->get('entreprise'));
 
         //si le formulaire a été soumis
         if($form->isSubmitted() && $form->isValid()){
@@ -146,17 +134,11 @@ class ContactController extends Controller
      * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
      */
     public function delete(Contacts $contact, SessionInterface $session){
-        //TODO: A Déplacer dans repository EntrepriseRepository
         $repository = $this->getDoctrine()
             ->getRepository(Entreprises::class);
-        // recupere l'entreprise avec l'id stocké en session
-        $entreprise = $repository->createQueryBuilder('e')
-            ->where('e.codeentreprise = :entreprise')
-            ->setParameter('entreprise', $session->get('entreprise') )
-            ->getQuery()
-           // Cette ligne permet de récupérer directement l'objet et non un tableau avec l'objet à l'interieur
-            ->getOneOrNullResult();
 
+        // recupere l'entreprise avec l'id stocké en session
+        $entreprise = $repository->find($session->get('entreprise'));
 
         // On supprime et sauvegarde modifications
         $em = $this-> getDoctrine()->getManager();

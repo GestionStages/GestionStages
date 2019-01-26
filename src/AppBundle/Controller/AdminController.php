@@ -40,14 +40,9 @@ class AdminController extends Controller
      */
     public function showListAll()
     {
-        //TODO: A deplacer dans un repository !
         $repository = $this->getDoctrine()->getRepository(Propositions::class);
 
-        $query = $repository->createQueryBuilder('p')
-            ->orderBy('p.dateajout', 'DESC')
-            ->getQuery();
-
-        $propositions = $query->getResult();
+        $propositions = $repository->orderedlist();
 
         return $this->render('admin/propositions/list.html.twig',['propositions' => $propositions]);
     }

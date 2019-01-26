@@ -125,14 +125,10 @@ class ClassesController extends Controller
      */
     public function showClasses()
     {
-        //TODO: A Déplacer dans repository ClasseRepository
         $repository = $this->getDoctrine()
             ->getRepository(Classes::class);
 
-        $query = $repository->createQueryBuilder('e')
-            ->getQuery();
-
-        $classes = $query->getResult();
+        $classes = $repository->findAll();
 
         return $this->render('admin/classes/classesShow.html.twig',['classes' => $classes]);
     }
