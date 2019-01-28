@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Propositions;
 use AppBundle\Entity\Etat;
 use AppBundle\Form\PropositionsType;
+use Doctrine\Common\Persistence\ObjectManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,7 +20,7 @@ class AdminController extends Controller
      */
     public function showHome()
     {
-        $repository = $this->getDoctrine()->getManager()->getRepository('AppBundle:Propositions');
+        $repository = $this->getDoctrine()->getRepository(Propositions::class);
         $attenteValid = $repository->nbEnAttenteValid();
         $valid = $repository->nbValid();
         $archive =$repository->nbArchive();
@@ -53,7 +54,7 @@ class AdminController extends Controller
     public function statAdmin()
     {
         //TODO: Function de test
-        $repository = $this->getDoctrine()->getManager()->getRepository('AppBundle:Propositions');
+        $repository = $this->getDoctrine()->getRepository(Propositions::class);
         $stat = $repository->nbEnAttenteValid();
 
         return new Response($stat);
@@ -66,7 +67,7 @@ class AdminController extends Controller
      * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
-    public function edit(Request $request, Propositions $proposition)
+    public function edit(Request $request, Propositions $proposition, ObjectManager $em)
     {
     	$form = $this->createForm(PropositionsType::class, $proposition, array('doctrine' => $this->getDoctrine()));
 
@@ -77,8 +78,6 @@ class AdminController extends Controller
 
         if($form->isSubmitted() && $form->isValid()){
             //on enregistre la proposition dans la bdd
-            $em = $this-> getDoctrine()->getManager();
-            $em->persist($proposition);
             $em->flush();
 
             // On affiche message de validation dans le formulaire de redirection
@@ -98,18 +97,17 @@ class AdminController extends Controller
     /**
      * @Route("/admin/offres/{id}/valid", name="validProposition", requirements={"id"="\d+"})
      * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
+     * @param Propositions $proposition
+     * @param ObjectManager $em
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function approve($id)
+    public function approve(Propositions $proposition, ObjectManager $em)
     {
-        $em = $this->getDoctrine()->getManager();
-
         $etat = $this->getDoctrine()
-            ->getRepository('AppBundle:Etat')
+            ->getRepository(Etat::class)
             ->find(2);
 
-        $em->getRepository('AppBundle:Propositions')
-            ->find($id)
-            ->setCodeetat($etat);
+        $proposition->setCodeetat($etat);
 
         $em->flush();
 
@@ -119,18 +117,17 @@ class AdminController extends Controller
     /**
      * @Route("/admin/offres/{id}/reject", name="rejectProposition", requirements={"id"="\d+"})
      * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
+     * @param Propositions $proposition
+     * @param ObjectManager $em
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function reject($id)
+    public function reject(Propositions $proposition, ObjectManager $em)
     {
-        $em = $this->getDoctrine()->getManager();
-
         $etat = $this->getDoctrine()
-            ->getRepository('AppBundle:Etat')
+            ->getRepository(Etat::class)
             ->find(5);
 
-        $em->getRepository('AppBundle:Propositions')
-            ->find($id)
-            ->setCodeetat($etat);
+        $proposition->setCodeetat($etat);
 
         $em->flush();
 
@@ -140,18 +137,17 @@ class AdminController extends Controller
     /**
      * @Route("/admin/offres/{id}/archive", name="archiveProposition", requirements={"id"="\d+"})
      * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
+     * @param $id
+     * @param ObjectManager $em
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function archive($id)
+    public function archive(Propositions $proposition, ObjectManager $em)
     {
-        $em = $this->getDoctrine()->getManager();
-
         $etat = $this->getDoctrine()
-            ->getRepository('AppBundle:Etat')
+            ->getRepository(Etat::class)
             ->find(4);
 
-        $em->getRepository('AppBundle:Propositions')
-            ->find($id)
-            ->setCodeetat($etat);
+        $proposition->setCodeetat($etat);
 
         $em->flush();
 

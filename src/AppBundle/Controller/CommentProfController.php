@@ -6,6 +6,7 @@ use AppBundle\Entity\CommentProf;
 use AppBundle\Entity\Professeur;
 use AppBundle\Entity\Propositions;
 use AppBundle\Form\CommentProfType;
+use Doctrine\Common\Persistence\ObjectManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -51,10 +52,12 @@ class CommentProfController extends Controller
      * @Route("/proposition/{id}/addcomment", name="addProfComment")
      * @IsGranted("ROLE_PROF")
      * @param Request $request
+     * @param Propositions $proposition
+     * @param ObjectManager $em
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws \Exception
      */
-    public function addCommentaire(Request $request, Propositions $proposition) {
+    public function addCommentaire(Request $request, Propositions $proposition, ObjectManager $em) {
         $user = $this->getUser();
 
         if ($user->getId() != $proposition->getCodeProfesseur()->getId()) {
@@ -72,7 +75,6 @@ class CommentProfController extends Controller
             $commentaire->setProf($user);
             $commentaire->setProposition($proposition);
 
-            $em = $this->getDoctrine()->getManager();
             $em->persist($commentaire);
             $em->flush();
 
@@ -92,10 +94,11 @@ class CommentProfController extends Controller
      * @IsGranted("ROLE_PROF")
      * @param Request $request
      * @param CommentProf $commentaire
+     * @param ObjectManager $em
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws \Exception
      */
-    public function editCommentaire(Request $request, CommentProf $commentaire) {
+    public function editCommentaire(Request $request, CommentProf $commentaire, ObjectManager $em) {
         $user = $this->getUser();
 
         if ($user->getId() != $commentaire->getProposition()->getCodeProfesseur()->getId()) {
@@ -109,9 +112,6 @@ class CommentProfController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $commentaire->setDate(new \DateTime('NOW'));
             $commentaire->setProf($user);
-
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($commentaire);
             $em->flush();
 
             $this->get('session')->getFlashBag()->add('notice','Le commentaire à été modifié !');
@@ -129,9 +129,10 @@ class CommentProfController extends Controller
      * @Route("/prof/commentaires/{id}/suppr", name="supprProfComment")
      * @IsGranted("ROLE_PROF")
      * @param CommentProf $commentaire
+     * @param ObjectManager $em
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function supprComment(CommentProf $commentaire) {
+    public function supprComment(CommentProf $commentaire, ObjectManager $em) {
         $user = $this->getUser();
 
         if ($user->getId() != $commentaire->getProposition()->getCodeProfesseur()->getId()) {
@@ -139,7 +140,6 @@ class CommentProfController extends Controller
             return $this->redirect($this->generateUrl('indexProfPropositions'));
         }
 
-        $em = $this->getDoctrine()->getManager();
         $em->remove($commentaire);
         $em->flush();
 

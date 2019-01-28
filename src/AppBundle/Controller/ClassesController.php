@@ -10,6 +10,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Classes;
 use AppBundle\Form\ClassesType;
+use Doctrine\Common\Persistence\ObjectManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -23,9 +24,10 @@ class ClassesController extends Controller
      * @Route("/admin/classes/add", name="addClasse")
      * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
      * @param Request $request
+     * @param ObjectManager $em
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function addAction(Request $request){
+    public function addAction(Request $request, ObjectManager $em){
         // creer un new Classe
         $classe = new Classes();
 
@@ -40,12 +42,8 @@ class ClassesController extends Controller
             if ($form->getData()->getDateFinStage() > $form->getData()->getDateDebStage()){
 
                 // on enregistre la classe en BDD
-                $em = $this->getDoctrine()->getManager();
-
                 $em->persist($classe);
                 $em->flush();
-
-
 
                 // On affiche message de validation dans le formulaire de redirection
                 $this->get('session')->getFlashBag()->add('notice','Classe ('.$classe->getNomclasse().') ajoutée !');
@@ -65,11 +63,12 @@ class ClassesController extends Controller
     /**
      * @param Request $request
      * @param Classes $classe
+     * @param ObjectManager $em
      * @return Response
      * @Route("/admin/classes/{id}/edit", name="editClasse")
      * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
      */
-    public function edit(Request $request, Classes $classe){
+    public function edit(Request $request, Classes $classe, ObjectManager $em){
         $form = $this->createForm(ClassesType::class, $classe);
 
         $form->handleRequest($request);
@@ -79,7 +78,6 @@ class ClassesController extends Controller
             // on verifie que la dateFin ne soit pas inferieur a la dateDeb
             if ($form->getData()->getDateFinStage() > $form->getData()->getDateDebStage()) {
                 //on enregistre la classe dans la bdd
-                $em = $this->getDoctrine()->getManager();
                 $em->flush();
 
                 //Envoi un message de validation
@@ -99,16 +97,14 @@ class ClassesController extends Controller
         return $this->render('admin/classes/classeAdd.html.twig', array('form'=>$formView));
     }
 
-
-
     /**
-    * @param Classes $classe
-    * @return Response
-    * @Route("/admin/classes/{id}/delete", name="deleteClasse")
-    * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
-    */
-    public function delete(Classes $classe){
-        $em = $this-> getDoctrine()->getManager();
+     * @param Classes $classe
+     * @param ObjectManager $em
+     * @return Response
+     * @Route("/admin/classes/{id}/delete", name="deleteClasse")
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
+     */
+    public function delete(Classes $classe, ObjectManager $em){
         $em->remove($classe);
         $em->flush();
         // On affiche message de validation dans le formulaire de redirection

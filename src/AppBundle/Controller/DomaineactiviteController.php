@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Domaineactivite;
 use AppBundle\Form\DomaineactiviteType;
+use Doctrine\Common\Persistence\ObjectManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -17,10 +18,10 @@ class DomaineactiviteController extends Controller
      * @Route("/admin/domaineactivite/add", name="addDomaineActivite")
      * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
      * @param Request $request
+     * @param ObjectManager $em
      * @return \Symfony\Component\HttpFoundation\Response
-     *
      */
-    public function addAction(Request $request)
+    public function addAction(Request $request, ObjectManager $em)
     {
         //On crée un nouveau domaine d'activité
         $domaineactivite = new Domaineactivite();
@@ -33,9 +34,7 @@ class DomaineactiviteController extends Controller
         //si le formulaire a été soumis
 
         if($form->isSubmitted() && $form->isValid()){
-
             //on enregistre le domaine d'activité dans la bdd
-            $em = $this-> getDoctrine()->getManager();
             $em->persist($domaineactivite);
             $em->flush();
 
@@ -67,13 +66,14 @@ class DomaineactiviteController extends Controller
     }
 
     /**
-     * @param Domaineactivite $domaineactivite
      * @param Request $request
+     * @param Domaineactivite $domaineactivite
+     * @param ObjectManager $em
      * @return Response
      * @Route("/admin/domaineactivite/{id}/edit", name="editDomaineActivite")
      * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
      */
-    public function edit(Request $request, Domaineactivite $domaineactivite){
+    public function edit(Request $request, Domaineactivite $domaineactivite, ObjectManager $em){
         $form = $this->createForm(DomaineactiviteType::class, $domaineactivite);
 
         $form->handleRequest($request);
@@ -81,9 +81,7 @@ class DomaineactiviteController extends Controller
         //si le formulaire a été soumis
 
         if($form->isSubmitted()){
-
             //on enregistre le domaine d'activité dans la bdd
-            $em = $this-> getDoctrine()->getManager();
             $em->flush();
 
             // On affiche message de validation dans le formulaire de redirection
@@ -104,12 +102,12 @@ class DomaineactiviteController extends Controller
 
     /**
      * @param Domaineactivite $domaineactivite
+     * @param ObjectManager $em
      * @return Response
      * @Route("/admin/domaineactivite/{id}/delete", name="deleteDomaineActivite")
      * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
      */
-    public function delete(Domaineactivite $domaineactivite){
-        $em = $this-> getDoctrine()->getManager();
+    public function delete(Domaineactivite $domaineactivite, ObjectManager $em){
         $em->remove($domaineactivite);
         $em->flush();
         // On affiche message de validation dans le formulaire de redirection

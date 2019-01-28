@@ -11,6 +11,7 @@ use AppBundle\Entity\Professeur;
 use AppBundle\Entity\Propositions;
 use AppBundle\Entity\Technologies;
 use AppBundle\Form\PropositionsType;
+use Doctrine\Common\Persistence\ObjectManager;
 use Carbon\Carbon;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Spipu\Html2Pdf\Exception\Html2PdfException;
@@ -36,10 +37,11 @@ class PropositionsController extends Controller
      * @Route("/propositions/add", name="addProposition")
      * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
      * @param Request $request
+     * @param ObjectManager $em
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws \Exception
      */
-    public function addAction(Request $request)
+    public function addAction(Request $request, ObjectManager $em)
     {
         //On crée une nouvelle proposition
         $proposition = new Propositions();
@@ -53,9 +55,6 @@ class PropositionsController extends Controller
             /** @var Etat $etat */
             $etat = $this->getDoctrine()->getRepository(Etat::class)
                          ->find(1);
-
-            //on enregistre la proposition dans la bdd
-            $em = $this-> getDoctrine()->getManager();
 
             // on affecte l'etat en attente par default
             $proposition->setCodeetat($etat);
@@ -79,7 +78,7 @@ class PropositionsController extends Controller
             $em->flush();
 
             // On affiche message de validation dans le formulaire de redirection
-            $this->get('session')->getFlashBag()->add('notice','La proposition à été ajoutée !');
+            $this->get('session')->getFlashBag()->add('notice','La proposition a été ajoutée !');
 
             //Retourne form de la liste des domaines d'activités
             return $this->redirect($this->generateUrl('afficherProposition'));
@@ -109,9 +108,10 @@ class PropositionsController extends Controller
      * @Route("/propositions/{id}/affecterEtudiant", name="affecterEtudiant", requirements={"id"="\d+"})
      * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
      * @param Request $request
+     * @param ObjectManager $em
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function affecterEtudiant(Request $request)
+    public function affecterEtudiant(Request $request, ObjectManager $em)
     {
         $proposition = $this->getDoctrine()->getRepository(Propositions::class)->find($request->get('id'));
         if(!$request->get('etudiant')){
@@ -122,9 +122,6 @@ class PropositionsController extends Controller
         else{
             $etudiant =  $this->getDoctrine()->getRepository(Etudiant::class)->find($request->get('etudiant'));
             $proposition->setCodeEtudiant($etudiant);
-
-            $em = $this-> getDoctrine()->getManager();
-            $em->persist($proposition);
             $em->flush();
 
             // On affiche message de validation dans le formulaire de redirection
@@ -138,14 +135,14 @@ class PropositionsController extends Controller
      * @Route("/propositions/{id}/desaffecterEtudiant", name="desaffecterEtudiant", requirements={"id"="\d+"})
      * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
      * @param Request $request
+     * @param ObjectManager $em
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
-    public function desaffecterEtudiant(Request $request){
+    public function desaffecterEtudiant(Request $request, ObjectManager $em){
         $proposition = $this->getDoctrine()->getRepository(Propositions::class)->find($request->get('id'));
         $proposition->setCodeEtudiant(null);
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($proposition);
         $em->flush();
+
         $this->get('session')->getFlashBag()->add('notice','L\'étudiant n\'est plus affecté !');
         return $this->redirect($this->generateUrl('showAdminListAll'));
 
@@ -155,9 +152,10 @@ class PropositionsController extends Controller
      * @Route("/propositions/{id}/affecterProfesseur", name="affecterProfesseur", requirements={"id"="\d+"})
      * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
      * @param Request $request
+     * @param ObjectManager $em
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function affecterProfesseur(Request $request)
+    public function affecterProfesseur(Request $request, ObjectManager $em)
     {
         $proposition = $this->getDoctrine()->getRepository(Propositions::class)->find($request->get('id'));
         if(!$request->get('professeur')){
@@ -168,9 +166,6 @@ class PropositionsController extends Controller
         else{
             $professeur =  $this->getDoctrine()->getRepository(Professeur::class)->find($request->get('professeur'));
             $proposition->setCodeProfesseur($professeur);
-
-            $em = $this-> getDoctrine()->getManager();
-            $em->persist($proposition);
             $em->flush();
 
             // On affiche message de validation dans le formulaire de redirection
@@ -184,26 +179,28 @@ class PropositionsController extends Controller
      * @Route("/propositions/{id}/desaffecterProfesseur", name="desaffecterProfesseur", requirements={"id"="\d+"})
      * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
      * @param Request $request
+     * @param ObjectManager $em
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
-    public function desaffecterProfesseur(Request $request){
+    public function desaffecterProfesseur(Request $request, ObjectManager $em){
         $proposition = $this->getDoctrine()->getRepository(Propositions::class)->find($request->get('id'));
         $proposition->setCodeProfesseur(null);
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($proposition);
         $em->flush();
+
         $this->get('session')->getFlashBag()->add('notice','Le tuteur n\'est plus affecté !');
         return $this->redirect($this->generateUrl('showAdminListAll'));
 
     }
+
     /**
      * @param Request $request
      * @param Propositions $proposition
+     * @param ObjectManager $em
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      * @Route("/propositions/{id}/edit", name="editProposition", requirements={"id"="\d+"})
      * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
-    public function edit(Request $request, Propositions $proposition)
+    public function edit(Request $request, Propositions $proposition, ObjectManager $em)
     {
 	    $form = $this->createForm(PropositionsType::class, $proposition, array('doctrine' => $this->getDoctrine()));
 
@@ -237,8 +234,6 @@ class PropositionsController extends Controller
             }
 
             //on enregistre la proposition dans la bdd
-            $em = $this-> getDoctrine()->getManager();
-            $em->persist($proposition);
             $em->flush();
 
             // On affiche message de validation dans le formulaire de redirection
@@ -293,19 +288,17 @@ class PropositionsController extends Controller
     /**
      * @Route("/propositions/{id}/deleteFile", name="deletepropositionfile", requirements={"id"="\d+"})
      * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
-     * @param Request $request
      * @param Propositions $proposition
+     * @param ObjectManager $em
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function deleteFile(Request $request, Propositions $proposition) {
+    public function deleteFile(Propositions $proposition, ObjectManager $em) {
         //Suppression du fichier
         $file = $proposition->getFile();
         unlink($this->getParameter('fileDirectory')."/".$file);
 
         //Suppression de la référence en DB
         $proposition->setFile(null);
-        $em = $this-> getDoctrine()->getManager();
-        $em->persist($proposition);
         $em->flush();
 
         // On affiche message de validation dans le formulaire de redirection

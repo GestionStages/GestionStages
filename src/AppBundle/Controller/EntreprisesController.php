@@ -24,22 +24,21 @@ class EntreprisesController extends Controller
      * @Route("/admin/entreprises/add", name="addEntreprise")
      * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
      * @param Request $request
+     * @param ObjectManager $em
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function addAction(Request $request){
+    public function addAction(Request $request, ObjectManager $em){
         // creer un new Entreprise
         $entreprise = new Entreprises();
 
         // recuperer le form
         $form = $this->createForm(EntreprisesType::class,$entreprise);
 
-       $form->handleRequest($request);
+        $form->handleRequest($request);
 
-       //si le formulaire est validé
+        //si le formulaire est validé
         if($form->isSubmitted() && $form->isValid()){
             // on enregistre l'entreprise en BDD
-            $em = $this->getDoctrine()->getManager();
-
             $em->persist($entreprise);
             $em->flush();
 
@@ -60,20 +59,19 @@ class EntreprisesController extends Controller
     /**
      * @param Request $request
      * @param Entreprises $entreprise
+     * @param ObjectManager $em
      * @return Response
      * @Route("/admin/entreprises/{id}/edit", name="editEntreprise")
      * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
      */
-    public function edit(Request $request, Entreprises $entreprise){
+    public function edit(Request $request, Entreprises $entreprise, ObjectManager $em){
         $form = $this->createForm(EntreprisesType::class, $entreprise);
 
         $form->handleRequest($request);
 
         //si le formulaire a été soumis
-
         if($form->isSubmitted() && $form->isValid()){
             //on enregistre l'entreprise dans la bdd
-            $em = $this-> getDoctrine()->getManager();
             $em->flush();
 
             //Envoi un message de validation
@@ -92,32 +90,36 @@ class EntreprisesController extends Controller
 
     /**
      * @param Entreprises $entreprise
+     * @param ObjectManager $em
      * @return Response
      * @Route("/admin/entreprises/{id}/blacklist", name="blackListEntreprise")
      * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
      */
-    public function blackListEntreprise(Entreprises $entreprise){
+    public function blackListEntreprise(Entreprises $entreprise, ObjectManager $em){
         //modification de l'attribut blacklist de l'objet
         $entreprise->setBlacklister(1);
+
         //enregistrement en BDD de la modification
-        $em = $this-> getDoctrine()->getManager();
         $em->flush();
+
         $this->get('session')->getFlashBag()->add('notice','L\'Entreprise ('.$entreprise->getNomentreprise().') est dans la BlackList !');
         return $this->redirect($this->generateUrl('showEntreprises'));
     }
 
     /**
      * @param Entreprises $entreprise
+     * @param ObjectManager $em
      * @return Response
      * @Route("/admin/entreprises/{id}/noblacklist", name="noBlackListEntreprise")
      * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
      */
-    public function noblackListEntreprise(Entreprises $entreprise){
+    public function noblackListEntreprise(Entreprises $entreprise, ObjectManager $em){
         //modification de l'attribut blacklist de l'objet
         $entreprise->setBlacklister(0);
+
         //enregistrement en BDD de la modification
-        $em = $this-> getDoctrine()->getManager();
         $em->flush();
+
         $this->get('session')->getFlashBag()->add('notice','L\'Entreprise ('.$entreprise->getNomentreprise().') est revenue dans la liste !');
         return $this->redirect($this->generateUrl('showEntreprisesBlackList'));
     }

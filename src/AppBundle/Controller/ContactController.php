@@ -11,7 +11,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Contacts;
 use AppBundle\Entity\Entreprises;
 use AppBundle\Form\ContactsType;
-use AppBundle\Form\EntreprisesType;
+use Doctrine\Common\Persistence\ObjectManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -30,10 +30,10 @@ class ContactController extends Controller
      * @param Request $request
      * @param SessionInterface $session
      * @param \Swift_Mailer $mailer
+     * @param ObjectManager $em
      * @return \Symfony\Component\HttpFoundation\Response
-     * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function addAction(Request $request, SessionInterface $session, \Swift_Mailer $mailer)
+    public function addAction(Request $request, SessionInterface $session, \Swift_Mailer $mailer, ObjectManager $em)
     {
 
         $repository = $this->getDoctrine()
@@ -57,7 +57,6 @@ class ContactController extends Controller
         if($form->isSubmitted() && $form->isValid()){
 
             //on enregistre le contact dans la bdd
-            $em = $this-> getDoctrine()->getManager();
             $em->persist($contact);
             $em->flush();
 
@@ -90,15 +89,15 @@ class ContactController extends Controller
      * @param Request $request
      * @param Contacts $contact
      * @param SessionInterface $session
+     * @param ObjectManager $em
      * @return Response
      * @Route("/admin/contacts/{id}/edit", name="editContact")
      * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
-     * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function edit(Request $request, Contacts $contact, SessionInterface $session){
+    public function edit(Request $request, Contacts $contact, SessionInterface $session, ObjectManager $em){
         $form = $this->createForm(ContactsType::class, $contact);
 
-            $form->handleRequest($request);
+        $form->handleRequest($request);
 
         $repository = $this->getDoctrine()
             ->getRepository(Entreprises::class);
@@ -108,7 +107,6 @@ class ContactController extends Controller
         //si le formulaire a été soumis
         if($form->isSubmitted() && $form->isValid()){
             //on enregistre l'entreprise dans la bdd
-            $em = $this-> getDoctrine()->getManager();
             $em->flush();
 
                 //Envoi un message de validation
@@ -128,12 +126,12 @@ class ContactController extends Controller
     /**
      * @param Contacts $contact
      * @param SessionInterface $session
+     * @param ObjectManager $em
      * @return Response
-     * @throws \Doctrine\ORM\NonUniqueResultException
      * @Route("/admin/contacts/{id}/deleteContact", name="deleteContact")
      * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
      */
-    public function delete(Contacts $contact, SessionInterface $session){
+    public function delete(Contacts $contact, SessionInterface $session, ObjectManager $em){
         $repository = $this->getDoctrine()
             ->getRepository(Entreprises::class);
 
@@ -141,9 +139,9 @@ class ContactController extends Controller
         $entreprise = $repository->find($session->get('entreprise'));
 
         // On supprime et sauvegarde modifications
-        $em = $this-> getDoctrine()->getManager();
         $em->remove($contact);
         $em->flush();
+
         // On affiche message de validation dans le formulaire de redirection
         $this->get('session')->getFlashBag()->add('notice','Le contact (' . $contact->getNomcontact() . ' ' . $contact->getPrenomcontact() . ') à été supprimé !');
 
@@ -180,10 +178,11 @@ class ContactController extends Controller
     /**
      * @param Request $request
      * @param UserPasswordEncoderInterface $encoder
+     * @param ObjectManager $em
      * @return Response
      * @Route("/contacts/{id}/inscrire", name="inscrireContact")
      */
-    public function inscrire(Request $request, UserPasswordEncoderInterface $encoder){
+    public function inscrire(Request $request, UserPasswordEncoderInterface $encoder, ObjectManager $em){
         $contact = $this->getDoctrine()->getRepository(Contacts::class)->find($request->get('id'));
         if($contact->getMdpcontact() != null){
             $this->get('session')->getFlashBag()->add('error','Inscription déjà effectuée !');
@@ -203,9 +202,6 @@ class ContactController extends Controller
                     //On encrypte le mot de passe
                     $hash = $encoder->encodePassword($contact, $request->get('password'));
                     $contact->setMdpcontact($hash);
-
-                    $em = $this-> getDoctrine()->getManager();
-                    $em->persist($contact);
                     $em->flush();
 
                     // On affiche message de validation dans le formulaire de redirection
