@@ -9,6 +9,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Entreprises;
+use AppBundle\Entity\Propositions;
 use AppBundle\Form\EntreprisesType;
 use Doctrine\Common\Persistence\ObjectManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -162,11 +163,30 @@ class EntreprisesController extends Controller
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function deleteEntreprise(Entreprises $entreprise, ObjectManager $manager) {
-        $manager->remove($entreprise);
-        $manager->flush();
 
-        $this->get('session')->getFlashBag()->add('notice',"L'entreprise (".$entreprise->getNomEntreprise().") est supprimé !");
-        return $this->redirect($this->generateUrl('showEntreprises'));
+        $repository = $this->getDoctrine()
+            ->getRepository(Propositions::class);
+
+        $query = $repository->createQueryBuilder('p')
+            ->where('p.codeentreprise = :entreprise')
+            ->setParameter('entreprise', $entreprise->getCodeentreprise())
+            ->getQuery();
+
+        $propositions = $query->getResult();
+
+        if(!$propositions){
+
+            $manager->remove($entreprise);
+            $manager->flush();
+
+            $this->get('session')->getFlashBag()->add('notice',"L'entreprise (".$entreprise->getNomEntreprise().") est supprimé !");
+            return $this->redirect($this->generateUrl('showEntreprises'));
+
+        }else{
+            $this->get('session')->getFlashBag()->add('error',"L'entreprise (".$entreprise->getNomEntreprise().") ne peut être supprimée car elle possède au moins une proposition !");
+            return $this->redirect($this->generateUrl('showEntreprises'));
+        }
+
     }
 
 	/**

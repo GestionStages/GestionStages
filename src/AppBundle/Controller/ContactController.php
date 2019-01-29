@@ -10,6 +10,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Contacts;
 use AppBundle\Entity\Entreprises;
+use AppBundle\Form\ContactInscriptionType;
 use AppBundle\Form\ContactsType;
 use Doctrine\Common\Persistence\ObjectManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -45,18 +46,18 @@ class ContactController extends Controller
         //On crée un nouveau contact
         $contact = new Contacts();
 
-        // On affecte l'entreprise au contact
-        $entreprise->addCodeContact($contact);
+        // On affecte le contact a l'entreprise
+        $contact->setCodeentreprise($entreprise);
 
         //On récupère le form
         $form = $this->createForm(ContactsType::class, $contact);
-
         $form->handleRequest($request);
 
         //si le formulaire a été soumis
         if($form->isSubmitted() && $form->isValid()){
 
             //on enregistre le contact dans la bdd
+            $contact->setCodeInscription(sha1($contact->getMailcontact()));
             $em->persist($contact);
             $em->flush();
 
@@ -75,7 +76,7 @@ class ContactController extends Controller
             $this->get('session')->getFlashBag()->add('notice','Le contact ('.$contact->getNomcontact(). " " . $contact->getPrenomcontact() . ') est ajouté !');
 
             //Retourne form de la liste des contacts de l'entreprise
-            return $this->redirectToRoute('showContacts', ['id' => $entreprise->getCodeEntreprise()]);
+            return $this->redirectToRoute('showContacts', ['id' => $entreprise->getCodeentreprise()]);
         }
 
         //On génére le fichier final
@@ -113,7 +114,7 @@ class ContactController extends Controller
                 $this->get('session')->getFlashBag()->add('notice','Contact ('.$contact->getNomcontact() . " " . $contact->getPrenomcontact() .') modifié !');
 
             // Retourne form de la liste des contacts de l'entreprise
-            return $this->redirectToRoute('showContacts',['id' => $entreprise->getCodeEntreprise()]);
+            return $this->redirectToRoute('showContacts',['id' => $entreprise->getCodeentreprise()]);
         }
 
             //On génére le fichier final
@@ -146,7 +147,7 @@ class ContactController extends Controller
         $this->get('session')->getFlashBag()->add('notice','Le contact (' . $contact->getNomcontact() . ' ' . $contact->getPrenomcontact() . ') à été supprimé !');
 
         //Retourne form de la liste des contact de l'entreprise
-        return $this->render('admin/contacts/contactsShow.html.twig', ['contacts'=>$entreprise->getCodecontact(), 'entreprise' => $entreprise] );
+        return $this->redirectToRoute('showContacts', ['id' => $entreprise->getCodeentreprise()]);
 
     }
 
@@ -164,12 +165,14 @@ class ContactController extends Controller
         if($session->get('entreprise') != $entreprise->getCodeentreprise()){
             $session->set('entreprise',$entreprise->getCodeentreprise());
         }
-
-        $repository = $this->getDoctrine()->getRepository(Contacts::class);
-        $contacts = [];
-        foreach ($entreprise->getCodecontact() as $contact) {
-            $contacts[] = $repository->find($contact->getCodeContact());
-        }
+        $repository = $this->getDoctrine()
+            ->getRepository(Contacts::class);
+        // recupere l'entreprise avec l'id stocké en session
+        $contacts = $repository->createQueryBuilder('c')
+            ->where('c.codeentreprise = :entreprise')
+            ->setParameter('entreprise', $session->get('entreprise'))
+            ->getQuery()
+            ->getResult();
 
         return $this->render('admin/contacts/contactsShow.html.twig',['contacts' => $contacts, 'entreprise' => $entreprise]);
 
@@ -180,37 +183,46 @@ class ContactController extends Controller
      * @param UserPasswordEncoderInterface $encoder
      * @param ObjectManager $em
      * @return Response
-     * @Route("/contacts/{id}/inscrire", name="inscrireContact")
+     * @Route("/contacts/inscrire/{codeInscription}", name="inscrireContact")
      */
-    public function inscrire(Request $request, UserPasswordEncoderInterface $encoder, ObjectManager $em){
-        $contact = $this->getDoctrine()->getRepository(Contacts::class)->find($request->get('id'));
-        if($contact->getMdpcontact() != null){
-            $this->get('session')->getFlashBag()->add('error','Inscription déjà effectuée !');
+    public function inscrire(Request $request, UserPasswordEncoderInterface $encoder, ObjectManager $em)
+    {
+        $repository = $this->getDoctrine()
+            ->getRepository(Contacts::class);
+        $contact = $repository->createQueryBuilder('c')
+            ->where('c.codeInscription = :codeInscription')
+            ->setParameter('codeInscription', $request->get('codeInscription'))
+            ->getQuery()
+            ->getOneOrNullResult();
+
+        $form = $this->createForm(ContactInscriptionType::class, $contact);
+        $form->handleRequest($request);
+
+        if ($contact->getMdpcontact() != null) {
+            $this->get('session')->getFlashBag()->add('error', 'Inscription déjà effectuée !');
             return $this->redirect($this->generateUrl('homepage'));
-        }
-        else{
-            if(!$request->get('password')){
+        } else {
+            //si le formulaire a été soumis
+            if ($form->isSubmitted() && $form->isValid()) {
 
-                return $this->render('/contacts/inscription.html.twig', ['contact' => $contact]);
-            }
-            else{
-                if($request->get('password') != $request->get('password2')){
-                    $this->get('session')->getFlashBag()->add('error','Mots de passe différents');
-                    return $this->render('/contacts/inscription.html.twig', ['contact' => $contact]);
-                }
-                else{
-                    //On encrypte le mot de passe
-                    $hash = $encoder->encodePassword($contact, $request->get('password'));
-                    $contact->setMdpcontact($hash);
-                    $em->flush();
+                //on enregistre le mdp du contact dans la bdd
+                $hash = $encoder->encodePassword($contact, $request->get('password'));
+                $contact->setMdpcontact($hash);
+                $em->flush();
 
-                    // On affiche message de validation dans le formulaire de redirection
-                    $this->get('session')->getFlashBag()->add('notice','Inscription enregistée !');
-                    return $this->redirect($this->generateUrl('homepage'));
-                }
+                // On affiche message de validation dans le formulaire de redirection
+                $this->get('session')->getFlashBag()->add('notice', 'Inscription effectuée !');
+
+                //Retour a l'accueil
+                return $this->redirect($this->generateUrl('homepage'));
             }
+
+            //On génére le fichier final
+            $formView = $form->createView();
+
+            //on rend la vue
+            return $this->render('/contacts/inscription.html.twig', array('form' => $formView, 'contact' => $contact));
         }
+
     }
-
-
 }

@@ -253,39 +253,6 @@ class Entreprises
     }
 
     /**
-     * Add codecontact
-     *
-     * @param \AppBundle\Entity\Contacts $codecontact
-     *
-     * @return Entreprises
-     */
-    public function addCodecontact(\AppBundle\Entity\Contacts $codecontact)
-    {
-        $this->codecontact[] = $codecontact;
-
-        return $this;
-    }
-
-    /**
-     * Remove codecontact
-     *
-     * @param \AppBundle\Entity\Contacts $codecontact
-     */
-    public function removeCodecontact(\AppBundle\Entity\Contacts $codecontact)
-    {
-        $this->codecontact->removeElement($codecontact);
-    }
-
-    /**
-     * Get codecontact
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getCodecontact()
-    {
-        return $this->codecontact;
-    }
-    /**
      * @var \Doctrine\Common\Collections\Collection
      *
      *

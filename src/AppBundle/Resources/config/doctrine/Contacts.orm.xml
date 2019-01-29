@@ -39,6 +39,15 @@
         <option name="fixed"/>
       </options>
     </field>
-    <many-to-many field="codeentreprise" target-entity="Entreprises" mapped-by="codecontact" fetch="LAZY"/>
+    <field name="codeInscription" type="string" column="codeInscription" length="200" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <many-to-one field="codeentreprise" target-entity="Entreprises" fetch="LAZY">
+      <join-columns>
+        <join-column name="codeEntreprise" referenced-column-name="codeEntreprise" nullable="false" on-delete="CASCADE"/>
+      </join-columns>
+    </many-to-one>
   </entity>
 </doctrine-mapping>
