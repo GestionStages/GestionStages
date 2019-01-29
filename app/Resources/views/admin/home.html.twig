@@ -3,7 +3,7 @@
 {% block title %}Accueil admin{% endblock %}
 
 {% block body %}
-
+    <h3>PROPOSITIONS</h3>
     <div class="row">
         <div class="col-lg-3 col-xs-6">
             <!-- small box -->
@@ -11,12 +11,12 @@
                 <div class="inner">
                     <h3>{{ attenteValid }}</h3>
 
-                    <p>Propositions en attente</p>
+                    <p>En attente</p>
                 </div>
                 <div class="icon">
                     <span class="glyphicon glyphicon-time"></span>
                 </div>
-                {#<a href="" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>#}
+                <a href="{{ path('showAdminListAttente') }}" class="small-box-footer">Voir <i class="fa fa-arrow-circle-right"></i></a>
             </div>
         </div>
         <!-- ./col -->
@@ -26,12 +26,12 @@
                 <div class="inner">
                     <h3>{{ valid }}</h3>
 
-                    <p>Propositions validée(s)</p>
+                    <p>Validée(s)</p>
                 </div>
                 <div class="icon">
                     <i class="glyphicon glyphicon-ok-circle"></i>
                 </div>
-                {#<a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>#}
+                <a href="{{ path('showAdminListValid') }}" class="small-box-footer">Voir <i class="fa fa-arrow-circle-right"></i></a>
             </div>
         </div>
         <!-- ./col -->
@@ -41,12 +41,12 @@
                 <div class="inner">
                     <h3>{{ refuse }}</h3>
 
-                    <p>Propositions refusée(s)</p>
+                    <p>Refusée(s)</p>
                 </div>
                 <div class="icon">
                     <i class="glyphicon glyphicon-remove-circle"></i>
                 </div>
-                {#<a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>#}
+                <a href="{{ path('showAdminListRefuse') }}" class="small-box-footer">Voir <i class="fa fa-arrow-circle-right"></i></a>
             </div>
         </div>
         <!-- ./col -->
@@ -56,12 +56,12 @@
                 <div class="inner">
                     <h3>{{ archive }}</h3>
 
-                    <p>Propositions archivée(s)</p>
+                    <p>Archivée(s)</p>
                 </div>
                 <div class="icon">
                     <i class="glyphicon glyphicon-bookmark"></i>
                 </div>
-                {#<a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>#}
+                <a href="{{ path('showAdminListArchive') }}" class="small-box-footer">Voir <i class="fa fa-arrow-circle-right"></i></a>
             </div>
         </div>
         <!-- ./col -->
@@ -138,6 +138,102 @@
         <!-- /.box-body -->
         <div class="box-footer clearfix">
             <a href="{{ path('showAdminListAll') }}" class="btn btn-sm btn-default btn-flat pull-right">Voir toutes les propositions</a>
+        </div>
+        <!-- /.box-footer -->
+    </div>
+    <!-- /.box -->
+
+    <br/>
+
+    <h3>ENTREPRISES</h3>
+    <div class="row">
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-yellow">
+                <div class="inner">
+                    <h3>{{ entrepriseAttente }}</h3>
+
+                    <p>En attente</p>
+                </div>
+                <div class="icon">
+                    <span class="glyphicon glyphicon-time"></span>
+                </div>
+                <a href="{{ path('showEntreprisesEnAttente') }}" class="small-box-footer">Voir <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-green">
+                <div class="inner">
+                    <h3>{{ entrepriseValid }}</h3>
+
+                    <p>Validée(s)</p>
+                </div>
+                <div class="icon">
+                    <i class="glyphicon glyphicon-ok-circle"></i>
+                </div>
+                <a href="{{ path('showEntreprisesValid') }}" class="small-box-footer">Voir <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <!-- ./col -->
+    </div>
+
+    <!-- TABLE: Entreprises à valider -->
+    <div class="box box-warning">
+        <div class="box-header with-border">
+            <h3 class="box-title">Entreprises en attente de validation</h3>
+
+            <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+            </div>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+            <div class="table-responsive">
+
+                <table id="propositionsTable" class="table no-margin">
+                    <thead>
+                    <tr>
+                        <th>Statut</th>
+                        <th>Nom Entreprises</th>
+                        <th>Domaine(s) d'activité(s)</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for uneEntreprise in entreprises %}
+                        <tr>
+                            <td align="center"><br/><br/>
+                                <span class="label label-warning">{{ uneEntreprise.codeEtat.nomEtat }}</span>
+                            </td>
+                            <td>{{ uneEntreprise.nomentreprise }}</td>
+                            <td>{% for unDomaine in uneEntreprise.codeDomaine %}
+                                    {{ unDomaine.nomDomaine }}<br/>
+                                {% endfor %}</td>
+                            <td>
+                                <div class="btn-group-vertical">
+                                    <a href="{{ path('validEntreprise', {'id':uneEntreprise.codeentreprise}) }}" class="btn btn-success">
+                                        <i class="fa fa-check" aria-hidden="true"></i> Valider
+                                    </a>
+                                    <a href="#" class="btn btn-danger"data-toggle="modal" data-target="#deleteEntreprise-{{ uneEntreprise.codeentreprise }}">
+                                        <i class="fa fa-minus-circle" aria-hidden="true"></i> Refuser
+                                    </a>
+                                </div>
+                            </td>
+                            {% include 'admin/entreprises/modals/deleteEntrepriseModal.html.twig' %}
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.table-responsive -->
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer clearfix">
+            <a href="{{ path('showEntreprises') }}" class="btn btn-sm btn-default btn-flat pull-right">Voir toutes les entreprises</a>
         </div>
         <!-- /.box-footer -->
     </div>

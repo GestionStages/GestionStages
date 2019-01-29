@@ -6,6 +6,45 @@ use Doctrine\ORM\EntityRepository;
 
 class PropositionsRepository extends EntityRepository {
 
+    public function queryValid(){
+        return $this->createQueryBuilder('p')
+            ->where('p.codeetat=2');
+    }
+
+    public function findAllOrderDate(){
+        return $this->createQueryBuilder('p')
+            ->addorderBy('p.dateajout', 'DESC')
+            ->getQuery()->getResult();
+    }
+
+    public function findEnattente(){
+        return $this->createQueryBuilder('p')
+            ->where('p.codeetat=1')
+            ->addorderBy('p.titreproposition')
+            ->getQuery()->getResult();
+    }
+
+    public function findValid(){
+        return $this->createQueryBuilder('p')
+            ->where('p.codeetat=2')
+            ->addorderBy('p.titreproposition')
+            ->getQuery()->getResult();
+    }
+
+    public function findArchive(){
+        return $this->createQueryBuilder('p')
+            ->where('p.codeetat=4')
+            ->addorderBy('p.titreproposition')
+            ->getQuery()->getResult();
+    }
+
+    public function findRefuse(){
+        return $this->createQueryBuilder('p')
+            ->where('p.codeetat=5')
+            ->addorderBy('p.titreproposition')
+            ->getQuery()->getResult();
+    }
+
     public function nbEnAttenteValid()
     {
         $qb = $this->createQueryBuilder('a');

@@ -29,9 +29,14 @@ class AdminController extends Controller
             ->where('p.codeetat = 1')
             ->orderBy('p.dateajout', 'DESC')
             ->getQuery();
-
         $propositions = $query->getResult();
-        return $this->render('admin/home.html.twig', ['attenteValid'=>$attenteValid, 'valid'=>$valid, 'archive'=>$archive, 'affecte'=>$affecte, 'refuse'=>$refuse, 'propositions'=>$propositions]);
+
+        $repository = $this->getDoctrine()->getManager()->getRepository('AppBundle:Entreprises');
+        $nbEntrepriseEnAttente = $repository->nbEnAttente();
+        $nbEntrepriseValid = $repository->nbValid();
+        $entreprises = $repository->findEnattente();
+
+        return $this->render('admin/home.html.twig', ['attenteValid'=>$attenteValid, 'valid'=>$valid, 'archive'=>$archive, 'affecte'=>$affecte, 'refuse'=>$refuse, 'propositions'=>$propositions,'entrepriseValid'=>$nbEntrepriseValid,'entrepriseAttente'=>$nbEntrepriseEnAttente,'entreprises'=>$entreprises]);
     }
 
     /**
@@ -40,14 +45,61 @@ class AdminController extends Controller
      */
     public function showListAll()
     {
-        //TODO: A deplacer dans un repository !
-        $repository = $this->getDoctrine()->getRepository(Propositions::class);
+        $repository = $this->getDoctrine()->getManager()->getRepository('AppBundle:Propositions');
 
-        $query = $repository->createQueryBuilder('p')
-            ->orderBy('p.dateajout', 'DESC')
-            ->getQuery();
+        $propositions = $repository->findAllOrderDate();
 
-        $propositions = $query->getResult();
+        return $this->render('admin/propositions/list.html.twig',['propositions' => $propositions]);
+    }
+
+    /**
+     * @Route("/admin/offresAttente", name="showAdminListAttente")
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
+     */
+    public function showListAttente()
+    {
+        $repository = $this->getDoctrine()->getManager()->getRepository('AppBundle:Propositions');
+
+        $propositions = $repository->findEnattente();
+
+        return $this->render('admin/propositions/list.html.twig',['propositions' => $propositions]);
+    }
+
+    /**
+     * @Route("/admin/offresValid", name="showAdminListValid")
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
+     */
+    public function showListValid()
+    {
+        $repository = $this->getDoctrine()->getManager()->getRepository('AppBundle:Propositions');
+
+        $propositions = $repository->findValid();
+
+        return $this->render('admin/propositions/list.html.twig',['propositions' => $propositions]);
+    }
+
+    /**
+     * @Route("/admin/offresArchive", name="showAdminListArchive")
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
+     */
+    public function showListArchive()
+    {
+        $repository = $this->getDoctrine()->getManager()->getRepository('AppBundle:Propositions');
+
+        $propositions = $repository->findArchive();
+
+        return $this->render('admin/propositions/list.html.twig',['propositions' => $propositions]);
+    }
+
+    /**
+     * @Route("/admin/offresRefuse", name="showAdminListRefuse")
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
+     */
+    public function showListRefuse()
+    {
+        $repository = $this->getDoctrine()->getManager()->getRepository('AppBundle:Propositions');
+
+        $propositions = $repository->findRefuse();
 
         return $this->render('admin/propositions/list.html.twig',['propositions' => $propositions]);
     }
