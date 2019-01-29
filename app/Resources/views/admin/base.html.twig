@@ -168,18 +168,19 @@
         <section class="content-header">
             <h1>{{ block('title') }}</h1>
         </section>
-        {% for error in app.session.flashbag.get('error') %}
-            <div class="alert alert-error">
-                {{ error }}
-            </div>
-        {% endfor %}
-        {% for notice in app.session.flashbag.get('notice') %}
-            <div class="alert alert-success">
-                {{ notice }}
-            </div>
-        {% endfor %}
 
         <section class="content">
+            {% for error in app.session.flashbag.get('error') %}
+                <div class="alert alert-error">
+                    {{ error }}
+                </div>
+            {% endfor %}
+            {% for notice in app.session.flashbag.get('notice') %}
+                <div class="alert alert-success">
+                    {{ notice }}
+                </div>
+            {% endfor %}
+
             {% if form is defined %}
                 {% form_theme form 'bootstrap_3_layout.html.twig' %}
             {% endif %}

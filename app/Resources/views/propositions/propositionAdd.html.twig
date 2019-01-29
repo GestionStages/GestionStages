@@ -3,33 +3,31 @@
 {% block title %}Poster une offre{% endblock %}
 
 {% block body %}
-    <div class="container">
-        <h1>Poster une offre</h1>
-        {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+    <h1>Poster une offre</h1>
+    {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
 
-        {{ form_row(form.titreproposition) }}
-        {{ form_row(form.descriptionproposition) }}
-        {{ form_row(form.codeentreprise) }}
-        {{ form_row(form.titreproposition) }}
-        {{ form_row(form.titreproposition) }}
+    {{ form_row(form.titreproposition) }}
+    {{ form_row(form.descriptionproposition) }}
+    {{ form_row(form.codeentreprise) }}
+    {{ form_row(form.titreproposition) }}
+    {{ form_row(form.titreproposition) }}
 
-        <div class="form-group form-inline">
-            {{ form_label(form.codeclasse, "Classe(s) concernée(s)") }}
-            {% for classe in form.codeclasse %}
-                <div class="form-check form-check-inline">
-                    {{ form_row(classe) }}
-                </div>
-            {% endfor %}
-        </div>
-
-        {{ form_row(form.codetechnologie) }}
-        {{ form_row(form.file) }}
-        {{ form_row(form.commentaire) }}
-
-        <button type="submit" class="btn btn-primary btn-block" >Envoyer</button>
-
-        {{ form_end(form) }}
+    <div class="form-group form-inline">
+        {{ form_label(form.codeclasse, "Classe(s) concernée(s)") }}
+        {% for classe in form.codeclasse %}
+            <div class="form-check form-check-inline">
+                {{ form_row(classe) }}
+            </div>
+        {% endfor %}
     </div>
+
+    {{ form_row(form.codetechnologie) }}
+    {{ form_row(form.file) }}
+    {{ form_row(form.commentaire) }}
+
+    <button type="submit" class="btn btn-primary btn-block" >Envoyer</button>
+
+    {{ form_end(form) }}
 {% endblock %}
 
 {% block javascripts %}
