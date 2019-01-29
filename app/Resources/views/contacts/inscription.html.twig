@@ -2,30 +2,82 @@
 
 {% block title %}Inscription Contact Entreprise{% endblock %}
 
+
 {% block body %}
 
 
     <div class="box">
         <div class="box-body">
-            <form action="" method="post">
-                <h4>Inscription de {{ contact.nomContact }} {{ contact.prenomContact }}</h4><br/>
-                <div>
-                    <label for="email" class="title">Email</label>
-                    <input type="text" id="email" name="email" readonly="true" value="{{ contact.mailContact }}">
-                </div>
-                <div>
-                    <label for="password" class="title">Mot de passe</label>
-                    <input type="password" id="password" name="password">
-                </div>
-                <div>
-                    <label for="password2" class="title">Verification Mot de Passe</label>
-                    <input type="password" id="password2" name="password2">
-                </div>
-                <br/>
-                <div class="btn-group" role="group" aria-label="...">
-                    <button type="submit" class="btn btn-primary" >Valider</button>
-                </div>
-            </form>
+            <h4>Inscription de {{ contact.nomContact }} {{ contact.prenomContact }}</h4><br/>
+            {{ form_start(form, {'attr': {'novalidate': 'novalidate', 'onsubmit': 'return verifForm(this)'}}) }}
+
+            {{ form_label(form.mailcontact, "Mail :") }}
+            {{ form_errors(form.mailcontact) }}
+            {{ form_widget(form.mailcontact) }}
+
+            {{ form_label(form.mdpcontact, "Mot de passe : (8 caractères minimum) ") }}
+            {{ form_errors(form.mdpcontact) }}
+            {{ form_widget(form.mdpcontact, {'attr':{'onblur':'isNotEmpty(this)'}}) }}
+            <div>
+                <label for="password2" class="title">Verification Mot de Passe</label>
+                <input type="password" id="password2" name="password2" class="form-control" onblur="verifMdp(this)">
+                <div id="erreurVerifMdp" name="erreurVerifMdp"></div>
+            </div>
+            <br/>
+
+            <button type="submit" class="btn btn-primary btn-block" >Valider</button>
+
+            {{ form_end(form) }}
         </div>
     </div>
+{% endblock %}
+{% block javascripts %}
+<script type="text/javascript">
+    function isNotEmpty(champ){
+        var selectedChamp = champ.value;
+        if(selectedChamp !== "" && selectedChamp.length >= 8){
+            surligne(champ,false);
+            verifMdp(document.getElementById("password2"));
+            return true;
+        }
+        else{
+            verifMdp(document.getElementById("password2"));
+            surligne(champ, true);
+            return false;
+        }
+    }
+    function verifMdp(champ)
+    {
+        var verifmdp = champ.value;
+        var mdp = document.getElementById("appbundle_contacts_mdpcontact").value;
+        if(verifmdp === "" || verifmdp !== mdp || verifmdp.length < 8){
+            surligne(champ, true);
+            return false;
+        }else {
+            surligne(champ, false);
+            return true;
+        }
+    }
+
+    function verifForm(f){
+        var mdpOk = isNotEmpty(document.getElementById("appbundle_contacts_mdpcontact"));
+        var verifMdpOk = verifMdp(document.getElementById("password2"));
+
+        if(mdpOk && verifMdpOk){
+            return true;
+        }else{
+            alert("Veuillez remplir correctement tous les champs");
+            return false;
+        }
+    }
+
+    function surligne(champ, erreur)
+    {
+        if(erreur)
+            champ.style.border= "#FF0000 2px solid";
+        else
+            champ.style.border = "#2CDA16 2px solid";
+    }
+
+</script>
 {% endblock %}

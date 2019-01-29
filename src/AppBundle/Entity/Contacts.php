@@ -270,6 +270,12 @@ class Contacts implements UserInterface
     /**
      * @var string
      * @ORM\Column(name="mdpContact", type="string", length=255, nullable=true)
+     * @Assert\NotBlank(message="Le mot de passe est obligatoire.",groups={"inscription"})
+     * @Assert\Length(
+     *     min = 8,
+     *     minMessage = "Le mot de passe doit faire au minimum {{ limit }} caractères.",
+     *     groups={"inscription"}
+     *     )
      *
      */
     private $mdpcontact;

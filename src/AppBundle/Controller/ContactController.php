@@ -10,6 +10,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Contacts;
 use AppBundle\Entity\Entreprises;
+use AppBundle\Form\ContactInscriptionType;
 use AppBundle\Form\ContactsType;
 use AppBundle\Form\EntreprisesType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -201,45 +202,46 @@ class ContactController extends Controller
      * @return Response
      * @Route("/contacts/inscrire/{codeInscription}", name="inscrireContact")
      */
-    public function inscrire(Request $request, UserPasswordEncoderInterface $encoder){
+    public function inscrire(Request $request, UserPasswordEncoderInterface $encoder)
+    {
         $repository = $this->getDoctrine()
             ->getRepository(Contacts::class);
         $contact = $repository->createQueryBuilder('c')
             ->where('c.codeInscription = :codeInscription')
-            ->setParameter('codeInscription', $request->get('codeInscription') )
+            ->setParameter('codeInscription', $request->get('codeInscription'))
             ->getQuery()
             ->getOneOrNullResult();
 
-        if($contact->getMdpcontact() != null){
-            $this->get('session')->getFlashBag()->add('error','Inscription déjà effectuée !');
+        $form = $this->createForm(ContactInscriptionType::class, $contact);
+        $form->handleRequest($request);
+
+        if ($contact->getMdpcontact() != null) {
+            $this->get('session')->getFlashBag()->add('error', 'Inscription déjà effectuée !');
             return $this->redirect($this->generateUrl('homepage'));
-        }
-        else{
-            if(!$request->get('password')){
+        } else {
+            //si le formulaire a été soumis
+            if ($form->isSubmitted() && $form->isValid()) {
 
-                return $this->render('/contacts/inscription.html.twig', ['contact' => $contact]);
+                //on enregistre le mdp du contact dans la bdd
+                $em = $this->getDoctrine()->getManager();
+                $hash = $encoder->encodePassword($contact, $request->get('password'));
+                $contact->setMdpcontact($hash);
+                $em->persist($contact);
+                $em->flush();
+
+                // On affiche message de validation dans le formulaire de redirection
+                $this->get('session')->getFlashBag()->add('notice', 'Inscription effectuée !');
+
+                //Retour a l'accueil
+                return $this->redirect($this->generateUrl('homepage'));
             }
-            else{
-                if($request->get('password') != $request->get('password2')){
-                    $this->get('session')->getFlashBag()->add('error','Mots de passe différents');
-                    return $this->render('/contacts/inscription.html.twig', ['contact' => $contact]);
-                }
-                else{
-                    //On encrypte le mot de passe
-                    $hash = $encoder->encodePassword($contact, $request->get('password'));
-                    $contact->setMdpcontact($hash);
 
-                    $em = $this-> getDoctrine()->getManager();
-                    $em->persist($contact);
-                    $em->flush();
+            //On génére le fichier final
+            $formView = $form->createView();
 
-                    // On affiche message de validation dans le formulaire de redirection
-                    $this->get('session')->getFlashBag()->add('notice','Inscription enregistée !');
-                    return $this->redirect($this->generateUrl('homepage'));
-                }
-            }
+            //on rend la vue
+            return $this->render('/contacts/inscription.html.twig', array('form' => $formView, 'contact' => $contact));
         }
+
     }
-
-
 }
