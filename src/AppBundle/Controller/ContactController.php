@@ -52,8 +52,8 @@ class ContactController extends Controller
         //On crée un nouveau contact
         $contact = new Contacts();
 
-        // On affecte l'entreprise au contact
-        $entreprise->addCodeContact($contact);
+        // On affecte le contact a l'entreprise
+        $contact->setCodeentreprise($entreprise);
 
         //On récupère le form
         $form = $this->createForm(ContactsType::class, $contact);
@@ -83,7 +83,7 @@ class ContactController extends Controller
             $this->get('session')->getFlashBag()->add('notice','Le contact ('.$contact->getNomcontact(). " " . $contact->getPrenomcontact() . ') est ajouté !');
 
             //Retourne form de la liste des contacts de l'entreprise
-            return $this->redirectToRoute('showContacts', ['id' => $entreprise->getCodeEntreprise()]);
+            return $this->redirectToRoute('showContacts', ['id' => $entreprise->getCodeentreprise()]);
         }
 
         //On génére le fichier final
@@ -128,7 +128,7 @@ class ContactController extends Controller
                 $this->get('session')->getFlashBag()->add('notice','Contact ('.$contact->getNomcontact() . " " . $contact->getPrenomcontact() .') modifié !');
 
             // Retourne form de la liste des contacts de l'entreprise
-            return $this->redirectToRoute('showContacts',['id' => $entreprise->getCodeEntreprise()]);
+            return $this->redirectToRoute('showContacts',['id' => $entreprise->getCodeentreprise()]);
         }
 
             //On génére le fichier final
@@ -158,7 +158,6 @@ class ContactController extends Controller
            // Cette ligne permet de récupérer directement l'objet et non un tableau avec l'objet à l'interieur
             ->getOneOrNullResult();
 
-
         // On supprime et sauvegarde modifications
         $em = $this-> getDoctrine()->getManager();
         $em->remove($contact);
@@ -167,7 +166,7 @@ class ContactController extends Controller
         $this->get('session')->getFlashBag()->add('notice','Le contact (' . $contact->getNomcontact() . ' ' . $contact->getPrenomcontact() . ') à été supprimé !');
 
         //Retourne form de la liste des contact de l'entreprise
-        return $this->render('admin/contacts/contactsShow.html.twig', ['contacts'=>$entreprise->getCodecontact(), 'entreprise' => $entreprise] );
+        return $this->redirectToRoute('showContacts', ['id' => $entreprise->getCodeentreprise()]);
 
     }
 
@@ -185,12 +184,14 @@ class ContactController extends Controller
         if($session->get('entreprise') != $entreprise->getCodeentreprise()){
             $session->set('entreprise',$entreprise->getCodeentreprise());
         }
-
-        $repository = $this->getDoctrine()->getRepository(Contacts::class);
-        $contacts = [];
-        foreach ($entreprise->getCodecontact() as $contact) {
-            $contacts[] = $repository->find($contact->getCodeContact());
-        }
+        $repository = $this->getDoctrine()
+            ->getRepository(Contacts::class);
+        // recupere l'entreprise avec l'id stocké en session
+        $contacts = $repository->createQueryBuilder('c')
+            ->where('c.codeentreprise = :entreprise')
+            ->setParameter('entreprise', $session->get('entreprise'))
+            ->getQuery()
+            ->getResult();
 
         return $this->render('admin/contacts/contactsShow.html.twig',['contacts' => $contacts, 'entreprise' => $entreprise]);
 

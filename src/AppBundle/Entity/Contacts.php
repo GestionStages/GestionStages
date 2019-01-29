@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Contacts
  *
- * @ORM\Table(name="contacts")
+ * @ORM\Table(name="contacts", indexes={@ORM\Index(name="fk_codeEntreprise", columns={"codeEntreprise"})})
  * @ORM\Entity
  */
 class Contacts implements UserInterface
@@ -82,19 +82,16 @@ class Contacts implements UserInterface
     private $codecontact;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var \AppBundle\Entity\Entreprises
      *
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Entreprises", mappedBy="codecontact")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Entreprises")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="codeEntreprise", referencedColumnName="codeEntreprise", nullable=false, onDelete="CASCADE")
+     * })
+     *
+     * @Assert\NotBlank(message="L'entreprise est obligatoire.")
      */
     private $codeentreprise;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->codeentreprise = new \Doctrine\Common\Collections\ArrayCollection();
-    }
 
 
     /**
@@ -204,38 +201,29 @@ class Contacts implements UserInterface
     }
 
     /**
-     * Add codeentreprise
+     * Set codeentreprise
      *
      * @param \AppBundle\Entity\Entreprises $codeentreprise
      *
      * @return Contacts
      */
-    public function addCodeentreprise(\AppBundle\Entity\Entreprises $codeentreprise)
+    public function setCodeentreprise(\AppBundle\Entity\Entreprises $codeentreprise)
     {
-        $this->codeentreprise[] = $codeentreprise;
+        $this->codeentreprise = $codeentreprise;
 
         return $this;
     }
 
     /**
-     * Remove codeentreprise
-     *
-     * @param \AppBundle\Entity\Entreprises $codeentreprise
-     */
-    public function removeCodeentreprise(\AppBundle\Entity\Entreprises $codeentreprise)
-    {
-        $this->codeentreprise->removeElement($codeentreprise);
-    }
-
-    /**
      * Get codeentreprise
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return \AppBundle\Entity\Entreprises
      */
     public function getCodeentreprise()
     {
         return $this->codeentreprise;
     }
+
     /**
      * @var string
      * @ORM\Column(name="posteContact", type="string", length=50, nullable=false)
@@ -420,4 +408,5 @@ class Contacts implements UserInterface
     {
         return $this->codeInscription;
     }
+
 }
