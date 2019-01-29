@@ -181,9 +181,11 @@
                         </span>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a href="{{ path('showEntreprises') }}"><i class="fa fa-circle-o"></i> Liste des entreprises</a></li>
-                        <li><a href="{{ path('showEntreprisesBlackList') }}"><i class="fa fa-circle-o"></i> Blacklist</a></li>
-                        <li><a href="{{ path('showDomaineActivite') }}"><i class="fa fa-circle-o"></i> Domaines d'activité</a></li>
+                        <li><a href="{{ path('showEntreprises') }}"><i class="fa fa-circle-o"></i> Toutes les entreprises</a></li>
+                        <li><a href="{{ path('showEntreprisesEnAttente') }}"><i class="fa fa-circle"></i> En attente</a></li>
+                        <li><a href="{{ path('showEntreprisesValid') }}"><i class="fa fa-circle"></i> Validées</a></li>
+                        <li><a href="{{ path('showEntreprisesBlackList') }}"><i class="fa fa-circle"></i> Blacklist</a></li>
+                        <li><a href="{{ path('showDomaineActivite') }}"><i class="fa fa-circle-o"></i> Domaines d'activités</a></li>
                     </ul>
                 </li>
                 <li><a href="{{ path('showClasses') }}"><i class="fa fa-mortar-board"></i> <span>Gestion des classes</span></a></li>
