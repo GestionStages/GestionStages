@@ -103,6 +103,20 @@ class AdminController extends Controller
 
         return $this->render('admin/propositions/list.html.twig',['propositions' => $propositions]);
     }
+
+    /**
+     * @Route("admin/propositions/{id}", name="AdminPropositionbyid", requirements={"id"="\d+"})
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
+     */
+    public function showPropositionById($id)
+    {
+        $proposition = $this->getDoctrine()
+            ->getRepository('AppBundle:Propositions')
+            ->find($id);
+
+        return $this->render('admin/propositions/propositionShow.html.twig',['proposition' => $proposition]);
+    }
+
     /**
      * @Route("/admin/stat", name="statAdmin")
      * @IsGranted("IS_AUTHENTICATED_REMEMBERED")

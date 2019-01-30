@@ -51,7 +51,7 @@ class ClassesController extends Controller
                 $this->get('session')->getFlashBag()->add('notice','Classe ('.$classe->getNomclasse().') ajoutée !');
                 return $this->redirect($this->generateUrl('showClasses'));
             }
-            $this->get('session')->getFlashBag()->add('notice','La période du stage est incorrecte !');
+            $this->get('session')->getFlashBag()->add('error','La période du stage est incorrecte !');
             return $this->render('admin/classes/classeAdd.html.twig', array('form'=>$form->createView()));
         }
 
@@ -89,6 +89,7 @@ class ClassesController extends Controller
                 // Retourne form de la liste des classes
                 return $this->redirect($this->generateUrl('showClasses'));
             }
+            $this->get('session')->getFlashBag()->add('error','La période du stage est incorrecte !');
         }
 
 
