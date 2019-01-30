@@ -164,6 +164,10 @@ class Classes
     /**
      * @var \DateTime
      * @ORM\Column(name="dateFinStage", type="date", nullable=true)
+     * @Assert\GreaterThan(
+     *     propertyPath="dateDebStage",
+     *     message="La date de fin doit être supérieure à celle de début"
+     * )
      */
     private $dateFinStage;
 

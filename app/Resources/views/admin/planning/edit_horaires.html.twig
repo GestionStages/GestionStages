@@ -1,0 +1,23 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Gérer les horaires de soutenance{% endblock %}
+
+{% block body %}
+    <div class="box">
+        <div class="box-body">
+            {{ form_start(form) }}
+
+            {{ form_row(form.planning_startdate) }}
+            {{ form_row(form.planning_enddate) }}
+            {{ form_row(form.planning_starthourAm) }}
+            {{ form_row(form.planning_endhourAm) }}
+            {{ form_row(form.planning_starthourPm) }}
+            {{ form_row(form.planning_endhourPm) }}
+            {{ form_row(form.planning_timeinterval) }}
+
+            <input type="submit" class="btn btn-primary btn-block" value="Envoyer" />
+
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}
