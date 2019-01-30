@@ -17,7 +17,13 @@
                 <tbody>
                 {% for uneProposition in propositions %}
                     <tr>
-                        <td><a href="{{ url('afficherPropositionbyid', {'id': uneProposition.codeproposition }) }}">{{ uneProposition.titreproposition }}</a></td>
+                        <td><a href="{{ url('afficherPropositionbyid', {'id': uneProposition.codeproposition }) }}">
+                            {% if uneProposition.titreproposition|length > 30 %}
+                                {{ uneProposition.titreproposition[:30] }}...
+                            {% else %}
+                                {{ uneProposition.titreproposition }}
+                            {% endif %}
+                        </a></td>
                         <td>{{ uneProposition.codeentreprise.nomentreprise }}</td>
                         <td>
                             {% if uneProposition.codeEtudiant is null %}

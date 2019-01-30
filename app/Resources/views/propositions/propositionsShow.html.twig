@@ -22,8 +22,8 @@
                 {% for uneProposition in propositions  %}
                     <tr>
                         <td><a href="{{ path('afficherPropositionbyid', {'id': uneProposition.codeproposition}) }}">
-                            {% if uneProposition.titreproposition|length > 15 %}
-                                {{ uneProposition.titreproposition[:15] }}...
+                            {% if uneProposition.titreproposition|length > 30 %}
+                                {{ uneProposition.titreproposition[:30] }}...
                             {% else %}
                                 {{ uneProposition.titreproposition }}
                             {% endif %}
