@@ -38,19 +38,13 @@ class ClassesController extends Controller
 
         //si le formulaire est validé
         if($form->isSubmitted() && $form->isValid()){
-            // on verifie que la dateFin ne soit pas inferieur a la dateDeb
-            if ($form->getData()->getDateFinStage() > $form->getData()->getDateDebStage()){
+            // on enregistre la classe en BDD
+            $em->persist($classe);
+            $em->flush();
 
-                // on enregistre la classe en BDD
-                $em->persist($classe);
-                $em->flush();
-
-                // On affiche message de validation dans le formulaire de redirection
-                $this->get('session')->getFlashBag()->add('notice','Classe ('.$classe->getNomclasse().') ajoutée !');
-                return $this->redirect($this->generateUrl('showClasses'));
-            }
-            $this->get('session')->getFlashBag()->add('notice','La période du stage est incorrecte !');
-            return $this->render('admin/classes/classeAdd.html.twig', array('form'=>$form->createView()));
+            // On affiche message de validation dans le formulaire de redirection
+            $this->get('session')->getFlashBag()->add('notice','Classe ('.$classe->getNomclasse().') ajoutée !');
+            return $this->redirect($this->generateUrl('showClasses'));
         }
 
         //generer HTML du form
@@ -75,18 +69,15 @@ class ClassesController extends Controller
 
         //si le formulaire a été soumis
         if($form->isSubmitted() && $form->isValid()){
-            // on verifie que la dateFin ne soit pas inferieur a la dateDeb
-            if ($form->getData()->getDateFinStage() > $form->getData()->getDateDebStage()) {
-                //on enregistre la classe dans la bdd
-                $em->flush();
+            //on enregistre la classe dans la bdd
+            $em->flush();
 
-                //Envoi un message de validation
-                $this->get('session')->getFlashBag()->add('notice',
-                    'Classe (' . $classe->getNomclasse() . ') modifiée !');
+            //Envoi un message de validation
+            $this->get('session')->getFlashBag()->add('notice',
+                'Classe (' . $classe->getNomclasse() . ') modifiée !');
 
-                // Retourne form de la liste des classes
-                return $this->redirect($this->generateUrl('showClasses'));
-            }
+            // Retourne form de la liste des classes
+            return $this->redirect($this->generateUrl('showClasses'));
         }
 
 
