@@ -2,8 +2,10 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Properties;
 use AppBundle\Entity\Propositions;
 use AppBundle\Entity\Etat;
+use AppBundle\Form\InfosGeneralesType;
 use AppBundle\Form\PropositionsType;
 use Doctrine\Common\Persistence\ObjectManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -161,30 +163,24 @@ class AdminController extends Controller
      * @return \Symfony\Component\HttpFoundation\Response
      */
 
-    public function editInfosAction(Request $request) {
-        $infos = $request->request->get('infos');
-        $titre = $request->request->get('titre');
-        // Si la valeur est null, le form n'as pas était validé
-        if($infos != null and $titre != null)
-        {
-            // on ouvre le fichier infos en écrasant l'ancienne valeur (w+)
-            $fichierInfos = fopen(realpath('../app/Resources/views/admin/infosGenerales/infoGenerales.html.twig'),'w+');
-            // on ecrit la nouvelle valeur
-            fwrite($fichierInfos, $infos);
-            // on ferme le fichier
-            fclose($fichierInfos);
+    public function editInfosAction(Request $request, ObjectManager $em) {
+        $properties = $this->getDoctrine()->getRepository(Properties::class)->find(1);
+        $form = $this->createForm(InfosGeneralesType::class, $properties);
+        $form->handleRequest($request);
 
-            // on ouvre le fichier titre en écrasant l'ancienne valeur (w+)
-            $fichierTitre = fopen(realpath('../app/Resources/views/admin/infosGenerales/titreInfoGenerales.html.twig'),'w+');
-            // on ecrit la nouvelle valeur
-            fwrite($fichierTitre, $titre);
-            // on ferme le fichier
-            fclose($fichierTitre);
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $em->flush();
 
             $this->get('session')->getFlashBag()->add('notice','Modification de l\'accueil enregistrée !');
             return $this->redirectToRoute('homepage');
 
         }
-        return $this->render('admin/infosGenerales/infoGeneralesEdit.html.twig', array('infos'=> file_get_contents(realpath('../app/Resources/views/admin/infosGenerales/infoGenerales.html.twig')),'titre'=> file_get_contents(realpath('../app/Resources/views/admin/infosGenerales/titreInfoGenerales.html.twig'))));
+
+        $formview = $form->createView();
+
+        return $this->render('admin/infosGenerales/infoGeneralesEdit.html.twig', [
+            'form' => $formview
+        ]);
     }
 }

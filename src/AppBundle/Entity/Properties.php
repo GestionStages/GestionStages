@@ -85,7 +85,12 @@ class Properties
     private $planning_timeinterval;
 
     /**
-     * @ORM\Column(name="home_title", type="string", length=255)
+     * @ORM\Column(name="home_title", type="string", length=1024)
+     * @Assert\Length(
+     *     max="1024",
+     *     maxMessage="Le titre ne peut dépasser 1024 caractères",
+     *     groups={"infosGenerales"}
+     * )
      */
     private $home_title;
 
