@@ -44,7 +44,7 @@ class AdminController extends Controller
 
     /**
      * @Route("/admin/offres", name="showAdminListAll")
-     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
+     * @IsGranted("ROLE_RESPSTAGES")
      */
     public function showListAll()
     {
@@ -56,7 +56,7 @@ class AdminController extends Controller
 
     /**
      * @Route("/admin/offresAttente", name="showAdminListAttente")
-     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
+     * @IsGranted("ROLE_RESPSTAGES")
      */
     public function showListAttente()
     {
@@ -69,7 +69,7 @@ class AdminController extends Controller
 
     /**
      * @Route("/admin/offresValid", name="showAdminListValid")
-     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
+     * @IsGranted("ROLE_RESPSTAGES")
      */
     public function showListValid()
     {
@@ -82,7 +82,7 @@ class AdminController extends Controller
 
     /**
      * @Route("/admin/offresArchive", name="showAdminListArchive")
-     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
+     * @IsGranted("ROLE_RESPSTAGES")
      */
     public function showListArchive()
     {
@@ -95,7 +95,7 @@ class AdminController extends Controller
 
     /**
      * @Route("/admin/offresRefuse", name="showAdminListRefuse")
-     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
+     * @IsGranted("ROLE_RESPSTAGES")
      */
     public function showListRefuse()
     {
@@ -108,7 +108,7 @@ class AdminController extends Controller
 
     /**
      * @Route("admin/propositions/{id}", name="AdminPropositionbyid", requirements={"id"="\d+"})
-     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
+     * @IsGranted("ROLE_RESPSTAGES")
      */
     public function showPropositionById($id)
     {
@@ -121,7 +121,7 @@ class AdminController extends Controller
 
     /**
      * @Route("/admin/stat", name="statAdmin")
-     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
+     * @IsGranted("ROLE_RESPSTAGES")
      */
     public function statAdmin()
     {
@@ -136,7 +136,7 @@ class AdminController extends Controller
      * @param Request $request
      * @param Propositions $proposition
      * @Route("/admin/propositions/{id}/edit", name="editPropositionAdmin", requirements={"id"="\d+"})
-     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
+     * @IsGranted("ROLE_RESPSTAGES")
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
     public function edit(Request $request, Propositions $proposition, ObjectManager $em)
@@ -168,7 +168,7 @@ class AdminController extends Controller
 
     /**
      * @Route("/admin/offres/{id}/valid", name="validProposition", requirements={"id"="\d+"})
-     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
+     * @IsGranted("ROLE_RESPSTAGES")
      * @param Propositions $proposition
      * @param ObjectManager $em
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
@@ -188,7 +188,7 @@ class AdminController extends Controller
 
     /**
      * @Route("/admin/offres/{id}/reject", name="rejectProposition", requirements={"id"="\d+"})
-     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
+     * @IsGranted("ROLE_RESPSTAGES")
      * @param Propositions $proposition
      * @param ObjectManager $em
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
@@ -208,7 +208,7 @@ class AdminController extends Controller
 
     /**
      * @Route("/admin/offres/{id}/archive", name="archiveProposition", requirements={"id"="\d+"})
-     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
+     * @IsGranted("ROLE_RESPSTAGES")
      * @param $id
      * @param ObjectManager $em
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
@@ -228,7 +228,7 @@ class AdminController extends Controller
 
     /**
      * @Route("/admin/accueil/edit", name="editinfos")
-     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
+     * @IsGranted("ROLE_RESPSTAGES")
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */

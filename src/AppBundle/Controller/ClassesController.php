@@ -22,7 +22,7 @@ class ClassesController extends Controller
     /**
      *
      * @Route("/admin/classes/add", name="addClasse")
-     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
+     * @IsGranted("ROLE_RESPSTAGES")
      * @param Request $request
      * @param ObjectManager $em
      * @return \Symfony\Component\HttpFoundation\Response
@@ -60,7 +60,7 @@ class ClassesController extends Controller
      * @param ObjectManager $em
      * @return Response
      * @Route("/admin/classes/{id}/edit", name="editClasse")
-     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
+     * @IsGranted("ROLE_RESPSTAGES")
      */
     public function edit(Request $request, Classes $classe, ObjectManager $em){
         $form = $this->createForm(ClassesType::class, $classe);
@@ -93,7 +93,7 @@ class ClassesController extends Controller
      * @param ObjectManager $em
      * @return Response
      * @Route("/admin/classes/{id}/delete", name="deleteClasse")
-     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
+     * @IsGranted("ROLE_RESPSTAGES")
      */
     public function delete(Classes $classe, ObjectManager $em){
         $em->remove($classe);
@@ -107,7 +107,7 @@ class ClassesController extends Controller
 
     /**
      * @Route("/admin/classes/", name="showClasses")
-     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
+     * @IsGranted("ROLE_RESPSTAGES")
      * @return Response
      */
     public function showClasses()

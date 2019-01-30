@@ -106,7 +106,7 @@ class PropositionsController extends Controller
 
     /**
      * @Route("/propositions/{id}/affecterEtudiant", name="affecterEtudiant", requirements={"id"="\d+"})
-     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
+     * @IsGranted("ROLE_RESPSTAGES")
      * @param Request $request
      * @param ObjectManager $em
      * @return \Symfony\Component\HttpFoundation\Response
@@ -133,7 +133,7 @@ class PropositionsController extends Controller
 
     /**
      * @Route("/propositions/{id}/desaffecterEtudiant", name="desaffecterEtudiant", requirements={"id"="\d+"})
-     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
+     * @IsGranted("ROLE_RESPSTAGES")
      * @param Request $request
      * @param ObjectManager $em
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
@@ -150,7 +150,7 @@ class PropositionsController extends Controller
 
     /**
      * @Route("/propositions/{id}/affecterProfesseur", name="affecterProfesseur", requirements={"id"="\d+"})
-     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
+     * @IsGranted("ROLE_RESPSTAGES")
      * @param Request $request
      * @param ObjectManager $em
      * @return \Symfony\Component\HttpFoundation\Response
@@ -177,7 +177,7 @@ class PropositionsController extends Controller
 
     /**
      * @Route("/propositions/{id}/desaffecterProfesseur", name="desaffecterProfesseur", requirements={"id"="\d+"})
-     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
+     * @IsGranted("ROLE_RESPSTAGES")
      * @param Request $request
      * @param ObjectManager $em
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
@@ -198,7 +198,7 @@ class PropositionsController extends Controller
      * @param ObjectManager $em
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      * @Route("/propositions/{id}/edit", name="editProposition", requirements={"id"="\d+"})
-     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
+     * @IsGranted("ROLE_RESPSTAGES")
      */
     public function edit(Request $request, Propositions $proposition, ObjectManager $em)
     {
@@ -310,7 +310,7 @@ class PropositionsController extends Controller
 
     /**
      * @Route("/propositions/{id}/convention", name="generateconvention", requirements={"id"="\d+"})
-     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
+     * @IsGranted("ROLE_RESPSTAGES")
      * @param Propositions $proposition
      * @return string|\Symfony\Component\HttpFoundation\RedirectResponse
      */

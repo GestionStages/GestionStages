@@ -23,7 +23,7 @@ class EntreprisesController extends Controller
 
     /**
      * @Route("/admin/entreprises/add", name="addEntreprise")
-     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
+     * @IsGranted("ROLE_RESPSTAGES")
      * @param Request $request
      * @param ObjectManager $em
      * @return \Symfony\Component\HttpFoundation\Response
@@ -67,7 +67,7 @@ class EntreprisesController extends Controller
      * @param ObjectManager $em
      * @return Response
      * @Route("/admin/entreprises/{id}/edit", name="editEntreprise")
-     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
+     * @IsGranted("ROLE_RESPSTAGES")
      */
     public function edit(Request $request, Entreprises $entreprise, ObjectManager $em){
         $form = $this->createForm(EntreprisesType::class, $entreprise);
@@ -98,7 +98,7 @@ class EntreprisesController extends Controller
      * @param ObjectManager $em
      * @return Response
      * @Route("/admin/entreprises/{id}/blacklist", name="blackListEntreprise")
-     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
+     * @IsGranted("ROLE_RESPSTAGES")
      */
     public function blackListEntreprise(Entreprises $entreprise, ObjectManager $em){
         //modification de l'attribut blacklist de l'objet
@@ -116,7 +116,7 @@ class EntreprisesController extends Controller
      * @param ObjectManager $em
      * @return Response
      * @Route("/admin/entreprises/{id}/noblacklist", name="noBlackListEntreprise")
-     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
+     * @IsGranted("ROLE_RESPSTAGES")
      */
     public function noblackListEntreprise(Entreprises $entreprise, ObjectManager $em){
         //modification de l'attribut blacklist de l'objet
@@ -132,7 +132,7 @@ class EntreprisesController extends Controller
     /**
      * @Route("/admin/entreprises", name="showEntreprises")
      * @return Response
-     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
+     * @IsGranted("ROLE_RESPSTAGES")
      */
     public function showEntreprises()
     {
@@ -147,7 +147,7 @@ class EntreprisesController extends Controller
     /**
      * @Route("/admin/entreprisesEnAttente", name="showEntreprisesEnAttente")
      * @return Response
-     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
+     * @IsGranted("ROLE_RESPSTAGES")
      */
     public function showEntreprisesEnAttente()
     {
@@ -161,7 +161,7 @@ class EntreprisesController extends Controller
     /**
      * @Route("/admin/entreprisesValid", name="showEntreprisesValid")
      * @return Response
-     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
+     * @IsGranted("ROLE_RESPSTAGES")
      */
     public function showEntreprisesValid()
     {
@@ -175,7 +175,7 @@ class EntreprisesController extends Controller
     /**
      * @Route("/admin/entreprisesBlackList", name="showEntreprisesBlackList")
      * @return Response
-     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
+     * @IsGranted("ROLE_RESPSTAGES")
      */
     public function showEntreprisesBlackList()
     {
@@ -189,7 +189,7 @@ class EntreprisesController extends Controller
 
     /**
      * @Route("/admin/entreprises/{id}/delete", name="deleteEntreprise")
-     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
+     * @IsGranted("ROLE_RESPSTAGES")
      * @param Entreprises $entreprise
      * @param ObjectManager $manager
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
@@ -277,7 +277,7 @@ class EntreprisesController extends Controller
 
     /**
      * @Route("/admin/entreprises/{id}/reject", name="rejectEntreprise", requirements={"id"="\d+"})
-     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
+     * @IsGranted("ROLE_RESPSTAGES")
      */
     public function rejectEntreprise($id)
     {
@@ -294,7 +294,7 @@ class EntreprisesController extends Controller
 
     /**
      * @Route("/admin/entreprises/{id}/valid", name="validEntreprise", requirements={"id"="\d+"})
-     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
+     * @IsGranted("ROLE_RESPSTAGES")
      */
     public function validEntreprise($id)
     {

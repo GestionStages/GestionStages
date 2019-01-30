@@ -16,7 +16,7 @@ class DomaineactiviteController extends Controller
 {
     /**
      * @Route("/admin/domaineactivite/add", name="addDomaineActivite")
-     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
+     * @IsGranted("ROLE_RESPSTAGES")
      * @param Request $request
      * @param ObjectManager $em
      * @return \Symfony\Component\HttpFoundation\Response
@@ -57,7 +57,7 @@ class DomaineactiviteController extends Controller
 
     /**
      * @Route("/admin/domaineactivite/show", name="showDomaineActivite")
-     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
+     * @IsGranted("ROLE_RESPSTAGES")
      */
     public function showDomaineActivite(){
         $domainesActivites = $this->getDoctrine()->getRepository('AppBundle:Domaineactivite')->findAll();
@@ -71,7 +71,7 @@ class DomaineactiviteController extends Controller
      * @param ObjectManager $em
      * @return Response
      * @Route("/admin/domaineactivite/{id}/edit", name="editDomaineActivite")
-     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
+     * @IsGranted("ROLE_RESPSTAGES")
      */
     public function edit(Request $request, Domaineactivite $domaineactivite, ObjectManager $em){
         $form = $this->createForm(DomaineactiviteType::class, $domaineactivite);
@@ -105,7 +105,7 @@ class DomaineactiviteController extends Controller
      * @param ObjectManager $em
      * @return Response
      * @Route("/admin/domaineactivite/{id}/delete", name="deleteDomaineActivite")
-     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
+     * @IsGranted("ROLE_RESPSTAGES")
      */
     public function delete(Domaineactivite $domaineactivite, ObjectManager $em){
         $em->remove($domaineactivite);

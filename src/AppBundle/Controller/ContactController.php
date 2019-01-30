@@ -27,7 +27,7 @@ class ContactController extends Controller
     /**
      *
      * @Route("/admin/contact/add", name="addContact")
-     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
+     * @IsGranted("ROLE_RESPSTAGES")
      * @param Request $request
      * @param SessionInterface $session
      * @param \Swift_Mailer $mailer
@@ -93,7 +93,7 @@ class ContactController extends Controller
      * @param ObjectManager $em
      * @return Response
      * @Route("/admin/contacts/{id}/edit", name="editContact")
-     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
+     * @IsGranted("ROLE_RESPSTAGES")
      */
     public function edit(Request $request, Contacts $contact, SessionInterface $session, ObjectManager $em){
         $form = $this->createForm(ContactsType::class, $contact);
@@ -130,7 +130,7 @@ class ContactController extends Controller
      * @param ObjectManager $em
      * @return Response
      * @Route("/admin/contacts/{id}/deleteContact", name="deleteContact")
-     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
+     * @IsGranted("ROLE_RESPSTAGES")
      */
     public function delete(Contacts $contact, SessionInterface $session, ObjectManager $em){
         $repository = $this->getDoctrine()
@@ -153,7 +153,7 @@ class ContactController extends Controller
 
     /**
      * @Route("/entreprises/{id}/contacts", name="showContacts")
-     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
+     * @IsGranted("ROLE_RESPSTAGES")
      * @param Entreprises $entreprise
      * @param SessionInterface $session
      * @return Response
