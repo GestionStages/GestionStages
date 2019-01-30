@@ -29,7 +29,7 @@
                             {% if (uneProposition.codeEtat.codeEtat == 4) %}<span class="label label-default">{{ uneProposition.codeEtat.nomEtat }}</span> {% endif %}
                             {% if (uneProposition.codeEtat.codeEtat == 5) %}<span class="label label-danger">{{ uneProposition.codeEtat.nomEtat }}</span> {% endif %}
                         </td>
-                        <td><a href="{{ path("afficherPropositionbyid", {'id': uneProposition.codeproposition}) }}">
+                        <td><a href="{{ path("AdminPropositionbyid", {'id': uneProposition.codeproposition}) }}">
                             {% if uneProposition.titreproposition|length > 30 %}
                                 {{ uneProposition.titreproposition[:30] }}...
                             {% else %}

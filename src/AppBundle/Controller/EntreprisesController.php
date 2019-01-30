@@ -40,6 +40,10 @@ class EntreprisesController extends Controller
         //si le formulaire est validé
         if($form->isSubmitted() && $form->isValid()){
             // on enregistre l'entreprise en BDD
+            $etat = $em->getRepository('AppBundle:Etat')
+                ->find("2");
+
+            $entreprise->setCodeetat($etat);
             $em->persist($entreprise);
             $em->flush();
 
@@ -141,6 +145,34 @@ class EntreprisesController extends Controller
     }
 
     /**
+     * @Route("/admin/entreprisesEnAttente", name="showEntreprisesEnAttente")
+     * @return Response
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
+     */
+    public function showEntreprisesEnAttente()
+    {
+        $repository = $this->getDoctrine()->getRepository(Entreprises::class);
+
+        $entreprises = $repository->findEnattente();
+
+        return $this->render('admin/entreprises/entreprisesShow.html.twig',['entreprises' => $entreprises]);
+    }
+
+    /**
+     * @Route("/admin/entreprisesValid", name="showEntreprisesValid")
+     * @return Response
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
+     */
+    public function showEntreprisesValid()
+    {
+        $repository = $this->getDoctrine()->getRepository(Entreprises::class);
+
+        $entreprises = $repository->findValid();
+
+        return $this->render('admin/entreprises/entreprisesShow.html.twig',['entreprises' => $entreprises]);
+    }
+
+    /**
      * @Route("/admin/entreprisesBlackList", name="showEntreprisesBlackList")
      * @return Response
      * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
@@ -201,5 +233,83 @@ class EntreprisesController extends Controller
                         ->findLikeName($q);
 
     	return $this->render('entreprises/list.json.twig', ['results' => $results]);
+    }
+
+    /**
+     * @Route("/entreprises/create", name="createEntreprise")
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function createAction(Request $request){
+        // creer un new Entreprise
+        $entreprise = new Entreprises();
+
+        // recuperer le form
+        $form = $this->createForm(EntreprisesType::class,$entreprise);
+
+        $form->handleRequest($request);
+
+        //si le formulaire est validé
+        if($form->isSubmitted() && $form->isValid()){
+            // on enregistre l'entreprise en BDD
+            $em = $this->getDoctrine()->getManager();
+
+            $etat = $em->getRepository('AppBundle:Etat')
+                ->find("1");
+
+            $entreprise->setCodeetat($etat);
+            $em->persist($entreprise);
+            $em->flush();
+
+            // On affiche message de validation dans le formulaire de redirection
+            $this->get('session')->getFlashBag()->add('notice','Entreprise ('.$entreprise->getNomentreprise().') inscrite, en attente d\'une validation !');
+
+            // Retourne form de la liste des entreprises
+            return $this->redirect($this->generateUrl('homepage'));
+        }
+
+        //generer HTML du form
+        $formView = $form->createView();
+
+        // on retourne la vue
+        return $this->render('inscription/entreprise.html.twig',array('form'=>$formView));
+    }
+
+    /**
+     * @Route("/admin/entreprises/{id}/reject", name="rejectEntreprise", requirements={"id"="\d+"})
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
+     */
+    public function rejectEntreprise($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $entreprise = $em->getRepository('AppBundle:Entreprises')
+            ->find($id);
+
+        $em->remove($entreprise);
+        $em->flush();
+
+        return $this->redirectToRoute('showEntreprises');
+    }
+
+    /**
+     * @Route("/admin/entreprises/{id}/valid", name="validEntreprise", requirements={"id"="\d+"})
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
+     */
+    public function validEntreprise($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $entreprise = $em->getRepository('AppBundle:Entreprises')
+            ->find($id);
+
+        $etat = $em->getRepository('AppBundle:Etat')
+            ->find("2");
+
+        $entreprise->setCodeetat($etat);
+
+        $em->flush();
+
+        return $this->redirectToRoute('showEntreprises');
     }
 }

@@ -332,4 +332,33 @@ class Entreprises
     {
         return $this->blacklister;
     }
+    /**
+     * @var \AppBundle\Entity\Etat
+     */
+    private $codeetat;
+
+
+    /**
+     * Set codeetat
+     *
+     * @param \AppBundle\Entity\Etat $codeetat
+     *
+     * @return Entreprises
+     */
+    public function setCodeetat(\AppBundle\Entity\Etat $codeetat = null)
+    {
+        $this->codeetat = $codeetat;
+
+        return $this;
+    }
+
+    /**
+     * Get codeetat
+     *
+     * @return \AppBundle\Entity\Etat
+     */
+    public function getCodeetat()
+    {
+        return $this->codeetat;
+    }
 }
