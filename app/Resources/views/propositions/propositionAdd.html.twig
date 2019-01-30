@@ -23,7 +23,10 @@
 
     {{ form_row(form.codetechnologie) }}
     {{ form_row(form.file) }}
-    {{ form_row(form.commentaire) }}
+
+    {% if is_granted('ROLE_RESPSTAGES') %}
+        {{ form_row(form.commentaire) }}
+    {% endif %}
 
     <button type="submit" class="btn btn-primary btn-block" >Envoyer</button>
 
