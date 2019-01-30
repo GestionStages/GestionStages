@@ -22,15 +22,15 @@
                 <div class="collapse navbar-collapse" id="navbar10">
                     <ul class="navbar-nav ml-auto">
                         {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-                                <li class="nav-item">
-                                    <a href="{{ path('addProposition') }}" class="nav-link">Ajouter une proposition</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="{{ path('showAdminHome') }}" class="nav-link">Admin</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="{{ path('logout') }}" class="btn navbar-btn ml-md-2 btn-light text-dark" type="button" aria-haspopup="true" aria-expanded="false">Déconnexion</a>
-                                </li>
+                            <li class="nav-item">
+                                <a href="{{ path('addProposition') }}" class="nav-link">Ajouter une proposition</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ path('showAdminHome') }}" class="nav-link">Gestion</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ path('logout') }}" class="btn navbar-btn ml-md-2 btn-light text-dark" type="button" aria-haspopup="true" aria-expanded="false">Déconnexion</a>
+                            </li>
                         {% else %}
                             <li class="nav-item dropdown">
                                 <button class="btn navbar-btn ml-md-2 btn-light text-dark dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

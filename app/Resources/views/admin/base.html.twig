@@ -129,12 +129,16 @@
                         </span>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a href="{{ path('showAdminListAll') }}"><i class="fa fa-circle-o"></i> Toutes les offres</a></li>
-                        <li><a href="{{ path('showAdminListAttente') }}"><i class="fa fa-circle"></i> En attente</a></li>
-                        <li><a href="{{ path('showAdminListValid') }}"><i class="fa fa-circle"></i> Validées</a></li>
-                        <li><a href="{{ path('showAdminListRefuse') }}"><i class="fa fa-circle"></i> Refusées</a></li>
-                        <li><a href="{{ path('showAdminListArchive') }}"><i class="fa fa-circle"></i> Archivées</a></li>
-                        <li><a href="{{ path('indexProfPropositions') }}"><i class="fa fa-circle-o"></i> Mes offres</a></li>
+                        {% if is_granted('ROLE_RESPSTAGES') %}
+                            <li><a href="{{ path('showAdminListAll') }}"><i class="fa fa-circle-o"></i> Toutes les offres</a></li>
+                            <li><a href="{{ path('showAdminListAttente') }}"><i class="fa fa-circle"></i> En attente</a></li>
+                            <li><a href="{{ path('showAdminListValid') }}"><i class="fa fa-circle"></i> Validées</a></li>
+                            <li><a href="{{ path('showAdminListRefuse') }}"><i class="fa fa-circle"></i> Refusées</a></li>
+                            <li><a href="{{ path('showAdminListArchive') }}"><i class="fa fa-circle"></i> Archivées</a></li>
+                        {% endif %}
+                        {% if is_granted('ROLE_PROF') %}
+                            <li><a href="{{ path('indexProfPropositions') }}"><i class="fa fa-circle-o"></i> Mes offres</a></li>
+                        {% endif %}
                     </ul>
                 </li>
                 <li class="treeview">
@@ -152,7 +156,9 @@
                         <li><a href="{{ path('showDomaineActivite') }}"><i class="fa fa-circle-o"></i> Domaines d'activités</a></li>
                     </ul>
                 </li>
-                <li><a href="{{ path('showClasses') }}"><i class="fa fa-mortar-board"></i> <span>Gestion des classes</span></a></li>
+                {% if is_granted('ROLE_RESPSTAGES') %}
+                    <li><a href="{{ path('showClasses') }}"><i class="fa fa-mortar-board"></i> <span>Gestion des classes</span></a></li>
+                {% endif %}
                 <li class="treeview">
                     <a href="#">
                         <i class="fa fa-calendar"></i> <span>Planning des soutenances</span>
@@ -166,19 +172,21 @@
                         {% endif %}
                     </ul>
                 </li>
-                <li><a href="{{ path('editinfos') }}"><i class="fa fa-home"></i> <span>Gestion de l'accueil</span></a></li>
-                <li class="treeview">
-                    <a href="#">
-                        <i class="fa fa-user"></i> <span>Gestion des utilisateurs</span>
-                        <span class="pull-right-container">
-                            <i class="fa fa-angle-left pull-right"></i>
-                        </span>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li><a href="{{ path('listEtudiants') }}"><i class="fa fa-circle-o"></i> Gérer les étudiants</a></li>
-                        <li><a href="{{ path('listProfs') }}"><i class="fa fa-circle-o"></i> Gérer les professeurs</a></li>
-                    </ul>
-                </li>
+                {% if is_granted('ROLE_RESPSTAGES') %}
+                    <li><a href="{{ path('editinfos') }}"><i class="fa fa-home"></i> <span>Gestion de l'accueil</span></a></li>
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-user"></i> <span>Gestion des utilisateurs</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="{{ path('listEtudiants') }}"><i class="fa fa-circle-o"></i> Gérer les étudiants</a></li>
+                            <li><a href="{{ path('listProfs') }}"><i class="fa fa-circle-o"></i> Gérer les professeurs</a></li>
+                        </ul>
+                    </li>
+                {% endif %}
             </ul>
         </section>
     </aside>
