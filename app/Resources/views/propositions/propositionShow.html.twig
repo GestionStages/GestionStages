@@ -13,24 +13,28 @@
                 <div class="card-body">
                     <h2 class="card-title">
                         {{ proposition.titreproposition }}
-                        <span class="badge badge-pill
-                            {% if (proposition.codeEtat.codeEtat == 1) %}badge-primary{% endif %}
-                            {% if (proposition.codeEtat.codeEtat == 2) %}badge-success{% endif %}
-                            {% if (proposition.codeEtat.codeEtat == 3) %}badge-warning{% endif %}
-                            {% if (proposition.codeEtat.codeEtat == 4) %}badge-info{% endif %}
-                            {% if (proposition.codeEtat.codeEtat == 5) %}badge-danger{% endif %}
-                        ">{{ proposition.codeEtat.nomEtat }}</span>
+                        {% if is_granted('ROLE_RESPSTAGES') %}
+                            <span class="badge badge-pill
+                                {% if (proposition.codeEtat.codeEtat == 1) %}badge-primary{% endif %}
+                                {% if (proposition.codeEtat.codeEtat == 2) %}badge-success{% endif %}
+                                {% if (proposition.codeEtat.codeEtat == 3) %}badge-warning{% endif %}
+                                {% if (proposition.codeEtat.codeEtat == 4) %}badge-info{% endif %}
+                                {% if (proposition.codeEtat.codeEtat == 5) %}badge-danger{% endif %}
+                            ">{{ proposition.codeEtat.nomEtat }}</span>
+                        {% endif %}
                     </h2>
-                    <a href="{{ path('editProposition', {'id': proposition.codeproposition}) }}" class="btn btn-primary"><i class="fa fa-edit" aria-hidden="true"></i> Editer</a>
-                    {% if proposition.codeEtat.codeEtat != 3 %}
-                        {% if proposition.codeEtat.codeEtat != 2 %}
-                            <a href="{{ path('validProposition', {'id': proposition.codeproposition}) }}" class="btn btn-success"><i class="fa fa-check" aria-hidden="true"></i> Valider</a>
-                        {% endif %}
-                        {% if proposition.codeEtat.codeEtat != 5 %}
-                            <a href="{{ path('rejectProposition', {'id': proposition.codeproposition}) }}" class="btn btn-danger"><i class="fa fa-minus-circle" aria-hidden="true"></i> Refuser</a>
-                        {% endif %}
-                        {% if proposition.codeEtat.codeEtat != 4 %}
-                            <a href="{{ path('archiveProposition', {'id': proposition.codeproposition}) }}" class="btn btn-info"><i class="fa fa-archive" aria-hidden="true"></i> Archiver</a>
+                    {% if is_granted('ROLE_RESPSTAGES') %}
+                        <a href="{{ path('editProposition', {'id': proposition.codeproposition}) }}" class="btn btn-primary"><i class="fa fa-edit" aria-hidden="true"></i> Editer</a>
+                        {% if proposition.codeEtat.codeEtat != 3 %}
+                            {% if proposition.codeEtat.codeEtat != 2 %}
+                                <a href="{{ path('validProposition', {'id': proposition.codeproposition}) }}" class="btn btn-success"><i class="fa fa-check" aria-hidden="true"></i> Valider</a>
+                            {% endif %}
+                            {% if proposition.codeEtat.codeEtat != 5 %}
+                                <a href="{{ path('rejectProposition', {'id': proposition.codeproposition}) }}" class="btn btn-danger"><i class="fa fa-minus-circle" aria-hidden="true"></i> Refuser</a>
+                            {% endif %}
+                            {% if proposition.codeEtat.codeEtat != 4 %}
+                                <a href="{{ path('archiveProposition', {'id': proposition.codeproposition}) }}" class="btn btn-info"><i class="fa fa-archive" aria-hidden="true"></i> Archiver</a>
+                            {% endif %}
                         {% endif %}
                     {% endif %}
                     <hr/>
@@ -45,7 +49,9 @@
                     {% if proposition.file is not null %}
                         <hr/>
                         <a href="{{ asset("uploads/"~proposition.file) }}" class="btn btn-primary btn-sm"><i class="fa fa-file"></i> Voir la fiche de poste</a>
-                        <a href="{{ path('deletepropositionfile', {'id': proposition.codeproposition}) }}" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Supprimer la fiche de poste</a>
+                        {% if is_granted('ROLE_RESPSTAGES') %}
+                            <a href="{{ path('deletepropositionfile', {'id': proposition.codeproposition}) }}" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Supprimer la fiche de poste</a>
+                        {% endif %}
                     {% endif %}
                 </div>
                 <div class="card-footer text-muted">
