@@ -189,16 +189,15 @@ class ContactController extends Controller
     {
         $repository = $this->getDoctrine()
             ->getRepository(Contacts::class);
-        $contact = $repository->createQueryBuilder('c')
-            ->where('c.codeInscription = :codeInscription')
-            ->setParameter('codeInscription', $request->get('codeInscription'))
-            ->getQuery()
-            ->getOneOrNullResult();
+
+        /** @var Contacts $contact */
+        $contact = $repository->findOneByCodeInscription($request->get('codeInscription'));
+        $dbContact = clone $contact;
 
         $form = $this->createForm(ContactInscriptionType::class, $contact);
         $form->handleRequest($request);
 
-        if ($contact->getMdpcontact() != null) {
+        if ($dbContact->getMdpcontact() != null) {
             $this->get('session')->getFlashBag()->add('error', 'Inscription déjà effectuée !');
             return $this->redirect($this->generateUrl('homepage'));
         } else {
