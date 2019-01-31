@@ -141,6 +141,7 @@
                         {% endif %}
                     </ul>
                 </li>
+                {% if is_granted('ROLE_RESPSTAGES') %}
                 <li class="treeview">
                     <a href="#">
                         <i class="fa fa-building"></i> <span>Gestion des entreprises</span>
@@ -156,8 +157,7 @@
                         <li><a href="{{ path('showDomaineActivite') }}"><i class="fa fa-circle-o"></i> Domaines d'activités</a></li>
                     </ul>
                 </li>
-                {% if is_granted('ROLE_RESPSTAGES') %}
-                    <li><a href="{{ path('showClasses') }}"><i class="fa fa-mortar-board"></i> <span>Gestion des classes</span></a></li>
+                <li><a href="{{ path('showClasses') }}"><i class="fa fa-mortar-board"></i> <span>Gestion des classes</span></a></li>
                 {% endif %}
                 <li class="treeview">
                     <a href="#">
