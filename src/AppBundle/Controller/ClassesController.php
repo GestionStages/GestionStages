@@ -10,6 +10,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Classes;
 use AppBundle\Form\ClassesType;
+use Doctrine\Common\Persistence\ObjectManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -21,11 +22,12 @@ class ClassesController extends Controller
     /**
      *
      * @Route("/admin/classes/add", name="addClasse")
-     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
+     * @IsGranted("ROLE_RESPSTAGES")
      * @param Request $request
+     * @param ObjectManager $em
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function addAction(Request $request){
+    public function addAction(Request $request, ObjectManager $em){
         // creer un new Classe
         $classe = new Classes();
 
@@ -36,23 +38,13 @@ class ClassesController extends Controller
 
         //si le formulaire est validé
         if($form->isSubmitted() && $form->isValid()){
-            // on verifie que la dateFin ne soit pas inferieur a la dateDeb
-            if ($form->getData()->getDateFinStage() > $form->getData()->getDateDebStage()){
+            // on enregistre la classe en BDD
+            $em->persist($classe);
+            $em->flush();
 
-                // on enregistre la classe en BDD
-                $em = $this->getDoctrine()->getManager();
-
-                $em->persist($classe);
-                $em->flush();
-
-
-
-                // On affiche message de validation dans le formulaire de redirection
-                $this->get('session')->getFlashBag()->add('notice','Classe ('.$classe->getNomclasse().') ajoutée !');
-                return $this->redirect($this->generateUrl('showClasses'));
-            }
-            $this->get('session')->getFlashBag()->add('notice','La période du stage est incorrecte !');
-            return $this->render('admin/classes/classeAdd.html.twig', array('form'=>$form->createView()));
+            // On affiche message de validation dans le formulaire de redirection
+            $this->get('session')->getFlashBag()->add('notice','Classe ('.$classe->getNomclasse().') ajoutée !');
+            return $this->redirect($this->generateUrl('showClasses'));
         }
 
         //generer HTML du form
@@ -65,30 +57,27 @@ class ClassesController extends Controller
     /**
      * @param Request $request
      * @param Classes $classe
+     * @param ObjectManager $em
      * @return Response
      * @Route("/admin/classes/{id}/edit", name="editClasse")
-     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
+     * @IsGranted("ROLE_RESPSTAGES")
      */
-    public function edit(Request $request, Classes $classe){
+    public function edit(Request $request, Classes $classe, ObjectManager $em){
         $form = $this->createForm(ClassesType::class, $classe);
 
         $form->handleRequest($request);
 
         //si le formulaire a été soumis
         if($form->isSubmitted() && $form->isValid()){
-            // on verifie que la dateFin ne soit pas inferieur a la dateDeb
-            if ($form->getData()->getDateFinStage() > $form->getData()->getDateDebStage()) {
-                //on enregistre la classe dans la bdd
-                $em = $this->getDoctrine()->getManager();
-                $em->flush();
+            //on enregistre la classe dans la bdd
+            $em->flush();
 
-                //Envoi un message de validation
-                $this->get('session')->getFlashBag()->add('notice',
-                    'Classe (' . $classe->getNomclasse() . ') modifiée !');
+            //Envoi un message de validation
+            $this->get('session')->getFlashBag()->add('notice',
+                'Classe (' . $classe->getNomclasse() . ') modifiée !');
 
-                // Retourne form de la liste des classes
-                return $this->redirect($this->generateUrl('showClasses'));
-            }
+            // Retourne form de la liste des classes
+            return $this->redirect($this->generateUrl('showClasses'));
         }
 
 
@@ -99,16 +88,14 @@ class ClassesController extends Controller
         return $this->render('admin/classes/classeAdd.html.twig', array('form'=>$formView));
     }
 
-
-
     /**
-    * @param Classes $classe
-    * @return Response
-    * @Route("/admin/classes/{id}/delete", name="deleteClasse")
-    * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
-    */
-    public function delete(Classes $classe){
-        $em = $this-> getDoctrine()->getManager();
+     * @param Classes $classe
+     * @param ObjectManager $em
+     * @return Response
+     * @Route("/admin/classes/{id}/delete", name="deleteClasse")
+     * @IsGranted("ROLE_RESPSTAGES")
+     */
+    public function delete(Classes $classe, ObjectManager $em){
         $em->remove($classe);
         $em->flush();
         // On affiche message de validation dans le formulaire de redirection
@@ -120,19 +107,15 @@ class ClassesController extends Controller
 
     /**
      * @Route("/admin/classes/", name="showClasses")
-     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
+     * @IsGranted("ROLE_RESPSTAGES")
      * @return Response
      */
     public function showClasses()
     {
-        //TODO: A Déplacer dans repository ClasseRepository
         $repository = $this->getDoctrine()
             ->getRepository(Classes::class);
 
-        $query = $repository->createQueryBuilder('e')
-            ->getQuery();
-
-        $classes = $query->getResult();
+        $classes = $repository->findAll();
 
         return $this->render('admin/classes/classesShow.html.twig',['classes' => $classes]);
     }

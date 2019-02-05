@@ -3,13 +3,12 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Contacts
  *
- * @ORM\Table(name="contacts")
+ * @ORM\Table(name="contacts", indexes={@ORM\Index(name="fk_codeEntreprise", columns={"codeEntreprise"})})
  * @ORM\Entity
  */
 class Contacts implements UserInterface
@@ -82,20 +81,16 @@ class Contacts implements UserInterface
     private $codecontact;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var \AppBundle\Entity\Entreprises
      *
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Entreprises", mappedBy="codecontact")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Entreprises")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="codeEntreprise", referencedColumnName="codeEntreprise", nullable=false, onDelete="CASCADE")
+     * })
+     *
+     * @Assert\NotBlank(message="L'entreprise est obligatoire.")
      */
     private $codeentreprise;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->codeentreprise = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
 
     /**
      * Set nomcontact
@@ -204,38 +199,29 @@ class Contacts implements UserInterface
     }
 
     /**
-     * Add codeentreprise
+     * Set codeentreprise
      *
      * @param \AppBundle\Entity\Entreprises $codeentreprise
      *
      * @return Contacts
      */
-    public function addCodeentreprise(\AppBundle\Entity\Entreprises $codeentreprise)
+    public function setCodeentreprise(\AppBundle\Entity\Entreprises $codeentreprise)
     {
-        $this->codeentreprise[] = $codeentreprise;
+        $this->codeentreprise = $codeentreprise;
 
         return $this;
     }
 
     /**
-     * Remove codeentreprise
-     *
-     * @param \AppBundle\Entity\Entreprises $codeentreprise
-     */
-    public function removeCodeentreprise(\AppBundle\Entity\Entreprises $codeentreprise)
-    {
-        $this->codeentreprise->removeElement($codeentreprise);
-    }
-
-    /**
      * Get codeentreprise
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return \AppBundle\Entity\Entreprises
      */
     public function getCodeentreprise()
     {
         return $this->codeentreprise;
     }
+
     /**
      * @var string
      * @ORM\Column(name="posteContact", type="string", length=50, nullable=false)
@@ -270,6 +256,12 @@ class Contacts implements UserInterface
     /**
      * @var string
      * @ORM\Column(name="mdpContact", type="string", length=255, nullable=true)
+     * @Assert\NotBlank(message="Le mot de passe est obligatoire.",groups={"inscription"})
+     * @Assert\Length(
+     *     min = 8,
+     *     minMessage = "Le mot de passe doit faire au minimum {{ limit }} caractères.",
+     *     groups={"inscription"}
+     *     )
      *
      */
     private $mdpcontact;
@@ -383,4 +375,57 @@ class Contacts implements UserInterface
     {
         return $this->getUserContact();
     }
+
+    public function getNom()
+    {
+        return $this->nomcontact;
+    }
+
+    public function getPrenom()
+    {
+        return $this->prenomcontact;
+    }
+
+    public function getMail()
+    {
+        return $this->mailcontact;
+    }
+
+    public function getTel()
+    {
+        return $this->telcontact;
+    }
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="codeInscription", type="string", length=200, nullable=true)
+     */
+    private $codeInscription;
+
+
+    /**
+     * Set codeInscription
+     *
+     * @param string $codeInscription
+     *
+     * @return Contacts
+     */
+    public function setCodeInscription($codeInscription)
+    {
+        $this->codeInscription = $codeInscription;
+
+        return $this;
+    }
+
+    /**
+     * Get codeInscription
+     *
+     * @return string
+     */
+    public function getCodeInscription()
+    {
+        return $this->codeInscription;
+    }
+
 }

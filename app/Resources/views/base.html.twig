@@ -22,15 +22,15 @@
                 <div class="collapse navbar-collapse" id="navbar10">
                     <ul class="navbar-nav ml-auto">
                         {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-                                <li class="nav-item">
-                                    <a href="{{ path('addProposition') }}" class="nav-link">Ajouter une proposition</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="{{ path('showAdminHome') }}" class="nav-link">Admin</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="{{ path('logout') }}" class="btn navbar-btn ml-md-2 btn-light text-dark" type="button" aria-haspopup="true" aria-expanded="false">Déconnexion</a>
-                                </li>
+                            <li class="nav-item">
+                                <a href="{{ path('addProposition') }}" class="nav-link">Ajouter une proposition</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ path('showAdminHome') }}" class="nav-link">Gestion</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ path('logout') }}" class="btn navbar-btn ml-md-2 btn-light text-dark" type="button" aria-haspopup="true" aria-expanded="false">Déconnexion</a>
+                            </li>
                         {% else %}
                             <li class="nav-item dropdown">
                                 <button class="btn navbar-btn ml-md-2 btn-light text-dark dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -49,7 +49,7 @@
                                 <div class="dropdown-menu">
                                     <a class="dropdown-item" href="{{ url('inscriptEtu') }}">Étudiant</a>
                                     <a class="dropdown-item" href="{{ url('inscriptProf') }}">Enseignant</a>
-                                    <a class="dropdown-item" href="#">Entreprise</a>
+                                    <a class="dropdown-item" href="{{ path('createEntreprise') }}">Entreprise</a>
                                 </div>
                             </li>
                         {% endif %}
@@ -59,18 +59,21 @@
             </div>
         </nav>
         </br></br>
-        {% for error in app.session.flashbag.get('error') %}
-            <div class="alert alert-error">
-                {{ error }}
-            </div>
-        {% endfor %}
-        {% for notice in app.session.flashbag.get('notice') %}
-            <div class="alert alert-success">
-                {{ notice }}
-            </div>
-        {% endfor %}
 
-        {% block body %} {% endblock %}
+        <div class="container">
+            {% for error in app.session.flashbag.get('error') %}
+                <div class="alert alert-error">
+                    {{ error }}
+                </div>
+            {% endfor %}
+            {% for notice in app.session.flashbag.get('notice') %}
+                <div class="alert alert-success">
+                    {{ notice }}
+                </div>
+            {% endfor %}
+
+            {% block body %} {% endblock %}
+        </div>
 
         {% block javascripts %}
             <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>

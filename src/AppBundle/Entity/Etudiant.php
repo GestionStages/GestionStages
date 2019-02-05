@@ -2,8 +2,6 @@
 
 namespace AppBundle\Entity;
 
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -266,10 +264,10 @@ class Etudiant implements UserInterface
      * @var string
      * @ORM\Column(name="addrEtudiant", type="string", length=1024, nullable=false)
      *
-     * @Assert\NotBlank(message="L'addresse est obligatoire")
+     * @Assert\NotBlank(message="L'adresse est obligatoire")
      * @Assert\Length(
      *     max="1024",
-     *     maxMessage="L'addresse doit faire au maximum 1024 caractères"
+     *     maxMessage="L'adresse doit faire au maximum 1024 caractères"
      * )
      */
     private $addrEtudiant;
@@ -449,5 +447,25 @@ class Etudiant implements UserInterface
     public function setConfirmPassEtudiant($confirmPassEtudiant)
     {
         $this->confirmPassEtudiant = $confirmPassEtudiant;
+    }
+
+    public function getNom()
+    {
+        return $this->nomEtudiant;
+    }
+
+    public function getPrenom()
+    {
+        return $this->prenomEtudiant;
+    }
+
+    public function getMail()
+    {
+        return $this->mailEtudiant;
+    }
+
+    public function getTel()
+    {
+        return $this->telEtudiant;
     }
 }

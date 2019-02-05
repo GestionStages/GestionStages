@@ -28,8 +28,8 @@
                         <td>{{ unCommentaire.prof.nomProf | upper }} {{ unCommentaire.prof.prenomProf | capitalize }}</td>
                         <td>{{ unCommentaire.date | date('d/m/Y H:i') }}</td>
                         <td><a href="#" data-toggle="modal" data-target="#showProfCommentModal-{{ unCommentaire.id }}">
-                            {% if unCommentaire.comment|length > 15 %}
-                                {{ unCommentaire.comment[:15] }}...
+                            {% if unCommentaire.comment|length > 30 %}
+                                {{ unCommentaire.comment[:30] }}...
                             {% else %}
                                 {{ unCommentaire.comment }}
                             {% endif %}

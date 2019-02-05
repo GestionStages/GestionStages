@@ -19,7 +19,7 @@
                 <join-column name="prof" referenced-column-name="id" nullable="false" on-delete="CASCADE"/>
             </join-columns>
         </many-to-one>
-        <many-to-one field="proposition" target-entity="Propositions" fetch="LAZY">
+        <many-to-one field="proposition" target-entity="Propositions" inversed-by="commentaires" fetch="LAZY">
             <join-columns>
                 <join-column name="proposition" referenced-column-name="codeProposition" nullable="false" on-delete="CASCADE"/>
             </join-columns>

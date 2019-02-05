@@ -253,39 +253,6 @@ class Entreprises
     }
 
     /**
-     * Add codecontact
-     *
-     * @param \AppBundle\Entity\Contacts $codecontact
-     *
-     * @return Entreprises
-     */
-    public function addCodecontact(\AppBundle\Entity\Contacts $codecontact)
-    {
-        $this->codecontact[] = $codecontact;
-
-        return $this;
-    }
-
-    /**
-     * Remove codecontact
-     *
-     * @param \AppBundle\Entity\Contacts $codecontact
-     */
-    public function removeCodecontact(\AppBundle\Entity\Contacts $codecontact)
-    {
-        $this->codecontact->removeElement($codecontact);
-    }
-
-    /**
-     * Get codecontact
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getCodecontact()
-    {
-        return $this->codecontact;
-    }
-    /**
      * @var \Doctrine\Common\Collections\Collection
      *
      *
@@ -364,5 +331,34 @@ class Entreprises
     public function getBlacklister()
     {
         return $this->blacklister;
+    }
+    /**
+     * @var \AppBundle\Entity\Etat
+     */
+    private $codeetat;
+
+
+    /**
+     * Set codeetat
+     *
+     * @param \AppBundle\Entity\Etat $codeetat
+     *
+     * @return Entreprises
+     */
+    public function setCodeetat(\AppBundle\Entity\Etat $codeetat = null)
+    {
+        $this->codeetat = $codeetat;
+
+        return $this;
+    }
+
+    /**
+     * Get codeetat
+     *
+     * @return \AppBundle\Entity\Etat
+     */
+    public function getCodeetat()
+    {
+        return $this->codeetat;
     }
 }

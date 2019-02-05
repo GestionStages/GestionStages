@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <entity name="AppBundle\Entity\Properties" table="properties" repository-class="AppBundle\Repository\PropertiesRepository">
+        <id name="id" type="integer" column="id">
+            <generator strategy="IDENTITY"/>
+        </id>
+        <field name="planning_startdate" type="date" column="planning_startdate"/>
+        <field name="planning_enddate" type="date" column="planning_enddate"/>
+        <field name="planning_starthourAm" type="time" column="planning_starthourAm"/>
+        <field name="planning_endhourAm" type="time" column="planning_starthourPm"/>
+        <field name="planning_starthourPm" type="time" column="planning_endhourAm"/>
+        <field name="planning_endhourPm" type="time" column="planning_endhourPm"/>
+        <field name="planning_timeinterval" type="integer" column="planning_timeinterval"/>
+        <field name="home_title" type="string" length="1024" column="home_title"/>
+        <field name="home_text" type="text" column="home_text"/>
+    </entity>
+</doctrine-mapping>

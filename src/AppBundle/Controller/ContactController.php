@@ -10,8 +10,9 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Contacts;
 use AppBundle\Entity\Entreprises;
+use AppBundle\Form\ContactInscriptionType;
 use AppBundle\Form\ContactsType;
-use AppBundle\Form\EntreprisesType;
+use Doctrine\Common\Persistence\ObjectManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -26,41 +27,40 @@ class ContactController extends Controller
     /**
      *
      * @Route("/admin/contact/add", name="addContact")
-     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
+     * @IsGranted("ROLE_RESPSTAGES")
      * @param Request $request
      * @param SessionInterface $session
      * @param \Swift_Mailer $mailer
+     * @param ObjectManager $em
      * @return \Symfony\Component\HttpFoundation\Response
-     * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function addAction(Request $request, SessionInterface $session, \Swift_Mailer $mailer)
+    public function addAction(Request $request, SessionInterface $session, \Swift_Mailer $mailer, ObjectManager $em)
     {
 
         $repository = $this->getDoctrine()
             ->getRepository(Entreprises::class);
-//TODO: A Déplacer dans repository EntrepriseRepository
-        //recuperation de l'entreprise par l'id passer en session
-        $entreprise = $repository->createQueryBuilder('e')
-            ->where('e.codeentreprise = :entreprise')
-            ->setParameter('entreprise', $session->get('entreprise'))
-            ->getQuery()
-            // Cette ligne permet de récupérer directement l'objet et non un tableau avec l'objet à l'interieur
-            ->getOneOrNullResult();
 
+        //recuperation de l'entreprise par l'id passer en session
+        $entreprise = $repository->find($session->get('entreprise'));
 
         //On crée un nouveau contact
         $contact = new Contacts();
 
-        // On affecte l'entreprise au contact
-        $entreprise->addCodeContact($contact);
+        // On affecte le contact a l'entreprise
+        $contact->setCodeentreprise($entreprise);
 
         //On récupère le form
         $form = $this->createForm(ContactsType::class, $contact);
-
         $form->handleRequest($request);
 
         //si le formulaire a été soumis
         if($form->isSubmitted() && $form->isValid()){
+
+            //on enregistre le contact dans la bdd
+            $contact->setCodeInscription(sha1($contact->getMailcontact()));
+            $em->persist($contact);
+            $em->flush();
+
             $message = \Swift_Message::newInstance()
                 ->setSubject('Demande d\'inscription sur la plateforme de l\'IUT de Montpellier')
                 ->setFrom('stages-iutms@umontpellier.fr')
@@ -72,16 +72,11 @@ class ContactController extends Controller
 
             $mailer->send($message);
 
-            //on enregistre le contact dans la bdd
-            $em = $this-> getDoctrine()->getManager();
-            $em->persist($contact);
-            $em->flush();
-
             // On affiche message de validation dans le formulaire de redirection
             $this->get('session')->getFlashBag()->add('notice','Le contact ('.$contact->getNomcontact(). " " . $contact->getPrenomcontact() . ') est ajouté !');
 
             //Retourne form de la liste des contacts de l'entreprise
-            return $this->redirectToRoute('showContacts', ['id' => $entreprise->getCodeEntreprise()]);
+            return $this->redirectToRoute('showContacts', ['id' => $entreprise->getCodeentreprise()]);
         }
 
         //On génére le fichier final
@@ -95,38 +90,31 @@ class ContactController extends Controller
      * @param Request $request
      * @param Contacts $contact
      * @param SessionInterface $session
+     * @param ObjectManager $em
      * @return Response
      * @Route("/admin/contacts/{id}/edit", name="editContact")
-     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
-     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @IsGranted("ROLE_RESPSTAGES")
      */
-    public function edit(Request $request, Contacts $contact, SessionInterface $session){
+    public function edit(Request $request, Contacts $contact, SessionInterface $session, ObjectManager $em){
         $form = $this->createForm(ContactsType::class, $contact);
 
-            $form->handleRequest($request);
+        $form->handleRequest($request);
 
         $repository = $this->getDoctrine()
             ->getRepository(Entreprises::class);
 
-//TODO: A Déplacer dans repository EntrepriseRepository
-        $entreprise = $repository->createQueryBuilder('e')
-            ->where('e.codeentreprise = :entreprise')
-            ->setParameter('entreprise', $session->get('entreprise'))
-            ->getQuery()
-            // Cette ligne permet de récupérer directement l'objet et non un tableau avec l'objet à l'interieur
-            ->getOneOrNullResult();
+        $entreprise = $repository->find($session->get('entreprise'));
 
         //si le formulaire a été soumis
         if($form->isSubmitted() && $form->isValid()){
             //on enregistre l'entreprise dans la bdd
-            $em = $this-> getDoctrine()->getManager();
             $em->flush();
 
                 //Envoi un message de validation
                 $this->get('session')->getFlashBag()->add('notice','Contact ('.$contact->getNomcontact() . " " . $contact->getPrenomcontact() .') modifié !');
 
             // Retourne form de la liste des contacts de l'entreprise
-            return $this->redirectToRoute('showContacts',['id' => $entreprise->getCodeEntreprise()]);
+            return $this->redirectToRoute('showContacts',['id' => $entreprise->getCodeentreprise()]);
         }
 
             //On génére le fichier final
@@ -139,39 +127,33 @@ class ContactController extends Controller
     /**
      * @param Contacts $contact
      * @param SessionInterface $session
+     * @param ObjectManager $em
      * @return Response
-     * @throws \Doctrine\ORM\NonUniqueResultException
      * @Route("/admin/contacts/{id}/deleteContact", name="deleteContact")
-     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
+     * @IsGranted("ROLE_RESPSTAGES")
      */
-    public function delete(Contacts $contact, SessionInterface $session){
-        //TODO: A Déplacer dans repository EntrepriseRepository
+    public function delete(Contacts $contact, SessionInterface $session, ObjectManager $em){
         $repository = $this->getDoctrine()
             ->getRepository(Entreprises::class);
-        // recupere l'entreprise avec l'id stocké en session
-        $entreprise = $repository->createQueryBuilder('e')
-            ->where('e.codeentreprise = :entreprise')
-            ->setParameter('entreprise', $session->get('entreprise') )
-            ->getQuery()
-           // Cette ligne permet de récupérer directement l'objet et non un tableau avec l'objet à l'interieur
-            ->getOneOrNullResult();
 
+        // recupere l'entreprise avec l'id stocké en session
+        $entreprise = $repository->find($session->get('entreprise'));
 
         // On supprime et sauvegarde modifications
-        $em = $this-> getDoctrine()->getManager();
         $em->remove($contact);
         $em->flush();
+
         // On affiche message de validation dans le formulaire de redirection
         $this->get('session')->getFlashBag()->add('notice','Le contact (' . $contact->getNomcontact() . ' ' . $contact->getPrenomcontact() . ') à été supprimé !');
 
         //Retourne form de la liste des contact de l'entreprise
-        return $this->render('admin/contacts/contactsShow.html.twig', ['contacts'=>$entreprise->getCodecontact(), 'entreprise' => $entreprise] );
+        return $this->redirectToRoute('showContacts', ['id' => $entreprise->getCodeentreprise()]);
 
     }
 
     /**
      * @Route("/entreprises/{id}/contacts", name="showContacts")
-     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
+     * @IsGranted("ROLE_RESPSTAGES")
      * @param Entreprises $entreprise
      * @param SessionInterface $session
      * @return Response
@@ -183,12 +165,14 @@ class ContactController extends Controller
         if($session->get('entreprise') != $entreprise->getCodeentreprise()){
             $session->set('entreprise',$entreprise->getCodeentreprise());
         }
-
-        $repository = $this->getDoctrine()->getRepository(Contacts::class);
-        $contacts = [];
-        foreach ($entreprise->getCodecontact() as $contact) {
-            $contacts[] = $repository->find($contact->getCodeContact());
-        }
+        $repository = $this->getDoctrine()
+            ->getRepository(Contacts::class);
+        // recupere l'entreprise avec l'id stocké en session
+        $contacts = $repository->createQueryBuilder('c')
+            ->where('c.codeentreprise = :entreprise')
+            ->setParameter('entreprise', $session->get('entreprise'))
+            ->getQuery()
+            ->getResult();
 
         return $this->render('admin/contacts/contactsShow.html.twig',['contacts' => $contacts, 'entreprise' => $entreprise]);
 
@@ -197,41 +181,47 @@ class ContactController extends Controller
     /**
      * @param Request $request
      * @param UserPasswordEncoderInterface $encoder
+     * @param ObjectManager $em
      * @return Response
-     * @Route("/contacts/{id}/inscrire", name="inscrireContact")
+     * @Route("/contacts/inscrire/{codeInscription}", name="inscrireContact")
      */
-    public function inscrire(Request $request, UserPasswordEncoderInterface $encoder){
-        $contact = $this->getDoctrine()->getRepository(Contacts::class)->find($request->get('id'));
-        if($contact->getMdpcontact() != null){
-            $this->get('session')->getFlashBag()->add('error','Inscription déjà effectuée !');
+    public function inscrire(Request $request, UserPasswordEncoderInterface $encoder, ObjectManager $em)
+    {
+        $repository = $this->getDoctrine()
+            ->getRepository(Contacts::class);
+
+        /** @var Contacts $contact */
+        $contact = $repository->findOneByCodeInscription($request->get('codeInscription'));
+        $dbContact = clone $contact;
+
+        $form = $this->createForm(ContactInscriptionType::class, $contact);
+        $form->handleRequest($request);
+
+        if ($dbContact->getMdpcontact() != null) {
+            $this->get('session')->getFlashBag()->add('error', 'Inscription déjà effectuée !');
             return $this->redirect($this->generateUrl('homepage'));
-        }
-        else{
-            if(!$request->get('password')){
+        } else {
+            //si le formulaire a été soumis
+            if ($form->isSubmitted() && $form->isValid()) {
 
-                return $this->render('/contacts/inscription.html.twig', ['contact' => $contact]);
+                //on enregistre le mdp du contact dans la bdd
+                $hash = $encoder->encodePassword($contact, $request->get('password'));
+                $contact->setMdpcontact($hash);
+                $em->flush();
+
+                // On affiche message de validation dans le formulaire de redirection
+                $this->get('session')->getFlashBag()->add('notice', 'Inscription effectuée !');
+
+                //Retour a l'accueil
+                return $this->redirect($this->generateUrl('homepage'));
             }
-            else{
-                if($request->get('password') != $request->get('password2')){
-                    $this->get('session')->getFlashBag()->add('error','Mots de passe différents');
-                    return $this->render('/contacts/inscription.html.twig', ['contact' => $contact]);
-                }
-                else{
-                    //On encrypte le mot de passe
-                    $hash = $encoder->encodePassword($contact, $request->get('password'));
-                    $contact->setMdpcontact($hash);
 
-                    $em = $this-> getDoctrine()->getManager();
-                    $em->persist($contact);
-                    $em->flush();
+            //On génére le fichier final
+            $formView = $form->createView();
 
-                    // On affiche message de validation dans le formulaire de redirection
-                    $this->get('session')->getFlashBag()->add('notice','Inscription enregistée !');
-                    return $this->redirect($this->generateUrl('homepage'));
-                }
-            }
+            //on rend la vue
+            return $this->render('/contacts/inscription.html.twig', array('form' => $formView, 'contact' => $contact));
         }
+
     }
-
-
 }

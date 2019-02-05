@@ -59,9 +59,6 @@ class PropositionsType extends AbstractType
             ->add('file', FileType::class, [
                 'label' => 'Fiche de poste (DOC, DOCX, PDF) (2MB max.)'
             ])
-	        ->add('commentaire',TextareaType::class, [
-	            'label' => "Commentaire privé"
-            ])
             ->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) use(&$doctrine) {
 
             	$data = $event->getData();
@@ -89,12 +86,20 @@ class PropositionsType extends AbstractType
 					$event->setData($data);
 				}
             });
+
+        if (in_array('ROLE_RESPSTAGES', $options['roles'])) {
+            $builder->add('commentaire',TextareaType::class, [
+                'label' => "Commentaire privé"
+            ]);
+
+        }
     }/**
      * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
+            'roles' => [],
             'data_class' => 'AppBundle\Entity\Propositions'
         ));
         $resolver->setRequired('doctrine');

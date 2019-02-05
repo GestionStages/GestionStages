@@ -3,132 +3,120 @@
 {% block title %}Liste des offres{% endblock %}
 
 {% block body %}
-    <!-- Page Content -->
-    <div class="container">
-
-        <div class="row">
-
-            <!-- Blog Entries Column -->
-            <div class="col-md-8">
-
-                <h1 class="my-4">Lister les Propositions</h1>
-                <table id="propositionsTable" class="table table-bordered">
-                    <thead>
+    <div class="row">
+        <!-- Blog Entries Column -->
+        <div class="col-md-8">
+            <h1 class="my-4">Lister les Propositions</h1>
+            <table id="propositionsTable" class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>Titre</th>
+                    <th>Entreprise</th>
+                    <th>Domaine(s) d'activité(s)</th>
+                    <th>Classe(s)</th>
+                    <th>Technologie(s)</th>
+                    <th>Postée le</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for uneProposition in propositions  %}
                     <tr>
-                        <th>Titre</th>
-                        <th>Entreprise</th>
-                        <th>Domaine(s) d'activité(s)</th>
-                        <th>Classe(s)</th>
-                        <th>Technologie(s)</th>
-                        <th>Postée le</th>
-                        <th></th>
+                        <td><a href="{{ path('afficherPropositionbyid', {'id': uneProposition.codeproposition}) }}">
+                            {% if uneProposition.titreproposition|length > 30 %}
+                                {{ uneProposition.titreproposition[:30] }}...
+                            {% else %}
+                                {{ uneProposition.titreproposition }}
+                            {% endif %}
+                        </a></td>
+                        <td>{{ uneProposition.codeentreprise.nomentreprise }}</td>
+                        <td>{% for unDomaine in uneProposition.codeEntreprise.codeDomaine %}
+                                {{  unDomaine.nomDomaine }}
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for classe in uneProposition.codeclasse %}
+                                {{ classe.nomclasse }}<br/>
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for techno in uneProposition.codetechnologie %}
+                                {{ techno.nomtechnologie }}<br/>
+                            {% endfor %}
+                        </td>
+                        <td>{{ uneProposition.dateajout|date("d/m/Y H:i") }}</td>
                     </tr>
-                    </thead>
-                    <tbody>
-                    {% for uneProposition in propositions  %}
-                        <tr>
-                            <td>
-                                {% if uneProposition.titreproposition|length > 15 %}
-                                    {{ uneProposition.titreproposition[:15] }}...
-                                {% else %}
-                                    {{ uneProposition.titreproposition }}
-                                {% endif %}
-                            </td>
-                            <td>{{ uneProposition.codeentreprise.nomentreprise }}</td>
-                            <td>{% for unDomaine in uneProposition.codeEntreprise.codeDomaine %}
-                                    {{  unDomaine.nomDomaine }}
-                                {% endfor %}
-                            </td>
-                            <td>
-                                {% for classe in uneProposition.codeclasse %}
-                                    {{ classe.nomclasse }}<br/>
-                                {% endfor %}
-                            </td>
-                            <td>
-                                {% for techno in uneProposition.codetechnologie %}
-                                    {{ techno.nomtechnologie }}<br/>
-                                {% endfor %}
-                            </td>
-                            <td>{{ uneProposition.dateajout|date("d/m/Y H:i") }}</td>
-                            <td><a href="{{ path('afficherPropositionbyid', {'id': uneProposition.codeproposition}) }}">Lire plus...</a></td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-
-            <!-- Sidebar Widgets Column -->
-            <div class="col-md-4">
-                {#
-                <!-- Search Widget -->
-                <div class="card my-4">
-                    <h5 class="card-header">Search</h5>
-                    <div class="card-body">
-                        <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Search for...">
-                            <span class="input-group-btn">
-                  <button class="btn btn-secondary" type="button">Go!</button>
-                </span>
-                        </div>
-                    </div>
-                </div>
-                #}
-                <div class="card my-4">
-                    <h5 class="card-header">Filtres</h5>
-                    <div class="card-body">
-                        <div>
-                            <form method="get" action="{{ path('afficherProposition') }}">
-                                <strong>Classe</strong>
-                                {% for uneClasse in classes  %}
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="classes[]" value="{{ uneClasse.codeclasse }}" id="classe-{{ uneClasse.codeclasse }}" {% if uneClasse.codeclasse in checkedClasses %}checked{% endif %}>
-                                        <label class="form-check-label" for="classe-{{ uneClasse.codeclasse }}">
-                                            {{ uneClasse.nomclasse }}
-                                        </label>
-                                    </div>
-                                {% endfor %}
-                                <br/>
-                                <strong>Domaine d'activité</strong>
-                                {% for unDomaineActivite in domaineActivites  %}
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="domaines[]" value="{{ unDomaineActivite.codedomaine }}" id="domaine-{{ unDomaineActivite.codedomaine }}" {% if unDomaineActivite.codedomaine in checkedDomaines %}checked{% endif %}>
-                                        <label class="form-check-label" for="domaine-{{ unDomaineActivite.codedomaine }}">
-                                            {{ unDomaineActivite.nomdomaine }}
-                                        </label>
-                                    </div>
-                                {% endfor %}
-                                <br/>
-                                <strong>Technologie</strong>
-                                {% for uneTechnologie in technologies %}
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="technos[]" value="{{ uneTechnologie.codetechnologie }}" id="techno-{{ uneTechnologie.codetechnologie }}" {% if uneTechnologie.codetechnologie in checkedTechnos %}checked{% endif %}>
-                                        <label class="form-check-label" for="techno-{{ uneTechnologie.codetechnologie }}">
-                                            {{ uneTechnologie.nomtechnologie }}
-                                        </label>
-                                    </div>
-                                {% endfor %}
-                                <br/>
-                                <input type="submit"/>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-                {#
-                <!-- Side Widget -->
-                <div class="card my-4">
-                    <h5 class="card-header">Side Widget</h5>
-                    <div class="card-body">
-                        You can put anything you want inside of these side widgets. They are easy to use, and feature the new Bootstrap 4 card containers!
-                    </div>
-                </div>
-                #}
-            </div>
-
+                {% endfor %}
+                </tbody>
+            </table>
         </div>
-        <!-- /.row -->
 
+        <!-- Sidebar Widgets Column -->
+        <div style="margin-left: 100px">
+            {#
+            <!-- Search Widget -->
+            <div class="card my-4">
+                <h5 class="card-header">Search</h5>
+                <div class="card-body">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search for...">
+                        <span class="input-group-btn">
+              <button class="btn btn-secondary" type="button">Go!</button>
+            </span>
+                    </div>
+                </div>
+            </div>
+            #}
+            <div class="card my-4">
+                <h5 class="card-header">Filtres</h5>
+                <div class="card-body">
+                    <div>
+                        <form method="get" action="{{ path('afficherProposition') }}">
+                            <strong>Classe</strong>
+                            {% for uneClasse in classes  %}
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="classes[]" value="{{ uneClasse.codeclasse }}" id="classe-{{ uneClasse.codeclasse }}" {% if uneClasse.codeclasse in checkedClasses %}checked{% endif %}>
+                                    <label class="form-check-label" for="classe-{{ uneClasse.codeclasse }}">
+                                        {{ uneClasse.nomclasse }}
+                                    </label>
+                                </div>
+                            {% endfor %}
+                            <br/>
+                            <strong>Domaine d'activité</strong>
+                            {% for unDomaineActivite in domaineActivites  %}
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="domaines[]" value="{{ unDomaineActivite.codedomaine }}" id="domaine-{{ unDomaineActivite.codedomaine }}" {% if unDomaineActivite.codedomaine in checkedDomaines %}checked{% endif %}>
+                                    <label class="form-check-label" for="domaine-{{ unDomaineActivite.codedomaine }}">
+                                        {{ unDomaineActivite.nomdomaine }}
+                                    </label>
+                                </div>
+                            {% endfor %}
+                            <br/>
+                            <strong>Technologie</strong>
+                            {% for uneTechnologie in technologies %}
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="technos[]" value="{{ uneTechnologie.codetechnologie }}" id="techno-{{ uneTechnologie.codetechnologie }}" {% if uneTechnologie.codetechnologie in checkedTechnos %}checked{% endif %}>
+                                    <label class="form-check-label" for="techno-{{ uneTechnologie.codetechnologie }}">
+                                        {{ uneTechnologie.nomtechnologie }}
+                                    </label>
+                                </div>
+                            {% endfor %}
+                            <br/>
+                            <input type="submit"/>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {#
+            <!-- Side Widget -->
+            <div class="card my-4">
+                <h5 class="card-header">Side Widget</h5>
+                <div class="card-body">
+                    You can put anything you want inside of these side widgets. They are easy to use, and feature the new Bootstrap 4 card containers!
+                </div>
+            </div>
+            #}
+        </div>
     </div>
-    <!-- /.container -->
 {% endblock %}
 {% block javascripts %}
     {{ parent() }}
