@@ -141,8 +141,10 @@ class AdminController extends Controller
      */
     public function edit(Request $request, Propositions $proposition, ObjectManager $em)
     {
-    	$form = $this->createForm(PropositionsType::class, $proposition, array('doctrine' => $this->getDoctrine()));
-
+        $form = $this->createForm(PropositionsType::class, $proposition, [
+            'doctrine' => $this->getDoctrine(),
+            'roles' => $this->getUser()->getRoles()
+        ]);
 
 	    $form->handleRequest($request);
 
