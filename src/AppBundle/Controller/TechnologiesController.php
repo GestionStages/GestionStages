@@ -26,7 +26,7 @@ class TechnologiesController extends Controller
 	public function searchTechnologie(Request $request)
 	{
 		$q = $request->query->get('term');
-		$results = $this->getDoctrine()->getRepository(Technologies::class)->findLikeName($q);
+		$results = $this->getDoctrine()->getRepository(Technologies::class)->findAcceptedLikeName($q);
 
 		return $this->render('technologies/list.json.twig', ['results' => $results]);
 	}

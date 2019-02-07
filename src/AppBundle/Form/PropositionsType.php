@@ -67,10 +67,12 @@ class PropositionsType extends AbstractType
 				if(isset($data['codetechnologie'])) {
 					foreach($data['codetechnologie'] as $key => $techno) {
 
-						// Si une des technologies n'existe pas, on la créée
-						$match = $doctrine->getRepository(Technologies::class)->findOneBy(['codetechnologie' => $techno]);
+						// Recherche de la technologie courante
+						$matchCode = $doctrine->getRepository(Technologies::class)->findOneBy(['codetechnologie' => $techno]);
+						$matchName = $doctrine->getRepository(Technologies::class)->findOneBy(['nomtechnologie' => $techno]);
 
-						if(empty($match)) {
+						// Si elle n'existe pas on la créée
+						if(empty($matchCode) && empty($matchName)) {
 							$t = new Technologies();
 							$t->setNomtechnologie($techno);
 							$doctrine->getEntityManager()->persist($t);
@@ -79,6 +81,7 @@ class PropositionsType extends AbstractType
 							$data['codetechnologie'][$key] = $t->getCodetechnologie();
 						}
 						else {
+							$match = $matchCode ?? $matchName;
 							$data['codetechnologie'][$key] = $match->getCodetechnologie();
 						}
 					}
