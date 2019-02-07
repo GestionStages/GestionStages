@@ -33,8 +33,8 @@ class EtudiantType extends AbstractType
             ])
             ->add('numEtudiant', TextType::class, [
                 'required' => true,
-                'label' => "Numéro étudiant (*)",
-                'attr' => ['maxlength' => 8]
+                'label' => "Numéro INE (*)",
+                'attr' => ['minlength' => 11, 'maxlength' => 11]
             ])
             ->add('telEtudiant', TelType::class, [
                 'required' => true,

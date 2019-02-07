@@ -249,11 +249,11 @@ class Etudiant implements UserInterface
 
     /**
      * @var string
-     * @ORM\Column(name="numEtudiant", type="string", length=8, nullable=false)
+     * @ORM\Column(name="numEtudiant", type="string", length=11, nullable=false)
      *
      * @Assert\NotBlank(message="Le numéro étudiant est obligatoire")
      * @Assert\Regex(
-     *     pattern= "#^[0-9]{8,8}$#",
+     *     pattern= "#^(\d{9}\D{2}|\d{10}\D{1})$#",
      *     match=true,
      *     message= "Le format du numéro n'est pas respecté."
      * )
