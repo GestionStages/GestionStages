@@ -229,6 +229,53 @@ class AuthController extends Controller
     }
 
     /**
+     * @param Request $request
+     * @param UserPasswordEncoderInterface $encoder
+     * @param ObjectManager $em
+     * @return Response
+     * @Route("/contacts/inscrire/{codeInscription}", name="inscrireContact")
+     */
+    public function inscrire(Request $request, UserPasswordEncoderInterface $encoder, ObjectManager $em)
+    {
+        $repository = $this->getDoctrine()
+            ->getRepository(Contacts::class);
+
+        /** @var Contacts $contact */
+        $contact = $repository->findOneByCodeInscription($request->get('codeInscription'));
+        $dbContact = clone $contact;
+
+        $form = $this->createForm(ContactInscriptionType::class, $contact);
+        $form->handleRequest($request);
+
+        if ($dbContact->getMdpcontact() != null) {
+            $this->get('session')->getFlashBag()->add('error', 'Inscription déjà effectuée !');
+            return $this->redirect($this->generateUrl('homepage'));
+        } else {
+            //si le formulaire a été soumis
+            if ($form->isSubmitted() && $form->isValid()) {
+
+                //on enregistre le mdp du contact dans la bdd
+                $hash = $encoder->encodePassword($contact, $request->get('password'));
+                $contact->setMdpcontact($hash);
+                $em->flush();
+
+                // On affiche message de validation dans le formulaire de redirection
+                $this->get('session')->getFlashBag()->add('notice', 'Inscription effectuée !');
+
+                //Retour a l'accueil
+                $this->manualLogin($request, $contact);
+                return $this->redirectToRoute('homepage');
+            }
+
+            //On génére le fichier final
+            $formView = $form->createView();
+
+            //on rend la vue
+            return $this->render('/contacts/inscription.html.twig', array('form' => $formView, 'contact' => $contact));
+        }
+    }
+
+    /**
      * @Route("/auth/entreprise/connexion", name="connectEntrep")
      * @param Request $request
      * @param UserPasswordEncoderInterface $encoder
