@@ -294,6 +294,7 @@ class Contacts implements UserInterface
     /**
      * @var string
      * @ORM\Column(name="userContact", type="string", length=255, nullable=false)
+     * @Assert\NotBlank(message="Le nom d'utilisateur est obligatoire.")
      */
     private $userContact;
 
