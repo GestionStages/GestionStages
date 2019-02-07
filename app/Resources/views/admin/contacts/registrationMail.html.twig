@@ -1,2 +1,3 @@
 <h1>Votre entreprise vous a inscrit sur notre plateforme de gestions de stages</h1>
-Rendez vous à cette addresse {{ url('inscrireContact', {'codeInscription': contact.codeinscription}) }}
+Rendez vous à cette addresse pour terminer votre inscription :<br/>
+<a href="{{ url('inscrireContact', {'codeInscription': contact.codeinscription}) }}">{{ url('inscrireContact', {'codeInscription': contact.codeinscription}) }}</a>
