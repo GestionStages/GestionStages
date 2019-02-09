@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -9,7 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Contacts
  *
  * @ORM\Table(name="contacts", indexes={@ORM\Index(name="fk_codeEntreprise", columns={"codeEntreprise"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\ContactsRepository")
  */
 class Contacts implements UserInterface
 {
@@ -429,4 +430,41 @@ class Contacts implements UserInterface
         return $this->codeInscription;
     }
 
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Propositions", inversedBy=""
+     */
+    private $propositionsTuteur;
+
+    /**
+     * Contacts constructor.
+     * @param $propositionsTuteur
+     */
+    public function __construct()
+    {
+        $this->propositionsTuteur = new ArrayCollection();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPropositionsTuteur()
+    {
+        return $this->propositionsTuteur;
+    }
+
+    /**
+     * @param mixed $propositionsTuteur
+     */
+    public function addPropositionTuteur($propositionsTuteur)
+    {
+        $this->propositionsTuteur[] = $propositionsTuteur;
+    }
+
+    /**
+     * @param mixed $propositionsTuteur
+     */
+    public function removePropositionTuteur($propositionsTuteur)
+    {
+        $this->propositionsTuteur->removeElement($propositionsTuteur);
+    }
 }

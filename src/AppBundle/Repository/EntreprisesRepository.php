@@ -45,7 +45,6 @@ class EntreprisesRepository extends EntityRepository {
         $query = $qb->getQuery();
         $singleScalar = $query->getSingleScalarResult();
         return $singleScalar;
-
     }
 
     public function nbValid() {
@@ -55,6 +54,5 @@ class EntreprisesRepository extends EntityRepository {
         $query = $qb->getQuery();
         $singleScalar = $query->getSingleScalarResult();
         return $singleScalar;
-
     }
 }

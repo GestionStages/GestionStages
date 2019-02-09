@@ -165,14 +165,11 @@ class ContactController extends Controller
         if($session->get('entreprise') != $entreprise->getCodeentreprise()){
             $session->set('entreprise',$entreprise->getCodeentreprise());
         }
-        $repository = $this->getDoctrine()
-            ->getRepository(Contacts::class);
+
         // recupere l'entreprise avec l'id stocké en session
-        $contacts = $repository->createQueryBuilder('c')
-            ->where('c.codeentreprise = :entreprise')
-            ->setParameter('entreprise', $session->get('entreprise'))
-            ->getQuery()
-            ->getResult();
+        $contacts = $repository = $this->getDoctrine()
+            ->getRepository(Contacts::class)
+            ->findByCodeentreprise($session->get('entreprise'));
 
         return $this->render('admin/contacts/contactsShow.html.twig',['contacts' => $contacts, 'entreprise' => $entreprise]);
     }

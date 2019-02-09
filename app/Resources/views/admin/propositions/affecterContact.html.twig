@@ -1,0 +1,23 @@
+{% extends "admin/base.html.twig" %}
+
+{% block title %}Affectation d'un tuteur en entreprise{% endblock %}
+
+{% block body %}
+    <div class="box">
+        <div class="box-body">
+            <form action="" method="post">
+                <h4>Proposition : {{ proposition.titreProposition }} ({{ proposition.codeEntreprise.nomEntreprise }})</h4>
+                <div class="form-group">
+                    <label for="contact" class="title">Selectionnez un tuteur</label><br/>
+                    <select name="contact" >
+                        {% for unContact in contacts %}
+                        <option value="{{ unContact.codeContact }}">{{ unContact.nomContact | upper }} {{ unContact.prenomContact | capitalize }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block" >Valider</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

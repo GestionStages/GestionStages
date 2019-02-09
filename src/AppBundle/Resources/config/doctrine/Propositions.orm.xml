@@ -41,6 +41,11 @@
         <join-column name="codeProfesseur" referenced-column-name="id" nullable="true"/>
       </join-columns>
     </many-to-one>
+    <many-to-one field="codeContact" target-entity="Contacts" fetch="LAZY" inversed-by="propositionsTuteur">
+      <join-columns>
+        <join-column name="codeContact" referenced-column-name="codeContact" nullable="true"/>
+      </join-columns>
+    </many-to-one>
     <many-to-one field="codeetat" target-entity="Etat" fetch="LAZY">
       <join-columns>
         <join-column name="codeEtat" referenced-column-name="codeEtat"/>

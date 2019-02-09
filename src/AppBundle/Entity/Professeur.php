@@ -341,7 +341,7 @@ class Professeur implements UserInterface
     }
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Propositions", mappedBy="codeProfesseur")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Propositions", inversedBy="codeProfesseur")
      */
     private $propositions;
 

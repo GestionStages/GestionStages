@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Classes;
+use AppBundle\Entity\Contacts;
 use AppBundle\Entity\Domaineactivite;
 use AppBundle\Entity\Entreprises;
 use AppBundle\Entity\Etat;
@@ -11,6 +12,7 @@ use AppBundle\Entity\Professeur;
 use AppBundle\Entity\Propositions;
 use AppBundle\Entity\Technologies;
 use AppBundle\Form\PropositionsType;
+use AppBundle\Repository\ContactsRepository;
 use Doctrine\Common\Persistence\ObjectManager;
 use Carbon\Carbon;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -192,7 +194,51 @@ class PropositionsController extends Controller
 
         $this->get('session')->getFlashBag()->add('notice','Le tuteur n\'est plus affecté !');
         return $this->redirect($this->generateUrl('showAdminListAll'));
+    }
 
+    /**
+     * @Route("/propositions/{id}/affecterContact", name="affecterContact", requirements={"id"="\d+"})
+     * @IsGranted("ROLE_RESPSTAGES")
+     * @param Request $request
+     * @param ObjectManager $em
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function affecterContact(Request $request, ObjectManager $em, Propositions $proposition)
+    {
+        if(!$request->get('contact')){
+            /** @var ContactsRepository $repository */
+            $repository = $this->getDoctrine()
+                ->getRepository(Contacts::class);
+
+            $contacts = $repository->getEntrepriseContactsOrdered($proposition->getCodeentreprise());
+
+            return $this->render('admin/propositions/affecterContact.html.twig', ['contacts' => $contacts, 'proposition' => $proposition]);
+        }
+        else{
+            $contact =  $this->getDoctrine()->getRepository(Contacts::class)->find($request->get('contact'));
+            $proposition->setCodeContact($contact);
+            $em->flush();
+
+            // On affiche message de validation dans le formulaire de redirection
+            $this->get('session')->getFlashBag()->add('notice','Le tuteur à été affecté !');
+            return $this->redirect($this->generateUrl('showAdminListAll'));
+        }
+    }
+
+    /**
+     * @Route("/propositions/{id}/desaffecterContact", name="desaffecterContact", requirements={"id"="\d+"})
+     * @IsGranted("ROLE_RESPSTAGES")
+     * @param Request $request
+     * @param ObjectManager $em
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     */
+    public function desaffecterContact(Request $request, ObjectManager $em){
+        $proposition = $this->getDoctrine()->getRepository(Propositions::class)->find($request->get('id'));
+        $proposition->setCodeContact(null);
+        $em->flush();
+
+        $this->get('session')->getFlashBag()->add('notice','Le tuteur n\'est plus affecté !');
+        return $this->redirect($this->generateUrl('showAdminListAll'));
     }
 
     /**

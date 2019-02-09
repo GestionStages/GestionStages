@@ -368,7 +368,6 @@ class Propositions
      */
     private $codeEtudiant;
 
-
     /**
      * Set codeEtudiant
      *
@@ -392,11 +391,11 @@ class Propositions
     {
         return $this->codeEtudiant;
     }
+
     /**
      * @var \AppBundle\Entity\Professeur
      */
     private $codeProfesseur;
-
 
     /**
      * Set codeProfesseur
@@ -423,6 +422,11 @@ class Propositions
     }
 
     /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Contacts", mappedBy="propositionsTuteur")
+     */
+    private $codeContact;
+
+    /**
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\CommentProf", mappedBy="proposition")
      */
     private $commentaires;
@@ -446,5 +450,21 @@ class Propositions
      */
     public function removeCommentaire(CommentProf $commentaire) {
         $this->commentaires->removeElement($commentaire);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodeContact()
+    {
+        return $this->codeContact;
+    }
+
+    /**
+     * @param mixed $codeContact
+     */
+    public function setCodeContact($codeContact)
+    {
+        $this->codeContact = $codeContact;
     }
 }
