@@ -51,6 +51,21 @@
         <join-column name="codeEtat" referenced-column-name="codeEtat"/>
       </join-columns>
     </many-to-one>
+    <many-to-one target-entity="Etudiant" field="auteurEtu">
+        <join-columns>
+            <join-column name="auteurEtu" referenced-column-name="id" nullable="true"/>
+        </join-columns>
+    </many-to-one>
+    <many-to-one target-entity="Professeur" field="auteurProf">
+        <join-columns>
+            <join-column name="auteurProf" referenced-column-name="id" nullable="true"/>
+        </join-columns>
+    </many-to-one>
+    <many-to-one target-entity="Contacts" field="auteurContact">
+        <join-columns>
+            <join-column name="auteurContact" referenced-column-name="codeContact" nullable="true"/>
+        </join-columns>
+    </many-to-one>
     <many-to-many field="codeclasse" target-entity="Classes" inversed-by="codeproposition" fetch="LAZY">
       <join-table name="associerclassespropositions">
         <join-columns>

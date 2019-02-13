@@ -101,7 +101,7 @@
                                 <td align="center"><br/><br/>
                                     <span class="label label-warning">{{ uneProposition.codeEtat.nomEtat }}</span>
                                 </td>
-                                <td><a href="{{ path("afficherPropositionbyid", {'id': uneProposition.codeProposition}) }}">
+                                <td><a href="{{ path("AdminPropositionbyid", {'id': uneProposition.codeProposition}) }}">
                                     {% if uneProposition.titreproposition|length > 30 %}
                                         {{ uneProposition.titreproposition[:30] }}...
                                     {% else %}

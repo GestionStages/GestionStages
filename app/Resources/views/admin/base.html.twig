@@ -67,7 +67,7 @@
                         {% elseif is_granted('ROLE_PROF') %}
                             <li><a href="{{ path('indexProfPropositions') }}"><i class="fa fa-circle-o"></i> Stages suivis</a></li>
                         {% elseif is_granted('ROLE_ENTREPRISE') %}
-                            <li><a href="#"><i class="fa fa-circle-o"></i> Propositions de mon entreprise</a></li>
+                            <li><a href="{{ path('propositionsEntreprise') }}"><i class="fa fa-circle-o"></i> Propositions de mon entreprise</a></li>
                             <li><a href="#"><i class="fa fa-circle-o"></i> Stages suivis</a></li>
                         {% endif %}
                     </ul>

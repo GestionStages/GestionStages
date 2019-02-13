@@ -467,4 +467,42 @@ class Propositions
     {
         $this->codeContact = $codeContact;
     }
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Etudiant", inversedBy="id")
+     */
+    private $auteurEtu;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Professeur", inversedBy="id")
+     */
+    private $auteurProf;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Contacts", inversedBy="codecontact")
+     */
+    private $auteurContact;
+
+    /**
+     * @return UserInterface
+     */
+    public function getAuteur() {
+        return $this->auteurEtu ??
+               $this->auteurProf ??
+               $this->auteurContact;
+    }
+
+    public function setAuteur(UserInterface $auteur) {
+        $this->auteurEtu = null;
+        $this->auteurProf = null;
+        $this->auteurContact = null;
+
+        if ($auteur instanceof Etudiant) {
+            $this->auteurEtu = $auteur;
+        } elseif ($auteur instanceof Professeur) {
+            $this->auteurProf = $auteur;
+        } elseif ($auteur instanceof Contacts) {
+            $this->auteurContact = $auteur;
+        }
+    }
 }

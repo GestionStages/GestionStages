@@ -64,6 +64,7 @@ class PropositionsController extends Controller
             // on affecte l'etat en attente par default
             $proposition->setCodeetat($etat);
             $proposition->setDateajout(new \DateTime('NOW'));
+            $proposition->setAuteur($this->getUser());
 
             /** @var UploadedFile $file */
             if(!is_null($file = $proposition->getFile())) {
