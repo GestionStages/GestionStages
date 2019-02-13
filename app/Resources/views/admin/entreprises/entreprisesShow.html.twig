@@ -47,8 +47,8 @@
                                     <a href="{{ path('validEntreprise', {'id':uneEntreprise.codeentreprise}) }}" class="btn btn-success">
                                         <i class="fa fa-check" aria-hidden="true"></i> Valider
                                     </a>
-                                    <a href="{{ path('rejectEntreprise', {'id':uneEntreprise.codeentreprise}) }}" class="btn btn-danger">
-                                        <i class="fa fa-minus-circle" aria-hidden="true"></i> Refuser
+                                    <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#deleteEntreprise-{{ uneEntreprise.codeentreprise }}">
+                                        <i class="fa fa-trash" aria-hidden="true"></i> Rejecter
                                     </a>
                                 {% endif %}
                             </div>
