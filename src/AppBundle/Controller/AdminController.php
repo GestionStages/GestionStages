@@ -213,9 +213,25 @@ class AdminController extends Controller
     }
 
     /**
+     * @Route("/admin/offres/{id}/delete", name="deleteProposition", requirements={"id"="\d+"})
+     * @IsGranted("ROLE_RESPSTAGES")
+     * @param Propositions $proposition
+     * @param ObjectManager $em
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function delete(Propositions $proposition, ObjectManager $em)
+    {
+        $em->remove($proposition);
+
+        $em->flush();
+
+        return $this->redirectToRoute('showAdminListAll');
+    }
+
+    /**
      * @Route("/admin/offres/{id}/archive", name="archiveProposition", requirements={"id"="\d+"})
      * @IsGranted("ROLE_RESPSTAGES")
-     * @param $id
+     * @param Propositions $proposition
      * @param ObjectManager $em
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
@@ -236,6 +252,7 @@ class AdminController extends Controller
      * @Route("/admin/accueil/edit", name="editinfos")
      * @IsGranted("ROLE_RESPSTAGES")
      * @param Request $request
+     * @param ObjectManager $em
      * @return \Symfony\Component\HttpFoundation\Response
      */
 
