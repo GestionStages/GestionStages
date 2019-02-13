@@ -276,23 +276,6 @@ class EntreprisesController extends Controller
     }
 
     /**
-     * @Route("/admin/entreprises/{id}/reject", name="rejectEntreprise", requirements={"id"="\d+"})
-     * @IsGranted("ROLE_RESPSTAGES")
-     */
-    public function rejectEntreprise($id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $entreprise = $em->getRepository('AppBundle:Entreprises')
-            ->find($id);
-
-        $em->remove($entreprise);
-        $em->flush();
-
-        return $this->redirectToRoute('showEntreprises');
-    }
-
-    /**
      * @Route("/admin/entreprises/{id}/valid", name="validEntreprise", requirements={"id"="\d+"})
      * @IsGranted("ROLE_RESPSTAGES")
      */
