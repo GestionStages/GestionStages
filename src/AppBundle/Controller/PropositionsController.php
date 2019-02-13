@@ -421,6 +421,11 @@ class PropositionsController extends Controller
             return $this->redirectToRoute('homepage');
         }
 
+        if (is_null($proposition->getCodeContact())) {
+            $this->get('session')->getFlashBag()->add('error', "Cette proposition n'as pas de tuteur en entreprise affecté");
+            return $this->redirectToRoute('homepage');
+        }
+
         $profRepo = $this->getDoctrine()->getRepository(Professeur::class);
 
         $annee = Carbon::now()->subMonths(9)->year;
@@ -431,7 +436,10 @@ class PropositionsController extends Controller
         /** @var Professeur $resp_stages */
         $resp_stages = $profRepo->findOneByRoleProf(2);
 
-        $entrep = $proposition->getCodeentreprise();
+        if (is_null($chef_dep) || is_null($resp_stages)) {
+            $this->get('session')->getFlashBag()->add('error', "Au moins un chef de département et un responsable de stage doivent exister dans l'application");
+            return $this->redirectToRoute('homepage');
+        }
 
         $etudiant = $proposition->getCodeEtudiant();
         $etudiant->getCodeclasse()->diffDates = Carbon::instance($etudiant->getCodeclasse()->getDateDebStage())
@@ -455,8 +463,9 @@ class PropositionsController extends Controller
         $html2pdf->writeHTML($this->renderView('stages/convention.html.twig', [
             'annee_str' => $annee."/".($annee+1),
             'chef_dep' => $chef_dep,
+            'contact' => $proposition->getCodeContact(),
             'resp_stages' => $resp_stages,
-            'entreprise' => $entrep,
+            'entreprise' => $proposition->getCodeentreprise(),
             'etudiant' => $etudiant
         ]));
 

@@ -18,8 +18,6 @@ class Entreprises
     /**
      * @var string
      *
-     *
-     *
      * @ORM\Column(name="nomEntreprise", type="string", length=255, nullable=false)
      *
      * @Assert\NotBlank(message="Le nom est obligatoire.")
@@ -27,7 +25,6 @@ class Entreprises
      *     max = 255,
      *     maxMessage = "Le nom doit faire au maximum {{ limit }} caractères."
      * )
-     *
      */
     private $nomentreprise;
 
@@ -76,18 +73,126 @@ class Entreprises
     /**
      * @var string
      *
-     * @ORM\Column(name="telEntreprise", type="string", length=10, nullable=false)
+     * @ORM\Column(name="telEntreprise", type="string", length=14, nullable=false)
      *
      * @Assert\NotBlank(message="Le téléphone est obligatoire")
+     * @Assert\Regex(
+     *     pattern= "#^(?:(?:\+|00)33|0)\s*[1-9](?:[\s.-]*\d{2}){4}$#",
+     *     match=true,
+     *     message= "Le format du numéro de téléphone n'est pas respecté."
+     * )
+     */
+    private $telentreprise;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="faxEntreprise", type="string", length=14, nullable=true)
      *
      * @Assert\Regex(
      *     pattern= "#^(?:(?:\+|00)33|0)\s*[1-9](?:[\s.-]*\d{2}){4}$#",
      *     match=true,
      *     message= "Le format du numéro de téléphone n'est pas respecté."
      * )
-     *
      */
-    private $telentreprise;
+    private $faxentreprise;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="mailentreprise", type="string", length=1024, nullable=false)
+     * @Assert\NotBlank(message="L'email est obligatoire")
+     * @Assert\Length(
+     *     max="1024",
+     *     maxMessage="L'email doit faire au maximum 1024 caractères",
+     *     groups={"edit"}
+     * )
+     */
+    private $mailentreprise;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="numsiret", type="string", length=14, nullable=false)
+     * @Assert\NotBlank(message="Le numéro SIRET est obligatoire")
+     * @Assert\Regex(
+     *     pattern= "#^[0-9]{14,14}$#",
+     *     match=true,
+     *     message= "Le format du numero SIRET n'est pas respecté."
+     * )
+     */
+    private $numsiret;
+
+    /**
+     * @var string
+     * @Assert\NotBlank(message="Le code APE est obligatoire")
+     * @Assert\Regex(
+     *     pattern= "#^\w{5,5}$#",
+     *     match=true,
+     *     message= "Le format du code APE n'est pas respecté."
+     * )
+     */
+    private $codeape;
+
+    /**
+     * @return string
+     */
+    public function getFaxentreprise() {
+        return $this->faxentreprise;
+    }
+
+    /**
+     * @param string $faxentreprise
+     */
+    public function setFaxentreprise(string $faxentreprise)
+    {
+        $this->faxentreprise = $faxentreprise;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMailentreprise() {
+        return $this->mailentreprise;
+    }
+
+    /**
+     * @param string $mailentreprise
+     */
+    public function setMailentreprise(string $mailentreprise)
+    {
+        $this->mailentreprise = $mailentreprise;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNumsiret() {
+        return $this->numsiret;
+    }
+
+    /**
+     * @param string $numsiret
+     */
+    public function setNumsiret(string $numsiret)
+    {
+        $this->numsiret = $numsiret;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCodeape() {
+        return $this->codeape;
+    }
+
+    /**
+     * @param string $codeape
+     */
+    public function setCodeape(string $codeape)
+    {
+        $this->codeape = $codeape;
+    }
 
     /**
      * @var integer

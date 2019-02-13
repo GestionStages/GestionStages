@@ -29,6 +29,22 @@
         <option name="fixed">1</option>
       </options>
     </field>
+    <field name="faxentreprise" type="string" column="faxEntreprise" length="14" nullable="false">
+      <options>
+        <option name="fixed">1</option>
+      </options>
+    </field>
+    <field name="mailentreprise" type="string" column="mailEntreprise" length="1024" nullable="false"/>
+    <field name="numsiret" type="string" column="numSiret" length="14" nullable="false">
+      <options>
+        <option name="fixed">1</option>
+      </options>
+    </field>
+    <field name="codeape" type="string" column="codeApe" length="5" nullable="false">
+      <options>
+        <option name="fixed">1</option>
+      </options>
+    </field>
     <field name="blacklister" type="boolean" column="blacklister" nullable="false">
       <options>
         <option name="default">0</option>

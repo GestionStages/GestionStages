@@ -14,11 +14,14 @@
             {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
 
             {{ form_row(form.nomentreprise) }}
+            {{ form_row(form.numsiret) }}
+            {{ form_row(form.codeape) }}
             {{ form_row(form.adresseentreprise) }}
             {{ form_row(form.villeentreprise) }}
             {{ form_row(form.codepostalentreprise) }}
             {{ form_row(form.telentreprise) }}
-            {{ form_row(form.nomentreprise) }}
+            {{ form_row(form.faxentreprise) }}
+            {{ form_row(form.mailentreprise) }}
 
             <div class="form-check">
                 {{ form_label(form.codedomaine) }}<br/>

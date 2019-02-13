@@ -24,6 +24,11 @@ class EntreprisesType extends AbstractType
                 'label' => "Nom (*)",
                 'attr' => ['maxlength' => 255]
             ])
+            ->add('numsiret', TextType::class, [
+                'required' => true,
+                'label' => "Numéro SIRET (*)",
+                'attr' => ['maxlength' => 14]
+            ])
             ->add('adresseentreprise', TextType::class, [
                 'required' => true,
                 'label' => "Adresse (*)",
@@ -44,12 +49,26 @@ class EntreprisesType extends AbstractType
                 'label' => "Téléphone (*)",
                 'attr' => ['maxlength' => 10]
             ])
+            ->add('faxentreprise', TextType::class, [
+                'label' => "Fax",
+                'attr' => ['maxlength' => 10]
+            ])
+            ->add('mailentreprise', TextType::class, [
+                'required' => true,
+                'label' => "E-mail (*)",
+                'attr' => ['maxlength' => 1024]
+            ])
             ->add('codedomaine',EntityType::class, [
                 'class' => 'AppBundle:Domaineactivite',
                 'choice_label' => 'nomdomaine',
                 'multiple' => true,
                 'expanded' => true,
                 'label' => "Domaines d'activité"
+            ])
+            ->add('codeape', TextType::class, [
+                'required' => true,
+                'label' => "Code APE (*)",
+                'attr' => ['maxlength' => 5]
             ]);
     }/**
      * {@inheritdoc}

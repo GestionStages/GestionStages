@@ -453,7 +453,7 @@ class Propositions
     }
 
     /**
-     * @return mixed
+     * @return Contacts
      */
     public function getCodeContact()
     {
