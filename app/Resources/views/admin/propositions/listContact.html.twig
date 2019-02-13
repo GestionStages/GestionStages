@@ -82,9 +82,15 @@
                                     {% endif %}
                                 {% elseif uneProposition.codeEtat.codeEtat == 2 %}
                                     <a href="{{ path('affecterEtudiant', {'id': uneProposition.codeproposition}) }}" class="btn btn-tumblr"><i class="fa fa-plus" aria-hidden="true"></i> Etudiant</a>
+                                    <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#deleteProposition-{{ uneProposition.codeproposition }}"><i class="fa fa-minus-circle" aria-hidden="true"></i> Supprimer</a>
+                                {% endif %}
+
+                                {% if (uneProposition.codeEtat.codeEtat == 1) %}
+                                    <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#deleteProposition-{{ uneProposition.codeproposition }}"><i class="fa fa-minus-circle" aria-hidden="true"></i> Supprimer</a>
                                 {% endif %}
                             </div>
                         </td>
+                        {% include 'admin/propositions/modals/deletePropositionModal.html.twig' %}
                     </tr>
                 {% endfor %}
                 </tbody>
