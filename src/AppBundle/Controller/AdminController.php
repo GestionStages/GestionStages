@@ -181,6 +181,10 @@ class AdminController extends Controller
             ->getRepository(Etat::class)
             ->find(2);
 
+        if($proposition->getCodeentreprise()->getCodeetat()->getCodeetat() == 1){
+           $entreprise = $proposition->getCodeentreprise();
+           $entreprise->setCodeetat($etat);
+        }
         $proposition->setCodeetat($etat);
 
         $em->flush();
