@@ -51,7 +51,7 @@ class AdminController extends Controller
         $repository = $this->getDoctrine()->getRepository(Propositions::class);
         $propositions = $repository->findAllOrderDate();
 
-        return $this->render('admin/propositions/list.html.twig',['propositions' => $propositions]);
+        return $this->render('admin/propositions/listAdmin.html.twig',['propositions' => $propositions]);
     }
 
     /**
@@ -64,7 +64,7 @@ class AdminController extends Controller
 
         $propositions = $repository->findEnattente();
 
-        return $this->render('admin/propositions/list.html.twig',['propositions' => $propositions]);
+        return $this->render('admin/propositions/listAdmin.html.twig',['propositions' => $propositions]);
     }
 
     /**
@@ -77,7 +77,7 @@ class AdminController extends Controller
 
         $propositions = $repository->findValid();
 
-        return $this->render('admin/propositions/list.html.twig',['propositions' => $propositions]);
+        return $this->render('admin/propositions/listAdmin.html.twig',['propositions' => $propositions]);
     }
 
     /**
@@ -90,7 +90,7 @@ class AdminController extends Controller
 
         $propositions = $repository->findArchive();
 
-        return $this->render('admin/propositions/list.html.twig',['propositions' => $propositions]);
+        return $this->render('admin/propositions/listAdmin.html.twig',['propositions' => $propositions]);
     }
 
     /**
@@ -103,7 +103,7 @@ class AdminController extends Controller
 
         $propositions = $repository->findRefuse();
 
-        return $this->render('admin/propositions/list.html.twig',['propositions' => $propositions]);
+        return $this->render('admin/propositions/listAdmin.html.twig',['propositions' => $propositions]);
     }
 
     /**

@@ -44,6 +44,7 @@
         <option name="fixed"/>
       </options>
     </field>
+    <one-to-many target-entity="AppBundle\Entity\Propositions" mapped-by="codeContact" field="propositionsTuteur"/>
     <many-to-one field="codeentreprise" target-entity="Entreprises" fetch="LAZY">
       <join-columns>
         <join-column name="codeEntreprise" referenced-column-name="codeEntreprise" nullable="false" on-delete="CASCADE"/>

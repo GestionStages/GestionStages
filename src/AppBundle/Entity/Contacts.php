@@ -431,7 +431,7 @@ class Contacts implements UserInterface
     }
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Propositions", inversedBy=""
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Propositions", mappedBy="codeContact")
      */
     private $propositionsTuteur;
 

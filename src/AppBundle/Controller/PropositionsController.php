@@ -16,6 +16,7 @@ use AppBundle\Repository\ContactsRepository;
 use Doctrine\Common\Persistence\ObjectManager;
 use Carbon\Carbon;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Spipu\Html2Pdf\Exception\Html2PdfException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -100,6 +101,8 @@ class PropositionsController extends Controller
     /**
      * @Route("/propositions/{id}", name="afficherPropositionbyid", requirements={"id"="\d+"})
      * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
+     * @param $id
+     * @return Response
      */
     public function showPropositionById($id)
     {
@@ -112,46 +115,69 @@ class PropositionsController extends Controller
 
     /**
      * @Route("/propositions/{id}/affecterEtudiant", name="affecterEtudiant", requirements={"id"="\d+"})
-     * @IsGranted("ROLE_RESPSTAGES")
+     * @Security("is_granted('ROLE_RESPSTAGES') or is_granted('ROLE_ENTREPRISE')")
      * @param Request $request
      * @param ObjectManager $em
+     * @param Propositions $proposition
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function affecterEtudiant(Request $request, ObjectManager $em)
+    public function affecterEtudiant(Request $request, ObjectManager $em, Propositions $proposition)
     {
-        $proposition = $this->getDoctrine()->getRepository(Propositions::class)->find($request->get('id'));
+        if (in_array('ROLE_ENTREPRISE', $this->getUser()->getRoles())) {
+            if ($this->getUser()->getCodeEntreprise()->getCodeEntreprise() != $proposition->getCodeentreprise()->getCodeentreprise()) {
+                $this->get('session')->getFlashBag()->add('error', "Cette proposition n'appartient pas à votre entreprise !");
+                return $this->redirectToRoute('propositionsEntreprise');
+            }
+        }
+
+        if (!is_null($proposition->getCodeEtudiant())) {
+            $this->get('session')->getFlashBag()->add('error', "Un étudiant est déjà affecté à cette proposition !");
+            if (in_array('ROLE_ENTREPRISE', $this->getUser()->getRoles())) {
+                return $this->redirectToRoute('propositionsEntreprise');
+            }
+            return $this->redirectToRoute('showAdminListAll');
+        }
+
         if(!$request->get('etudiant')){
             $etudiants = $this->getDoctrine()->getRepository(Etudiant::class)->findNonAffecter();
 
             return $this->render('/admin/propositions/affecterEtudiant.html.twig', ['etudiants' => $etudiants, 'proposition' => $proposition]);
         }
         else{
+            /** @var Etudiant $etudiant */
             $etudiant =  $this->getDoctrine()->getRepository(Etudiant::class)->find($request->get('etudiant'));
             $proposition->setCodeEtudiant($etudiant);
             $em->flush();
 
             // On affiche message de validation dans le formulaire de redirection
             $this->get('session')->getFlashBag()->add('notice','L\'étudiant à été affecté !');
-            return $this->redirect($this->generateUrl('showAdminListAll'));
-
+            if (in_array('ROLE_ENTREPRISE', $this->getUser()->getRoles())) {
+                return $this->redirectToRoute('propositionsEntreprise');
+            }
+            return $this->redirectToRoute('showAdminListAll');
         }
     }
 
     /**
      * @Route("/propositions/{id}/desaffecterEtudiant", name="desaffecterEtudiant", requirements={"id"="\d+"})
      * @IsGranted("ROLE_RESPSTAGES")
-     * @param Request $request
      * @param ObjectManager $em
+     * @param Propositions $proposition
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
-    public function desaffecterEtudiant(Request $request, ObjectManager $em){
-        $proposition = $this->getDoctrine()->getRepository(Propositions::class)->find($request->get('id'));
+    public function desaffecterEtudiant(ObjectManager $em, Propositions $proposition){
+        if (in_array('ROLE_ENTREPRISE', $this->getUser()->getRoles())) {
+            if ($this->getUser()->getCodeEntreprise()->getCodeEntreprise() != $proposition->getCodeentreprise()->getCodeentreprise()) {
+                $this->get('session')->getFlashBag()->add('error',"Cette proposition n'appartient pas à votre entreprise !");
+                return $this->redirectToRoute('propositionsEntreprise');
+            }
+        }
+
         $proposition->setCodeEtudiant(null);
         $em->flush();
 
         $this->get('session')->getFlashBag()->add('notice','L\'étudiant n\'est plus affecté !');
         return $this->redirect($this->generateUrl('showAdminListAll'));
-
     }
 
     /**
@@ -199,13 +225,21 @@ class PropositionsController extends Controller
 
     /**
      * @Route("/propositions/{id}/affecterContact", name="affecterContact", requirements={"id"="\d+"})
-     * @IsGranted("ROLE_RESPSTAGES")
+     * @Security("is_granted('ROLE_RESPSTAGES') or is_granted('ROLE_ENTREPRISE')")
      * @param Request $request
      * @param ObjectManager $em
+     * @param Propositions $proposition
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function affecterContact(Request $request, ObjectManager $em, Propositions $proposition)
     {
+        if (in_array('ROLE_ENTREPRISE', $this->getUser()->getRoles())) {
+            if ($this->getUser()->getCodeEntreprise()->getCodeEntreprise() != $proposition->getCodeentreprise()->getCodeentreprise()) {
+                $this->get('session')->getFlashBag()->add('error',"Cette proposition n'appartient pas à votre entreprise !");
+                return $this->redirectToRoute('propositionsEntreprise');
+            }
+        }
+
         if(!$request->get('contact')){
             /** @var ContactsRepository $repository */
             $repository = $this->getDoctrine()
@@ -222,24 +256,37 @@ class PropositionsController extends Controller
 
             // On affiche message de validation dans le formulaire de redirection
             $this->get('session')->getFlashBag()->add('notice','Le tuteur à été affecté !');
-            return $this->redirect($this->generateUrl('showAdminListAll'));
+
+            if (in_array('ROLE_ENTREPRISE', $this->getUser()->getRoles())) {
+                return $this->redirectToRoute('propositionsEntreprise');
+            }
+            return $this->redirectToRoute('showAdminListAll');
         }
     }
 
     /**
      * @Route("/propositions/{id}/desaffecterContact", name="desaffecterContact", requirements={"id"="\d+"})
-     * @IsGranted("ROLE_RESPSTAGES")
-     * @param Request $request
+     * @Security("is_granted('ROLE_RESPSTAGES') or is_granted('ROLE_ENTREPRISE')")
      * @param ObjectManager $em
+     * @param Propositions $proposition
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
-    public function desaffecterContact(Request $request, ObjectManager $em){
-        $proposition = $this->getDoctrine()->getRepository(Propositions::class)->find($request->get('id'));
+    public function desaffecterContact(ObjectManager $em, Propositions $proposition){
+        if (in_array('ROLE_ENTREPRISE', $this->getUser()->getRoles())) {
+            if ($this->getUser()->getCodeEntreprise()->getCodeEntreprise() != $proposition->getCodeentreprise()->getCodeentreprise()) {
+                $this->get('session')->getFlashBag()->add('error',"Cette proposition n'appartient pas à votre entreprise !");
+                return $this->redirectToRoute('propositionsEntreprise');
+            }
+        }
+
         $proposition->setCodeContact(null);
         $em->flush();
 
         $this->get('session')->getFlashBag()->add('notice','Le tuteur n\'est plus affecté !');
-        return $this->redirect($this->generateUrl('showAdminListAll'));
+        if (in_array('ROLE_ENTREPRISE', $this->getUser()->getRoles())) {
+            return $this->redirectToRoute('propositionsEntreprise');
+        }
+        return $this->redirectToRoute('showAdminListAll');
     }
 
     /**
@@ -305,6 +352,8 @@ class PropositionsController extends Controller
     /**
      * @Route("/propositions", name="afficherProposition")
      * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
+     * @param Request $request
+     * @return Response
      */
     public function showProposition(Request $request)
     {

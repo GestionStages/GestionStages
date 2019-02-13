@@ -295,4 +295,15 @@ class EntreprisesController extends Controller
 
         return $this->redirectToRoute('showEntreprises');
     }
+
+    /**
+     * @Route("/entreprise/propositions", name="propositionsEntreprise")
+     * @IsGranted("ROLE_ENTREPRISE")
+     */
+    public function propositionsEntreprise() {
+        $propositions = $this->getDoctrine()->getRepository(Propositions::class)
+                             ->findByCodeentreprise($this->getUser()->getCodeentreprise());
+
+        return $this->render('admin/propositions/listContact.html.twig',['propositions' => $propositions]);
+    }
 }
